@@ -2,63 +2,224 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nishant - Shopping Cart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nishant – Shopping Cart</title>
 
   <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Your existing CSS file -->
-  <link rel="stylesheet" href="./assets/css/style-prefix.css" />
+  <!-- Your existing main stylesheet (no new CSS added) -->
+  <link rel="stylesheet" href="./assets/css/style.css" />
 
+  <!-- Tiny inline tweaks only for cart-specific alignment (reuses existing classes) -->
+  <style>
+    /* Minimal overrides to keep layout clean – all colours and fonts come from style.css */
+    .cart-page .section-title {
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--eerie-black);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cart-page .section-title ion-icon {
+      color: var(--salmon-pink);
+      font-size: 30px;
+    }
+
+    /* Cart item – uses .showcase as base, but we tweak inner spacing */
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--cultured);
+    }
+    .cart-item .item-image {
+      flex-shrink: 0;
+      width: 90px;
+      height: 90px;
+      background: #fafafa;
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--cultured);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+    }
+    .cart-item .item-image img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .cart-item .item-details {
+      flex: 1;
+      min-width: 0;
+    }
+    .cart-item .item-category {
+      font-size: var(--fs-10);
+      text-transform: uppercase;
+      color: var(--salmon-pink);
+      font-weight: 500;
+      letter-spacing: 0.4px;
+    }
+    .cart-item .item-name {
+      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+      font-weight: 600;
+      color: var(--eerie-black);
+      margin: 2px 0 4px;
+      line-height: 1.3;
+    }
+    .cart-item .item-price {
+      font-size: var(--fs-6);
+      font-weight: 700;
+      color: var(--salmon-pink);
+    }
+    .cart-item .item-price del {
+      font-weight: 400;
+      color: var(--sonic-silver);
+      margin-left: 8px;
+      font-size: var(--fs-8);
+    }
+    .cart-item .item-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .qty-wrapper {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ddd;
+      border-radius: 40px;
+      overflow: hidden;
+      background: var(--white);
+    }
+    .qty-wrapper button {
+      background: transparent;
+      border: none;
+      padding: 6px 14px;
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--onyx);
+      cursor: pointer;
+      transition: background 0.2s;
+      line-height: 1;
+    }
+    .qty-wrapper button:hover {
+      background: var(--cultured);
+    }
+    .qty-wrapper span {
+      min-width: 32px;
+      text-align: center;
+      font-weight: 500;
+      font-size: var(--fs-6);
+    }
+    .remove-btn {
+      background: transparent;
+      border: none;
+      color: var(--sonic-silver);
+      font-size: 22px;
+      cursor: pointer;
+      transition: color 0.2s;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .remove-btn:hover {
+      color: var(--bittersweet);
+    }
+
+    /* Cart summary – uses existing .banner-btn and .price-box */
+    .cart-summary {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid var(--cultured);
+    }
+    .cart-summary .total-label {
+      font-size: var(--fs-5);
+      font-weight: 600;
+      color: var(--eerie-black);
+    }
+    .cart-summary .total-price {
+      font-size: var(--fs-3);
+      font-weight: 700;
+      color: var(--salmon-pink);
+    }
+
+    /* Empty state */
+    .empty-cart {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .empty-cart h3 {
+      font-size: var(--fs-2);
+      font-weight: 600;
+      color: var(--eerie-black);
+      margin-bottom: 8px;
+    }
+    .empty-cart p {
+      color: var(--sonic-silver);
+      margin-bottom: 24px;
+    }
+    .empty-cart .banner-btn {
+      display: inline-block;
+      padding: 10px 32px;
+    }
+
+    /* Ensure cart page fits inside .product-box */
+    .product-box {
+      width: 100%;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 600px) {
+      .cart-item {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .cart-item .item-image {
+        width: 70px;
+        height: 70px;
+      }
+      .cart-item .item-controls {
+        margin-left: auto;
+      }
+      .cart-summary {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+      .cart-summary .banner-btn {
+        width: 100%;
+        text-align: center;
+      }
+      .qty-wrapper button {
+        padding: 4px 10px;
+        font-size: 18px;
+      }
+    }
+  </style>
 </head>
 <body>
 
   <!-- OVERLAY -->
   <div class="overlay" data-overlay></div>
 
-  <!-- MODAL -->
-  <div class="modal" data-modal>
-    <div class="modal-close-overlay" data-modal-overlay></div>
-    <div class="modal-content">
-      <button class="modal-close-btn" data-modal-close>
-        <ion-icon name="close-outline"></ion-icon>
-      </button>
-      <div class="newsletter-img">
-        <img src="./assets/images/newsletter.png" alt="subscribe newsletter" width="400" height="400">
-      </div>
-      <div class="newsletter">
-        <form action="#">
-          <div class="newsletter-header">
-            <h3 class="newsletter-title">Subscribe Newsletter.</h3>
-            <p class="newsletter-desc">Subscribe the <b>Nishant</b> to get latest products and discount update.</p>
-          </div>
-          <input type="email" name="email" class="email-field" placeholder="Email Address" required>
-          <button type="submit" class="btn-newsletter">Subscribe</button>
-        </form>
-      </div>
-    </div>
-  </div>
+  
 
-  <!-- NOTIFICATION TOAST -->
-  <div class="notification-toast" data-toast>
-    <button class="toast-close-btn" data-toast-close>
-      <ion-icon name="close-outline"></ion-icon>
-    </button>
-    <div class="toast-banner">
-      <img src="./assets/images/products/jewellery-1.jpg" alt="Rose Gold Earrings" width="80" height="70">
-    </div>
-    <div class="toast-detail">
-      <p class="toast-message">Someone in new just bought</p>
-      <p class="toast-title">Rose Gold Earrings</p>
-      <p class="toast-meta"><time datetime="PT2M">2 Minutes</time> ago</p>
-    </div>
-  </div>
-
-  <!-- HEADER -->
+  <!-- ===== HEADER (same as your original) ===== -->
   <header>
+    <!-- Header Top -->
     <div class="header-top">
       <div class="container">
         <ul class="header-social-container">
@@ -84,31 +245,95 @@
       </div>
     </div>
 
+    <!-- Header Main -->
     <div class="header-main">
       <div class="container">
-        <a href="index.html" class="header-logo">
-          Nishant
-        </a>
+        <a href="index.html" class="header-logo">Nishant</a>
         <div class="header-search-container">
           <input type="search" name="search" class="search-field" placeholder="Enter your product name...">
           <button class="search-btn"><ion-icon name="search-outline"></ion-icon></button>
         </div>
         <div class="header-user-actions">
-          <button class="action-btn"><ion-icon name="person-outline"></ion-icon></button>
-          <button class="action-btn" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon><span class="count">0</span></button>
-          <button class="action-btn" onclick="window.location.href='cart.html'"><ion-icon name="bag-handle-outline"></ion-icon><span class="count">0</span></button>
+          <!-- Profile Dropdown -->
+          <div class="profile-dropdown">
+            <button class="action-btn profile-btn" id="profileBtn">
+              <ion-icon name="person-outline"></ion-icon>
+            </button>
+            <div class="dropdown-menu" id="loggedOutMenu">
+              <div class="dropdown-header">
+                <h4>Welcome</h4>
+                <p>To access account and manage orders</p>
+                <button class="login-btn" onclick="loginUser()">LOGIN / SIGNUP</button>
+              </div>
+              <ul class="dropdown-list">
+                <li><a href="#"><ion-icon name="bag-outline"></ion-icon> Orders</a></li>
+                <li><a href="#" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon> Wishlist</a></li>
+                <li><a href="#"><ion-icon name="gift-outline"></ion-icon> Gift Cards</a></li>
+                <li><a href="#"><ion-icon name="call-outline"></ion-icon> Contact Us</a></li>
+                <li><a href="#"><ion-icon name="star-outline"></ion-icon> Myntra Insider <span class="badge-new">New</span></a></li>
+              </ul>
+              <hr class="dropdown-divider">
+              <ul class="dropdown-list">
+                <li><a href="#"><ion-icon name="card-outline"></ion-icon> Myntra Credit</a></li>
+                <li><a href="#"><ion-icon name="pricetag-outline"></ion-icon> Coupons</a></li>
+                <li><a href="#"><ion-icon name="wallet-outline"></ion-icon> Saved Cards</a></li>
+                <li><a href="#"><ion-icon name="phone-portrait-outline"></ion-icon> Saved VPA</a></li>
+                <li><a href="#"><ion-icon name="location-outline"></ion-icon> Saved Addresses</a></li>
+              </ul>
+            </div>
+            <div class="dropdown-menu" id="loggedInMenu" style="display: none;">
+              <div class="dropdown-header">
+                <h4 id="userName">Hello Mayank</h4>
+                <p id="userPhone">8449079775</p>
+              </div>
+              <ul class="dropdown-list">
+                <li><a href="#"><ion-icon name="bag-outline"></ion-icon> Orders</a></li>
+                <li><a href="#" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon> Wishlist</a></li>
+                <li><a href="#"><ion-icon name="gift-outline"></ion-icon> Gift Cards</a></li>
+                <li><a href="#"><ion-icon name="call-outline"></ion-icon> Contact Us</a></li>
+                <li><a href="#"><ion-icon name="star-outline"></ion-icon> Myntra Insider <span class="badge-new">New</span></a></li>
+              </ul>
+              <hr class="dropdown-divider">
+              <ul class="dropdown-list">
+                <li><a href="#"><ion-icon name="card-outline"></ion-icon> Myntra Credit</a></li>
+                <li><a href="#"><ion-icon name="pricetag-outline"></ion-icon> Coupons</a></li>
+                <li><a href="#"><ion-icon name="wallet-outline"></ion-icon> Saved Cards</a></li>
+                <li><a href="#"><ion-icon name="phone-portrait-outline"></ion-icon> Saved VPA</a></li>
+                <li><a href="#"><ion-icon name="location-outline"></ion-icon> Saved Addresses</a></li>
+              </ul>
+              <hr class="dropdown-divider">
+              <ul class="dropdown-list">
+                <li><a href="#"><ion-icon name="create-outline"></ion-icon> Edit Profile</a></li>
+                <li><a href="#" class="logout-link" onclick="logoutUser()"><ion-icon name="log-out-outline"></ion-icon> Logout</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Wishlist -->
+          <button class="action-btn" onclick="window.location.href='wishlist.html'">
+            <ion-icon name="heart-outline"></ion-icon>
+            <span class="count-badge">0</span>
+          </button>
+
+          <!-- Cart -->
+          <button class="action-btn" onclick="window.location.href='cart.html'">
+            <ion-icon name="bag-handle-outline"></ion-icon>
+            <span class="count-badge">0</span>
+          </button>
         </div>
       </div>
     </div>
 
+    <!-- Mobile bottom nav -->
     <div class="mobile-bottom-navigation">
       <button class="action-btn" data-mobile-menu-open-btn><ion-icon name="menu-outline"></ion-icon></button>
-      <button class="action-btn" onclick="window.location.href='cart.html'"><ion-icon name="bag-handle-outline"></ion-icon><span class="count">0</span></button>
+      <button class="action-btn" onclick="window.location.href='cart.html'"><ion-icon name="bag-handle-outline"></ion-icon><span class="count-badge">0</span></button>
       <button class="action-btn" onclick="window.location.href='index.html'"><ion-icon name="home-outline"></ion-icon></button>
-      <button class="action-btn" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon><span class="count">0</span></button>
+      <button class="action-btn" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon><span class="count-badge">0</span></button>
       <button class="action-btn" data-mobile-menu-open-btn><ion-icon name="grid-outline"></ion-icon></button>
     </div>
 
+    <!-- Mobile slide menu -->
     <nav class="mobile-navigation-menu has-scrollbar" data-mobile-menu>
       <div class="menu-top">
         <h2 class="menu-title">Menu</h2>
@@ -155,33 +380,38 @@
     </nav>
   </header>
 
-  <!-- MAIN - CART PAGE -->
-  <main>
-    <div class="container" style="padding: 40px 20px;">
-      <h2 class="section-title" style="font-size: 28px; font-weight: 700; margin-bottom: 28px;">🛒 Your Shopping Cart</h2>
+  <!-- ===== MAIN: CART PAGE ===== -->
+  <main class="cart-page">
+    <div class="container">
+      <h2 class="section-title">
+        <ion-icon name="cart-outline"></ion-icon> Your Shopping Cart
+      </h2>
 
-      <!-- Cart Container -->
       <div class="product-container">
-        <div class="container" style="padding: 0;">
+        <div class="container" style="padding:0;">
+          <div class="product-box">
 
-          <div class="product-box" style="width: 100%;">
-            
-            <!-- Empty Cart Message -->
-            <div id="empty-cart" style="text-align: center; padding: 60px 20px; display: none;">
-              <h3 style="font-size: 24px; margin-bottom: 8px;">Your cart is empty!</h3>
-              <p style="color: #888; margin-bottom: 24px;">Looks like you haven't added any items yet.</p>
-              <a href="index.html" class="banner-btn" style="display: inline-block;">Continue Shopping</a>
+            <!-- Empty Cart State (hidden by default) -->
+            <div id="empty-cart" class="empty-cart" style="display:none;">
+              <h3>🛒 Your cart is empty</h3>
+              <p>Looks like you haven't added any items yet.</p>
+              <a href="index.html" class="banner-btn">Continue Shopping</a>
             </div>
 
             <!-- Cart Items Container -->
             <div id="cart-items-container">
-              <!-- Items will be dynamically rendered here -->
+              <!-- Items will be rendered by JavaScript -->
             </div>
 
-            <!-- Cart Summary -->
-            <div id="cart-summary" style="display: none; justify-content: space-between; align-items: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #eef2f6;">
-              <h4 style="font-size: 22px; font-weight: 700;">Total: <span id="cart-total" style="color: #2b2b2b;">$0.00</span></h4>
-              <button class="banner-btn" style="padding: 12px 40px; font-size: 18px;" onclick="proceedToCheckout()">Proceed to Checkout</button>
+            <!-- Cart Summary (hidden when empty) -->
+            <div id="cart-summary" class="cart-summary" style="display:none;">
+              <div>
+                <span class="total-label">Total:</span>
+                <span class="total-price" id="cart-total">$0.00</span>
+              </div>
+              <button class="banner-btn" onclick="proceedToCheckout()" style="padding: 12px 40px; font-size: var(--fs-6);">
+                Proceed to Checkout
+              </button>
             </div>
 
           </div>
@@ -190,7 +420,7 @@
     </div>
   </main>
 
-  <!-- FOOTER -->
+  <!-- ===== FOOTER ===== -->
   <footer>
     <div class="footer-category">
       <div class="container">
@@ -274,196 +504,181 @@
     </div>
   </footer>
 
-  <!-- ION ICONS -->
+  <!-- ===== IONICONS ===== -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-  <!-- Your existing JS file -->
+  <!-- ===== YOUR EXISTING JS FILES ===== -->
   <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/profile.js"></script>
 
-  <!-- Cart JavaScript -->
+  <!-- ===== CART PAGE JAVASCRIPT ===== -->
   <script>
-    // ============================================
-    // RENDER CART ITEMS
-    // ============================================
+    // ------------------------------------------------------------------
+    // CART FUNCTIONALITY – uses localStorage, reuses your existing style
+    // ------------------------------------------------------------------
+
+    // Render all cart items
     function renderCartItems() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const container = document.getElementById('cart-items-container');
-        const emptyCart = document.getElementById('empty-cart');
-        const summary = document.getElementById('cart-summary');
-        
-        // Clear container
-        container.innerHTML = '';
-        
-        if (cart.length === 0) {
-            emptyCart.style.display = 'block';
-            summary.style.display = 'none';
-            return;
-        }
-        
-        emptyCart.style.display = 'none';
-        summary.style.display = 'flex';
-        
-        cart.forEach((item, index) => {
-            const cartItem = createCartItemHTML(item, index);
-            container.appendChild(cartItem);
-        });
-        
-        updateCartTotal();
-    }
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const container = document.getElementById('cart-items-container');
+      const emptyEl = document.getElementById('empty-cart');
+      const summaryEl = document.getElementById('cart-summary');
 
-    // ============================================
-    // CREATE CART ITEM HTML (Using your existing showcase class)
-    // ============================================
-    function createCartItemHTML(item, index) {
+      container.innerHTML = '';
+
+      if (cart.length === 0) {
+        emptyEl.style.display = 'block';
+        summaryEl.style.display = 'none';
+        updateCartCount();
+        return;
+      }
+
+      emptyEl.style.display = 'none';
+      summaryEl.style.display = 'flex';
+
+      cart.forEach((item, index) => {
         const div = document.createElement('div');
-        div.className = 'showcase';
-        div.style.cssText = 'display: flex; align-items: center; gap: 20px; padding: 20px 0; border-bottom: 1px solid #eef2f6; margin-bottom: 0;';
-        
-        const originalPrice = item.originalPrice ? 
-            `<del>$${item.originalPrice.toFixed(2)}</del>` : '';
-        
+        div.className = 'cart-item';
+
+        // Build item HTML – uses existing classes like .showcase-category, .price-box etc.
+        const originalPrice = item.originalPrice ?
+          `<del>$${Number(item.originalPrice).toFixed(2)}</del>` :
+          '';
+
         div.innerHTML = `
-            <div class="showcase-banner" style="flex-shrink: 0;">
-                <img src="${item.image || './assets/images/products/default.jpg'}" 
-                     alt="${item.name}" 
-                     width="100" 
-                     height="100" 
-                     style="object-fit: contain; border-radius: 12px; background: #fafafa; padding: 6px;">
+          <div class="item-image">
+            <img src="${item.image || './assets/images/products/default.jpg'}" alt="${item.name}">
+          </div>
+          <div class="item-details">
+            <div class="item-category">${item.category || 'Product'}</div>
+            <div class="item-name">${item.name}</div>
+            <div class="item-price">
+              $${Number(item.price).toFixed(2)}
+              ${originalPrice}
             </div>
-            <div class="showcase-content" style="flex: 1;">
-                <a href="#" class="showcase-category">${item.category || 'Product'}</a>
-                <h3 class="showcase-title" style="font-size: 18px; font-weight: 600; margin: 4px 0;">${item.name}</h3>
-                <div class="price-box">
-                    <p class="price">$${item.price.toFixed(2)}</p>
-                    ${originalPrice}
-                </div>
+          </div>
+          <div class="item-controls">
+            <div class="qty-wrapper">
+              <button class="qty-minus" data-index="${index}">−</button>
+              <span class="qty-value">${item.quantity}</span>
+              <button class="qty-plus" data-index="${index}">+</button>
             </div>
-            <div style="display: flex; align-items: center; gap: 16px;">
-                <div style="display: flex; align-items: center; border: 1px solid #ddd; border-radius: 40px; overflow: hidden;">
-                    <button class="qty-btn minus" data-index="${index}" style="background: none; border: none; padding: 6px 14px; font-size: 22px; cursor: pointer;">−</button>
-                    <span class="qty-value" style="min-width: 36px; text-align: center; font-weight: 500;">${item.quantity}</span>
-                    <button class="qty-btn plus" data-index="${index}" style="background: none; border: none; padding: 6px 14px; font-size: 22px; cursor: pointer;">+</button>
-                </div>
-                <button class="remove-btn" data-index="${index}" style="background: none; border: none; color: #b0b0b0; font-size: 20px; cursor: pointer;">
-                    <ion-icon name="trash-outline"></ion-icon>
-                </button>
-            </div>
+            <button class="remove-btn" data-index="${index}">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
         `;
-        
-        // Add event listeners
-        div.querySelector('.minus').addEventListener('click', function() {
-            updateQuantity(index, -1);
+
+        container.appendChild(div);
+      });
+
+      // Attach event listeners (using event delegation for cleaner code)
+      container.querySelectorAll('.qty-minus').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const idx = parseInt(this.dataset.index);
+          updateQuantity(idx, -1);
         });
-        
-        div.querySelector('.plus').addEventListener('click', function() {
-            updateQuantity(index, 1);
+      });
+      container.querySelectorAll('.qty-plus').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const idx = parseInt(this.dataset.index);
+          updateQuantity(idx, 1);
         });
-        
-        div.querySelector('.remove-btn').addEventListener('click', function() {
-            removeItem(index);
+      });
+      container.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const idx = parseInt(this.dataset.index);
+          removeItem(idx);
         });
-        
-        return div;
+      });
+
+      updateCartTotal();
+      updateCartCount();
     }
 
-    // ============================================
-    // UPDATE QUANTITY
-    // ============================================
+    // Update quantity
     function updateQuantity(index, change) {
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        
-        if (cart[index]) {
-            cart[index].quantity += change;
-            
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1);
-            }
-            
-            localStorage.setItem('cart', JSON.stringify(cart));
-            renderCartItems();
-            updateCartCount();
-        }
-    }
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (!cart[index]) return;
 
-    // ============================================
-    // REMOVE ITEM
-    // ============================================
-    function removeItem(index) {
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart[index].quantity += change;
+      if (cart[index].quantity <= 0) {
         cart.splice(index, 1);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        renderCartItems();
-        updateCartCount();
-        showNotification('Item removed from cart');
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCartItems();
     }
 
-    // ============================================
-    // UPDATE CART TOTAL
-    // ============================================
+    // Remove item
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCartItems();
+      showToast('Item removed from cart');
+    }
+
+    // Update total
     function updateCartTotal() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const totalElement = document.getElementById('cart-total');
-        if (totalElement) {
-            totalElement.textContent = `$${total.toFixed(2)}`;
-        }
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const totalEl = document.getElementById('cart-total');
+      if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
     }
 
-    // ============================================
-    // UPDATE CART COUNT IN HEADER
-    // ============================================
+    // Update badge counts (reuses your existing .count-badge)
     function updateCartCount() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        
-        document.querySelectorAll('.header-user-actions .count, .mobile-bottom-navigation .count')
-            .forEach(badge => {
-                const parent = badge.closest('.action-btn');
-                if (parent && parent.querySelector('ion-icon[name="bag-handle-outline"]')) {
-                    badge.textContent = totalItems;
-                }
-            });
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+      document.querySelectorAll('.header-user-actions .count-badge, .mobile-bottom-navigation .count-badge')
+        .forEach(badge => {
+          const parent = badge.closest('.action-btn');
+          if (parent && parent.querySelector('ion-icon[name="bag-handle-outline"]')) {
+            badge.textContent = totalItems;
+          }
+        });
     }
 
-    // ============================================
-    // SHOW NOTIFICATION
-    // ============================================
-    function showNotification(message) {
-        const toast = document.querySelector('[data-toast]');
-        if (toast) {
-            const msgElement = toast.querySelector('.toast-message');
-            const titleElement = toast.querySelector('.toast-title');
-            const metaElement = toast.querySelector('.toast-meta');
-            
-            if (msgElement) msgElement.textContent = message;
-            if (titleElement) titleElement.textContent = 'Cart Update';
-            if (metaElement) metaElement.innerHTML = '<time datetime="PT0M">Just now</time>';
-            
-            toast.classList.add('active');
-            setTimeout(() => toast.classList.remove('active'), 3000);
-        }
+    // Simple toast notification (reuses the existing notification-toast element)
+    function showToast(message) {
+      const toast = document.querySelector('[data-toast]');
+      if (!toast) return;
+      const msgEl = toast.querySelector('.toast-message');
+      const titleEl = toast.querySelector('.toast-title');
+      const metaEl = toast.querySelector('.toast-meta');
+      if (msgEl) msgEl.textContent = message;
+      if (titleEl) titleEl.textContent = 'Cart Update';
+      if (metaEl) metaEl.innerHTML = '<time datetime="PT0M">Just now</time>';
+      toast.classList.add('active');
+      clearTimeout(toast._timeout);
+      toast._timeout = setTimeout(() => toast.classList.remove('active'), 3000);
     }
 
-    // ============================================
-    // PROCEED TO CHECKOUT
-    // ============================================
+    // Proceed to checkout
     function proceedToCheckout() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        if (cart.length === 0) {
-            showNotification('Your cart is empty!');
-            return;
-        }
-        alert('Proceeding to checkout with ' + cart.length + ' items');
-        // window.location.href = 'checkout.html';
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (cart.length === 0) {
+        showToast('Your cart is empty!');
+        return;
+      }
+      alert('Proceeding to checkout with ' + cart.length + ' items.');
+      // window.location.href = 'checkout.html';
     }
 
-    // ============================================
-    // INITIALIZE ON PAGE LOAD
-    // ============================================
+    // Dummy login/logout functions (to match your existing script)
+    // function loginUser() { alert('Login/Signup functionality coming soon!'); }
+    // function logoutUser() { alert('Logout functionality coming soon!'); }
+
+    // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
-        renderCartItems();
-        updateCartCount();
+      renderCartItems();
+    });
+
+    // Also re-render when the page is shown (in case of back/forward)
+    window.addEventListener('pageshow', function() {
+      renderCartItems();
     });
   </script>
 

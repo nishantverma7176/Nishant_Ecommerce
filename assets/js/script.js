@@ -71,7 +71,40 @@ for (let i = 0; i < accordionBtn.length; i++) {
 }
 
 // ============================================
-// 4. ADD TO CART - WITH REDIRECT & TRANSITION
+// 4. PROFILE DROPDOWN - TOUCH SUPPORT
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+    const profileDropdown = document.querySelector('.profile-dropdown');
+    const profileBtn = document.querySelector('.profile-btn');
+    
+    if (profileBtn && profileDropdown) {
+        // For touch devices, toggle on click
+        profileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (window.innerWidth <= 768) {
+                profileDropdown.classList.toggle('active');
+            }
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!profileDropdown.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+    }
+    
+    // Close dropdown on scroll
+    window.addEventListener('scroll', function() {
+        const dropdown = document.querySelector('.profile-dropdown');
+        if (dropdown) {
+            dropdown.classList.remove('active');
+        }
+    });
+});
+
+// ============================================
+// 5. ADD TO CART - WITH REDIRECT & TRANSITION
 // ============================================
 function addToCart(product, buttonElement) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -112,7 +145,7 @@ function addToCart(product, buttonElement) {
 }
 
 // ============================================
-// 5. ADD TO WISHLIST - WITH TRANSITION
+// 6. ADD TO WISHLIST - WITH TRANSITION
 // ============================================
 function addToWishlist(product, buttonElement) {
     let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
@@ -161,13 +194,13 @@ function addToWishlist(product, buttonElement) {
 }
 
 // ============================================
-// 6. UPDATE CART COUNT
+// 7. UPDATE CART COUNT - FIXED
 // ============================================
 function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
     
-    document.querySelectorAll('.header-user-actions .count, .mobile-bottom-navigation .count')
+    document.querySelectorAll('.header-user-actions .count-badge, .mobile-bottom-navigation .count-badge')
         .forEach(badge => {
             const parent = badge.closest('.action-btn');
             if (parent && parent.querySelector('ion-icon[name="bag-handle-outline"]')) {
@@ -177,13 +210,13 @@ function updateCartCount() {
 }
 
 // ============================================
-// 7. UPDATE WISHLIST COUNT
+// 8. UPDATE WISHLIST COUNT - FIXED
 // ============================================
 function updateWishlistCount() {
     const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
     const totalItems = wishlist.length;
     
-    document.querySelectorAll('.header-user-actions .count, .mobile-bottom-navigation .count')
+    document.querySelectorAll('.header-user-actions .count-badge, .mobile-bottom-navigation .count-badge')
         .forEach(badge => {
             const parent = badge.closest('.action-btn');
             if (parent && parent.querySelector('ion-icon[name="heart-outline"]')) {
@@ -193,7 +226,7 @@ function updateWishlistCount() {
 }
 
 // ============================================
-// 8. RENDER CART ITEMS (for cart.html)
+// 9. RENDER CART ITEMS (for cart.html)
 // ============================================
 function renderCartItems() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -222,7 +255,7 @@ function renderCartItems() {
 }
 
 // ============================================
-// 9. CREATE CART ITEM HTML
+// 10. CREATE CART ITEM HTML
 // ============================================
 function createCartItemHTML(item, index) {
     const div = document.createElement('div');
@@ -296,7 +329,7 @@ function createCartItemHTML(item, index) {
 }
 
 // ============================================
-// 10. UPDATE QUANTITY
+// 11. UPDATE QUANTITY
 // ============================================
 function updateQuantity(index, change) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -313,7 +346,7 @@ function updateQuantity(index, change) {
 }
 
 // ============================================
-// 11. REMOVE ITEM FROM CART
+// 12. REMOVE ITEM FROM CART
 // ============================================
 function removeItem(index) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -324,7 +357,7 @@ function removeItem(index) {
 }
 
 // ============================================
-// 12. UPDATE CART TOTAL
+// 13. UPDATE CART TOTAL
 // ============================================
 function updateCartTotal() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -336,7 +369,7 @@ function updateCartTotal() {
 }
 
 // ============================================
-// 13. RENDER WISHLIST ITEMS (for wishlist.html)
+// 14. RENDER WISHLIST ITEMS (for wishlist.html)
 // ============================================
 function renderWishlistItems() {
     const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
@@ -360,7 +393,7 @@ function renderWishlistItems() {
 }
 
 // ============================================
-// 14. CREATE WISHLIST ITEM HTML
+// 15. CREATE WISHLIST ITEM HTML
 // ============================================
 function createWishlistItemHTML(item, index) {
     const div = document.createElement('div');
@@ -405,11 +438,11 @@ function createWishlistItemHTML(item, index) {
     
     removeBtn.addEventListener('mouseenter', () => {
         removeBtn.style.transform = 'scale(1.3)';
-        removeBtn.style.color = '#252222ff';
+        removeBtn.style.color = '#ff0000';
     });
     removeBtn.addEventListener('mouseleave', () => {
         removeBtn.style.transform = 'scale(1)';
-        removeBtn.style.color = '#221919ff';
+        removeBtn.style.color = '#ff4444';
     });
     
     div.querySelector('.move-to-cart-btn').addEventListener('click', () => moveToCart(index));
@@ -419,7 +452,7 @@ function createWishlistItemHTML(item, index) {
 }
 
 // ============================================
-// 15. MOVE FROM WISHLIST TO CART
+// 16. MOVE FROM WISHLIST TO CART
 // ============================================
 function moveToCart(index) {
     const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
@@ -452,7 +485,7 @@ function moveToCart(index) {
 }
 
 // ============================================
-// 16. REMOVE FROM WISHLIST
+// 17. REMOVE FROM WISHLIST
 // ============================================
 function removeFromWishlist(index) {
     let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
@@ -463,7 +496,7 @@ function removeFromWishlist(index) {
 }
 
 // ============================================
-// 17. ADD TRANSITIONS TO ALL BUTTONS ON PAGE LOAD
+// 18. ADD TRANSITIONS TO ALL BUTTONS ON PAGE LOAD
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
     // Update counts
@@ -481,7 +514,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Hover effect
         btn.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.25)';
+            this.style.transform = 'scale(1.05)';
             this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
         });
         
@@ -515,7 +548,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================
-// 18. PROCEED TO CHECKOUT
+// 19. PROCEED TO CHECKOUT
 // ============================================
 function proceedToCheckout() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];

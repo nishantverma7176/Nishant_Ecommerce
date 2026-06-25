@@ -15,7 +15,7 @@
   <!--
     - custom css link
   -->
-  <link rel="stylesheet" href="./assets/css/style-prefix.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
 
   <!--
     - google font link
@@ -28,7 +28,6 @@
 </head>
 
 <body>
-
 
   <div class="overlay" data-overlay></div>
 
@@ -75,46 +74,6 @@
     </div>
 
   </div>
-
-
-
-
-
-  <!--
-    - NOTIFICATION TOAST
-  -->
-
-  <!-- <div class="notification-toast" data-toast>
-
-    <button class="toast-close-btn" data-toast-close>
-      <ion-icon name="close-outline"></ion-icon>
-    </button>
-
-    <div class="toast-banner">
-      <img src="./assets/images/products/jewellery-1.jpg" alt="Rose Gold Earrings" width="80" height="70">
-    </div>
-
-    <div class="toast-detail">
-
-      <p class="toast-message">
-        Someone in new just bought
-      </p>
-
-      <p class="toast-title">
-        Rose Gold Earrings
-      </p>
-
-      <p class="toast-meta">
-        <time datetime="PT2M">2 Minutes</time> ago
-      </p>
-
-    </div>
-
-  </div> -->
-
-
-
-
 
   <!--
     - HEADER
@@ -189,7 +148,7 @@
       <div class="container">
 
         <a href="index.html" class="header-logo">
-          Nishant 
+          Nishant
         </a>
 
         <div class="header-search-container">
@@ -202,23 +161,70 @@
 
         </div>
 
+        <!-- ============================================ -->
+        <!-- PROFILE DROPDOWN - FULL MENU (like screenshot) -->
+        <!-- ============================================ -->
         <div class="header-user-actions">
 
-          <button class="action-btn">
-            <ion-icon name="person-outline"></ion-icon>
-          </button>
+          <!-- Profile Dropdown -->
+          <div class="profile-dropdown">
+            <button class="action-btn profile-btn" id="profileBtn" aria-label="Profile">
+              <ion-icon name="person-outline"></ion-icon>
+            </button>
 
-          <button class="action-btn" onclick="window.location.href='wishlist.html'">
+            <!-- Dropdown Menu - Always shows full menu -->
+            <div class="dropdown-menu" id="profileDropdown">
+
+              <!-- Header Section -->
+              <div class="dropdown-header" id="dropdownHeader">
+                <!-- Dynamic content loaded by JS -->
+              </div>
+
+              <!-- Main Menu Items -->
+              <ul class="dropdown-list">
+                <li><a href="#"><ion-icon name="bag-outline"></ion-icon> Orders</a></li>
+                <li><a href="#" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon> Wishlist</a></li>
+                <li><a href="#"><ion-icon name="gift-outline"></ion-icon> Gift Cards</a></li>
+                <li><a href="#"><ion-icon name="call-outline"></ion-icon> Contact Us</a></li>
+                <li><a href="#"><ion-icon name="star-outline"></ion-icon> Myntra Insider <span class="badge-new">New</span></a></li>
+              </ul>
+
+              <hr class="dropdown-divider">
+
+              <ul class="dropdown-list">
+                <li><a href="#"><ion-icon name="card-outline"></ion-icon> Myntra Credit</a></li>
+                <li><a href="#"><ion-icon name="pricetag-outline"></ion-icon> Coupons</a></li>
+                <li><a href="#"><ion-icon name="wallet-outline"></ion-icon> Saved Cards</a></li>
+                <li><a href="#"><ion-icon name="phone-portrait-outline"></ion-icon> Saved VPA</a></li>
+                <li><a href="#"><ion-icon name="location-outline"></ion-icon> Saved Addresses</a></li>
+              </ul>
+
+              <!-- Explore Link (like in screenshot) -->
+              <div class="dropdown-footer" style="padding: 8px 16px 4px; border-top: 1px solid #f0f2f5; margin-top: 4px;">
+                <a href="#" style="display: flex; align-items: center; gap: 6px; color: #ff3f6c; font-size: 13px; font-weight: 600; text-decoration: none; padding: 4px 0;">
+                  <ion-icon name="add-circle-outline" style="font-size: 18px;"></ion-icon> Explore
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Wishlist Button -->
+          <button class="action-btn" onclick="window.location.href='wishlist.html'" aria-label="Wishlist">
             <ion-icon name="heart-outline"></ion-icon>
-            <span class="count">0</span>
+            <span class="count-badge">0</span>
           </button>
 
-          <button class="action-btn" onclick="window.location.href='cart.html'">
+          <!-- Cart Button -->
+          <button class="action-btn" onclick="window.location.href='cart.html'" aria-label="Shopping Cart">
             <ion-icon name="bag-handle-outline"></ion-icon>
-            <span class="count">0</span>
+            <span class="count-badge">0</span>
           </button>
 
         </div>
+        <!-- ============================================ -->
+        <!-- END PROFILE DROPDOWN -->
+        <!-- ============================================ -->
 
       </div>
 
@@ -495,20 +501,18 @@
         <ion-icon name="menu-outline"></ion-icon>
       </button>
 
-      <button class="action-btn">
+      <button class="action-btn" onclick="window.location.href='cart.html'">
         <ion-icon name="bag-handle-outline"></ion-icon>
-
-        <span class="count">0</span>
+        <span class="count-badge">0</span>
       </button>
 
-      <button class="action-btn">
+      <button class="action-btn" onclick="window.location.href='index.html'">
         <ion-icon name="home-outline"></ion-icon>
       </button>
 
-      <button class="action-btn">
+      <button class="action-btn" onclick="window.location.href='wishlist.html'">
         <ion-icon name="heart-outline"></ion-icon>
-
-        <span class="count">0</span>
+        <span class="count-badge">0</span>
       </button>
 
       <button class="action-btn" data-mobile-menu-open-btn>
@@ -758,10 +762,6 @@
 
   </header>
 
-
-
-
-
   <!--
     - MAIN
   -->
@@ -843,10 +843,6 @@
       </div>
 
     </div>
-
-
-
-
 
     <!--
       - CATEGORY
@@ -1024,10 +1020,6 @@
 
     </div>
 
-
-
-
-
     <!--
       - PRODUCT
     -->
@@ -1035,7 +1027,6 @@
     <div class="product-container">
 
       <div class="container">
-
 
         <!--
           - SIDEBAR
@@ -1570,8 +1561,6 @@
 
         </div>
 
-
-
         <div class="product-box">
 
           <!--
@@ -1621,19 +1610,19 @@
                   </div>
 
                   <div class="showcase">
-                  
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/clothes-2.jpg" alt="girls pink embro design top" class="showcase-img" width="70">
                     </a>
-                  
+
                     <div class="showcase-content">
-                  
+
                       <a href="#">
                         <h4 class="showcase-title">Girls pnk Embro design Top</h4>
                       </a>
-                  
+
                       <a href="#" class="showcase-category">Clothes</a>
-                  
+
                       <div class="price-box">
                         <p class="price">$61.00</p>
                         <del>$9.00</del>
@@ -1647,26 +1636,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-                  
+
                     </div>
-                  
+
                   </div>
 
                   <div class="showcase">
-                  
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/clothes-3.jpg" alt="black floral wrap midi skirt" class="showcase-img"
                         width="70">
                     </a>
-                  
+
                     <div class="showcase-content">
-                  
+
                       <a href="#">
                         <h4 class="showcase-title">Black Floral Wrap Midi Skirt</h4>
                       </a>
-                  
+
                       <a href="#" class="showcase-category">Clothes</a>
-                  
+
                       <div class="price-box">
                         <p class="price">$76.00</p>
                         <del>$25.00</del>
@@ -1680,26 +1669,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-                  
+
                     </div>
-                  
+
                   </div>
 
                   <div class="showcase">
-                  
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/shirt-1.jpg" alt="pure garment dyed cotton shirt" class="showcase-img"
                         width="70">
                     </a>
-                  
+
                     <div class="showcase-content">
-                  
+
                       <a href="#">
                         <h4 class="showcase-title">Pure Garment Dyed Cotton Shirt</h4>
                       </a>
-                  
+
                       <a href="#" class="showcase-category">Mens Fashion</a>
-                  
+
                       <div class="price-box">
                         <p class="price">$68.00</p>
                         <del>$31.00</del>
@@ -1713,30 +1702,30 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-                  
+
                     </div>
-                  
+
                   </div>
 
                 </div>
 
                 <div class="showcase-container">
-                
+
                   <div class="showcase">
-                
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/jacket-5.jpg" alt="men yarn fleece full-zip jacket" class="showcase-img"
                         width="70">
                     </a>
-                
+
                     <div class="showcase-content">
-                
+
                       <a href="#">
                         <h4 class="showcase-title">MEN Yarn Fleece Full-Zip Jacket</h4>
                       </a>
-                
+
                       <a href="#" class="showcase-category">Winter wear</a>
-                
+
                       <div class="price-box">
                         <p class="price">$61.00</p>
                         <del>$11.00</del>
@@ -1750,26 +1739,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-                
+
                     </div>
-                
+
                   </div>
-                
+
                   <div class="showcase">
-                
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/jacket-1.jpg" alt="mens winter leathers jackets" class="showcase-img"
                         width="70">
                     </a>
-                
+
                     <div class="showcase-content">
-                
+
                       <a href="#">
                         <h4 class="showcase-title">Mens Winter Leathers Jackets</h4>
                       </a>
-                
+
                       <a href="#" class="showcase-category">Winter wear</a>
-                
+
                       <div class="price-box">
                         <p class="price">$32.00</p>
                         <del>$20.00</del>
@@ -1783,26 +1772,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-                
+
                     </div>
-                
+
                   </div>
-                
+
                   <div class="showcase">
-                
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/jacket-3.jpg" alt="mens winter leathers jackets" class="showcase-img"
                         width="70">
                     </a>
-                
+
                     <div class="showcase-content">
-                
+
                       <a href="#">
                         <h4 class="showcase-title">Mens Winter Leathers Jackets</h4>
                       </a>
-                
+
                       <a href="#" class="showcase-category">Jackets</a>
-                
+
                       <div class="price-box">
                         <p class="price">$50.00</p>
                         <del>$25.00</del>
@@ -1816,26 +1805,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-                
+
                     </div>
-                
+
                   </div>
-                
+
                   <div class="showcase">
-                
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/shorts-1.jpg" alt="better basics french terry sweatshorts" class="showcase-img"
                         width="70">
                     </a>
-                
+
                     <div class="showcase-content">
-                
+
                       <a href="#">
                         <h4 class="showcase-title">Better Basics French Terry Sweatshorts</h4>
                       </a>
-                
+
                       <a href="#" class="showcase-category">Shorts</a>
-                
+
                       <div class="price-box">
                         <p class="price">$20.00</p>
                         <del>$10.00</del>
@@ -1849,11 +1838,11 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-                
+
                     </div>
-                
+
                   </div>
-                
+
                 </div>
 
               </div>
@@ -1861,28 +1850,28 @@
             </div>
 
             <div class="product-showcase">
-            
+
               <h2 class="title">Trending</h2>
-            
+
               <div class="showcase-wrapper  has-scrollbar">
-            
+
                 <div class="showcase-container">
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/sports-1.jpg" alt="running & trekking shoes - white" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Running & Trekking Shoes - White</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">Sports</a>
-            
+
                       <div class="price-box">
                         <p class="price">$49.00</p>
                         <del>$15.00</del>
@@ -1896,26 +1885,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/sports-2.jpg" alt="trekking & running shoes - black" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Trekking & Running Shoes - black</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">Sports</a>
-            
+
                       <div class="price-box">
                         <p class="price">$78.00</p>
                         <del>$36.00</del>
@@ -1929,26 +1918,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/party-wear-1.jpg" alt="womens party wear shoes" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Womens Party Wear Shoes</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">Party wear</a>
-            
+
                       <div class="price-box">
                         <p class="price">$94.00</p>
                         <del>$42.00</del>
@@ -1962,26 +1951,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/sports-3.jpg" alt="sports claw women's shoes" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Sports Claw Women's Shoes</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">Sports</a>
-            
+
                       <div class="price-box">
                         <p class="price">$54.00</p>
                         <del>$65.00</del>
@@ -1995,30 +1984,30 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                 </div>
-            
+
                 <div class="showcase-container">
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/sports-6.jpg" alt="air tekking shoes - white" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Air Trekking Shoes - white</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">Sports</a>
-            
+
                       <div class="price-box">
                         <p class="price">$52.00</p>
                         <del>$55.00</del>
@@ -2032,25 +2021,25 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/shoe-3.jpg" alt="Boot With Suede Detail" class="showcase-img" width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Boot With Suede Detail</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">boots</a>
-            
+
                       <div class="price-box">
                         <p class="price">$20.00</p>
                         <del>$30.00</del>
@@ -2064,26 +2053,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/shoe-1.jpg" alt="men's leather formal wear shoes" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Men's Leather Formal Wear shoes</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">formal</a>
-            
+
                       <div class="price-box">
                         <p class="price">$56.00</p>
                         <del>$78.00</del>
@@ -2097,25 +2086,25 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/shoe-2.jpg" alt="casual men's brown shoes" class="showcase-img" width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Casual Men's Brown shoes</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">Casual</a>
-            
+
                       <div class="price-box">
                         <p class="price">$50.00</p>
                         <del>$55.00</del>
@@ -2129,40 +2118,40 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                 </div>
-            
+
               </div>
-            
+
             </div>
 
             <div class="product-showcase">
-            
+
               <h2 class="title">Top Rated</h2>
-            
+
               <div class="showcase-wrapper  has-scrollbar">
-            
+
                 <div class="showcase-container">
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/watch-3.jpg" alt="pocket watch leather pouch" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Pocket Watch Leather Pouch</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">Watches</a>
-            
+
                       <div class="price-box">
                         <p class="price">$50.00</p>
                         <del>$34.00</del>
@@ -2176,26 +2165,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/jewellery-3.jpg" alt="silver deer heart necklace" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Silver Deer Heart Necklace</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">Jewellery</a>
-            
+
                       <div class="price-box">
                         <p class="price">$84.00</p>
                         <del>$30.00</del>
@@ -2209,26 +2198,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/perfume.jpg" alt="titan 100 ml womens perfume" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Titan 100 Ml Womens Perfume</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">Perfume</a>
-            
+
                       <div class="price-box">
                         <p class="price">$42.00</p>
                         <del>$10.00</del>
@@ -2242,26 +2231,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/belt.jpg" alt="men's leather reversible belt" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Men's Leather Reversible Belt</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">Belt</a>
-            
+
                       <div class="price-box">
                         <p class="price">$24.00</p>
                         <del>$10.00</del>
@@ -2275,30 +2264,30 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                 </div>
-            
+
                 <div class="showcase-container">
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/jewellery-2.jpg" alt="platinum zircon classic ring" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">platinum Zircon Classic Ring</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">jewellery</a>
-            
+
                       <div class="price-box">
                         <p class="price">$62.00</p>
                         <del>$65.00</del>
@@ -2312,25 +2301,25 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/watch-1.jpg" alt="smart watche vital plus" class="showcase-img" width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Smart watche Vital Plus</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">Watches</a>
-            
+
                       <div class="price-box">
                         <p class="price">$56.00</p>
                         <del>$78.00</del>
@@ -2344,26 +2333,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/shampoo.jpg" alt="shampoo conditioner packs" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">shampoo conditioner packs</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">cosmetics</a>
-            
+
                       <div class="price-box">
                         <p class="price">$20.00</p>
                         <del>$30.00</del>
@@ -2377,26 +2366,26 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                   <div class="showcase">
-            
+
                     <a href="#" class="showcase-img-box">
                       <img src="./assets/images/products/jewellery-1.jpg" alt="rose gold peacock earrings" class="showcase-img"
                         width="70">
                     </a>
-            
+
                     <div class="showcase-content">
-            
+
                       <a href="#">
                         <h4 class="showcase-title">Rose Gold Peacock Earrings</h4>
                       </a>
-            
+
                       <a href="#" class="showcase-category">jewellery</a>
-            
+
                       <div class="price-box">
                         <p class="price">$20.00</p>
                         <del>$30.00</del>
@@ -2410,20 +2399,18 @@
                           <ion-icon name="heart-outline"></ion-icon>
                         </button>
                       </div>
-            
+
                     </div>
-            
+
                   </div>
-            
+
                 </div>
-            
+
               </div>
-            
+
             </div>
 
           </div>
-
-
 
           <!--
             - PRODUCT FEATURED
@@ -2438,13 +2425,13 @@
               <div class="showcase-container">
 
                 <div class="showcase">
-                  
+
                   <div class="showcase-banner">
                     <img src="./assets/images/products/shampoo.jpg" alt="shampoo, conditioner & facewash packs" class="showcase-img">
                   </div>
 
                   <div class="showcase-content">
-                    
+
                     <div class="showcase-rating">
                       <ion-icon name="star"></ion-icon>
                       <ion-icon name="star"></ion-icon>
@@ -2526,15 +2513,15 @@
               </div>
 
               <div class="showcase-container">
-              
+
                 <div class="showcase">
-              
+
                   <div class="showcase-banner">
                     <img src="./assets/images/products/jewellery-1.jpg" alt="Rose Gold diamonds Earring" class="showcase-img">
                   </div>
-              
+
                   <div class="showcase-content">
-              
+
                     <div class="showcase-rating">
                       <ion-icon name="star"></ion-icon>
                       <ion-icon name="star"></ion-icon>
@@ -2542,72 +2529,70 @@
                       <ion-icon name="star-outline"></ion-icon>
                       <ion-icon name="star-outline"></ion-icon>
                     </div>
-              
+
                     <h3 class="showcase-title">
                       <a href="#" class="showcase-title">Rose Gold diamonds Earring</a>
                     </h3>
-              
+
                     <p class="showcase-desc">
                       Lorem ipsum dolor sit amet consectetur Lorem ipsum
                       dolor dolor sit amet consectetur Lorem ipsum dolor
                     </p>
-              
+
                     <div class="price-box">
                       <p class="price">$1990.00</p>
                       <del>$2000.00</del>
                     </div>
-              
+
                     <button class="add-cart-btn" onclick="addToCart({id:30,name:'Rose Gold diamonds Earring',price:1990.00,image:'./assets/images/products/jewellery-1.jpg'})">add to cart</button>
-              
+
                     <div class="showcase-status">
                       <div class="wrapper">
                         <p> already sold: <b>15</b> </p>
-              
+
                         <p> available: <b>40</b> </p>
                       </div>
-              
+
                       <div class="showcase-status-bar"></div>
                     </div>
-              
+
                     <div class="countdown-box">
-              
+
                       <p class="countdown-desc">Hurry Up! Offer ends in:</p>
-              
+
                       <div class="countdown">
                         <div class="countdown-content">
                           <p class="display-number">360</p>
                           <p class="display-text">Days</p>
                         </div>
-              
+
                         <div class="countdown-content">
                           <p class="display-number">24</p>
                           <p class="display-text">Hours</p>
                         </div>
-              
+
                         <div class="countdown-content">
                           <p class="display-number">59</p>
                           <p class="display-text">Min</p>
                         </div>
-              
+
                         <div class="countdown-content">
                           <p class="display-number">00</p>
                           <p class="display-text">Sec</p>
                         </div>
                       </div>
-              
+
                     </div>
-              
+
                   </div>
-              
+
                 </div>
-              
+
               </div>
 
             </div>
 
           </div>
-
-
 
           <!--
             - PRODUCT GRID
@@ -2676,41 +2661,41 @@
               </div>
 
               <div class="showcase">
-              
+
                 <div class="showcase-banner">
                   <img src="./assets/images/products/shirt-1.jpg" alt="Pure Garment Dyed Cotton Shirt" class="product-img default"
                     width="300">
                   <img src="./assets/images/products/shirt-2.jpg" alt="Pure Garment Dyed Cotton Shirt" class="product-img hover"
                     width="300">
-              
+
                   <p class="showcase-badge angle black">sale</p>
-              
+
                   <div class="showcase-actions">
                     <button class="btn-action" onclick="addToWishlist({id:32,name:'Pure Garment Dyed Cotton Shirt',price:45.00,image:'./assets/images/products/shirt-1.jpg'})">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="eye-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="repeat-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action" onclick="addToCart({id:32,name:'Pure Garment Dyed Cotton Shirt',price:45.00,image:'./assets/images/products/shirt-1.jpg'})">
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
                   </div>
                 </div>
-              
+
                 <div class="showcase-content">
                   <a href="#" class="showcase-category">shirt</a>
-              
+
                   <h3>
                     <a href="#" class="showcase-title">Pure Garment Dyed Cotton Shirt</a>
                   </h3>
-              
+
                   <div class="showcase-rating">
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
@@ -2718,50 +2703,50 @@
                     <ion-icon name="star-outline"></ion-icon>
                     <ion-icon name="star-outline"></ion-icon>
                   </div>
-              
+
                   <div class="price-box">
                     <p class="price">$45.00</p>
                     <del>$56.00</del>
                   </div>
-              
+
                 </div>
-              
+
               </div>
 
               <div class="showcase">
-              
+
                 <div class="showcase-banner">
                   <img src="./assets/images/products/jacket-5.jpg" alt="MEN Yarn Fleece Full-Zip Jacket" class="product-img default"
                     width="300">
                   <img src="./assets/images/products/jacket-6.jpg" alt="MEN Yarn Fleece Full-Zip Jacket" class="product-img hover"
                     width="300">
-              
+
                   <div class="showcase-actions">
                     <button class="btn-action" onclick="addToWishlist({id:33,name:'MEN Yarn Fleece Full-Zip Jacket',price:58.00,image:'./assets/images/products/jacket-5.jpg'})">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="eye-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="repeat-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action" onclick="addToCart({id:33,name:'MEN Yarn Fleece Full-Zip Jacket',price:58.00,image:'./assets/images/products/jacket-5.jpg'})">
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
                   </div>
                 </div>
-              
+
                 <div class="showcase-content">
                   <a href="#" class="showcase-category">Jacket</a>
-              
+
                   <h3>
                     <a href="#" class="showcase-title">MEN Yarn Fleece Full-Zip Jacket</a>
                   </h3>
-              
+
                   <div class="showcase-rating">
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
@@ -2769,52 +2754,52 @@
                     <ion-icon name="star-outline"></ion-icon>
                     <ion-icon name="star-outline"></ion-icon>
                   </div>
-              
+
                   <div class="price-box">
                     <p class="price">$58.00</p>
                     <del>$65.00</del>
                   </div>
-              
+
                 </div>
-              
+
               </div>
 
               <div class="showcase">
-              
+
                 <div class="showcase-banner">
                   <img src="./assets/images/products/clothes-3.jpg" alt="Black Floral Wrap Midi Skirt" class="product-img default"
                     width="300">
                   <img src="./assets/images/products/clothes-4.jpg" alt="Black Floral Wrap Midi Skirt" class="product-img hover"
                     width="300">
-              
+
                   <p class="showcase-badge angle pink">new</p>
-              
+
                   <div class="showcase-actions">
                     <button class="btn-action" onclick="addToWishlist({id:34,name:'Black Floral Wrap Midi Skirt',price:25.00,image:'./assets/images/products/clothes-3.jpg'})">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="eye-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="repeat-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action" onclick="addToCart({id:34,name:'Black Floral Wrap Midi Skirt',price:25.00,image:'./assets/images/products/clothes-3.jpg'})">
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
                   </div>
                 </div>
-              
+
                 <div class="showcase-content">
                   <a href="#" class="showcase-category">skirt</a>
-              
+
                   <h3>
                     <a href="#" class="showcase-title">Black Floral Wrap Midi Skirt</a>
                   </h3>
-              
+
                   <div class="showcase-rating">
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
@@ -2822,50 +2807,50 @@
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
                   </div>
-              
+
                   <div class="price-box">
                     <p class="price">$25.00</p>
                     <del>$35.00</del>
                   </div>
-              
+
                 </div>
-              
+
               </div>
 
               <div class="showcase">
-              
+
                 <div class="showcase-banner">
                   <img src="./assets/images/products/shoe-2.jpg" alt="Casual Men's Brown shoes" class="product-img default"
                     width="300">
                   <img src="./assets/images/products/shoe-2_1.jpg" alt="Casual Men's Brown shoes" class="product-img hover"
                     width="300">
-              
+
                   <div class="showcase-actions">
                     <button class="btn-action" onclick="addToWishlist({id:35,name:'Casual Men\'s Brown shoes',price:99.00,image:'./assets/images/products/shoe-2.jpg'})">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="eye-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="repeat-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action" onclick="addToCart({id:35,name:'Casual Men\'s Brown shoes',price:99.00,image:'./assets/images/products/shoe-2.jpg'})">
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
                   </div>
                 </div>
-              
+
                 <div class="showcase-content">
                   <a href="#" class="showcase-category">casual</a>
-              
+
                   <h3>
                     <a href="#" class="showcase-title">Casual Men's Brown shoes</a>
                   </h3>
-              
+
                   <div class="showcase-rating">
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
@@ -2873,52 +2858,52 @@
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
                   </div>
-              
+
                   <div class="price-box">
                     <p class="price">$99.00</p>
                     <del>$105.00</del>
                   </div>
-              
+
                 </div>
-              
+
               </div>
 
               <div class="showcase">
-              
+
                 <div class="showcase-banner">
                   <img src="./assets/images/products/watch-3.jpg" alt="Pocket Watch Leather Pouch" class="product-img default"
                     width="300">
                   <img src="./assets/images/products/watch-4.jpg" alt="Pocket Watch Leather Pouch" class="product-img hover"
                     width="300">
-              
+
                   <p class="showcase-badge angle black">sale</p>
-              
+
                   <div class="showcase-actions">
                     <button class="btn-action" onclick="addToWishlist({id:36,name:'Pocket Watch Leather Pouch',price:150.00,image:'./assets/images/products/watch-3.jpg'})">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="eye-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="repeat-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action" onclick="addToCart({id:36,name:'Pocket Watch Leather Pouch',price:150.00,image:'./assets/images/products/watch-3.jpg'})">
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
                   </div>
                 </div>
-              
+
                 <div class="showcase-content">
                   <a href="#" class="showcase-category">watches</a>
-              
+
                   <h3>
                     <a href="#" class="showcase-title">Pocket Watch Leather Pouch</a>
                   </h3>
-              
+
                   <div class="showcase-rating">
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
@@ -2926,49 +2911,49 @@
                     <ion-icon name="star-outline"></ion-icon>
                     <ion-icon name="star-outline"></ion-icon>
                   </div>
-              
+
                   <div class="price-box">
                     <p class="price">$150.00</p>
                     <del>$170.00</del>
                   </div>
-              
+
                 </div>
-              
+
               </div>
 
               <div class="showcase">
-              
+
                 <div class="showcase-banner">
                   <img src="./assets/images/products/watch-1.jpg" alt="Smart watche Vital Plus" class="product-img default"
                     width="300">
                   <img src="./assets/images/products/watch-2.jpg" alt="Smart watche Vital Plus" class="product-img hover" width="300">
-              
+
                   <div class="showcase-actions">
                     <button class="btn-action" onclick="addToWishlist({id:37,name:'Smart watche Vital Plus',price:100.00,image:'./assets/images/products/watch-1.jpg'})">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="eye-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="repeat-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action" onclick="addToCart({id:37,name:'Smart watche Vital Plus',price:100.00,image:'./assets/images/products/watch-1.jpg'})">
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
                   </div>
                 </div>
-              
+
                 <div class="showcase-content">
                   <a href="#" class="showcase-category">watches</a>
-              
+
                   <h3>
                     <a href="#" class="showcase-title">Smart watche Vital Plus</a>
                   </h3>
-              
+
                   <div class="showcase-rating">
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
@@ -2976,52 +2961,52 @@
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star-outline"></ion-icon>
                   </div>
-              
+
                   <div class="price-box">
                     <p class="price">$100.00</p>
                     <del>$120.00</del>
                   </div>
-              
+
                 </div>
-              
+
               </div>
 
               <div class="showcase">
-              
+
                 <div class="showcase-banner">
                   <img src="./assets/images/products/party-wear-1.jpg" alt="Womens Party Wear Shoes" class="product-img default"
                     width="300">
                   <img src="./assets/images/products/party-wear-2.jpg" alt="Womens Party Wear Shoes" class="product-img hover"
                     width="300">
-              
+
                   <p class="showcase-badge angle black">sale</p>
-              
+
                   <div class="showcase-actions">
                     <button class="btn-action" onclick="addToWishlist({id:38,name:'Womens Party Wear Shoes',price:25.00,image:'./assets/images/products/party-wear-1.jpg'})">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="eye-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="repeat-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action" onclick="addToCart({id:38,name:'Womens Party Wear Shoes',price:25.00,image:'./assets/images/products/party-wear-1.jpg'})">
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
                   </div>
                 </div>
-              
+
                 <div class="showcase-content">
                   <a href="#" class="showcase-category">party wear</a>
-              
+
                   <h3>
                     <a href="#" class="showcase-title">Womens Party Wear Shoes</a>
                   </h3>
-              
+
                   <div class="showcase-rating">
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
@@ -3029,50 +3014,50 @@
                     <ion-icon name="star-outline"></ion-icon>
                     <ion-icon name="star-outline"></ion-icon>
                   </div>
-              
+
                   <div class="price-box">
                     <p class="price">$25.00</p>
                     <del>$30.00</del>
                   </div>
-              
+
                 </div>
-              
+
               </div>
 
               <div class="showcase">
-              
+
                 <div class="showcase-banner">
                   <img src="./assets/images/products/jacket-1.jpg" alt="Mens Winter Leathers Jackets" class="product-img default"
                     width="300">
                   <img src="./assets/images/products/jacket-2.jpg" alt="Mens Winter Leathers Jackets" class="product-img hover"
                     width="300">
-              
+
                   <div class="showcase-actions">
                     <button class="btn-action" onclick="addToWishlist({id:39,name:'Mens Winter Leathers Jackets',price:32.00,image:'./assets/images/products/jacket-1.jpg'})">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="eye-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="repeat-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action" onclick="addToCart({id:39,name:'Mens Winter Leathers Jackets',price:32.00,image:'./assets/images/products/jacket-1.jpg'})">
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
                   </div>
                 </div>
-              
+
                 <div class="showcase-content">
                   <a href="#" class="showcase-category">jacket</a>
-              
+
                   <h3>
                     <a href="#" class="showcase-title">Mens Winter Leathers Jackets</a>
                   </h3>
-              
+
                   <div class="showcase-rating">
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
@@ -3080,52 +3065,52 @@
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star-outline"></ion-icon>
                   </div>
-              
+
                   <div class="price-box">
                     <p class="price">$32.00</p>
                     <del>$45.00</del>
                   </div>
-              
+
                 </div>
-              
+
               </div>
 
               <div class="showcase">
-              
+
                 <div class="showcase-banner">
                   <img src="./assets/images/products/sports-2.jpg" alt="Trekking & Running Shoes - black" class="product-img default"
                     width="300">
                   <img src="./assets/images/products/sports-4.jpg" alt="Trekking & Running Shoes - black" class="product-img hover"
                     width="300">
-              
+
                   <p class="showcase-badge angle black">sale</p>
-              
+
                   <div class="showcase-actions">
                     <button class="btn-action" onclick="addToWishlist({id:40,name:'Trekking & Running Shoes - black',price:58.00,image:'./assets/images/products/sports-2.jpg'})">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="eye-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="repeat-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action" onclick="addToCart({id:40,name:'Trekking & Running Shoes - black',price:58.00,image:'./assets/images/products/sports-2.jpg'})">
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
                   </div>
                 </div>
-              
+
                 <div class="showcase-content">
                   <a href="#" class="showcase-category">sports</a>
-              
+
                   <h3>
                     <a href="#" class="showcase-title">Trekking & Running Shoes - black</a>
                   </h3>
-              
+
                   <div class="showcase-rating">
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
@@ -3133,50 +3118,50 @@
                     <ion-icon name="star-outline"></ion-icon>
                     <ion-icon name="star-outline"></ion-icon>
                   </div>
-              
+
                   <div class="price-box">
                     <p class="price">$58.00</p>
                     <del>$64.00</del>
                   </div>
-              
+
                 </div>
-              
+
               </div>
 
               <div class="showcase">
-              
+
                 <div class="showcase-banner">
                   <img src="./assets/images/products/shoe-1.jpg" alt="Men's Leather Formal Wear shoes" class="product-img default"
                     width="300">
                   <img src="./assets/images/products/shoe-1_1.jpg" alt="Men's Leather Formal Wear shoes" class="product-img hover"
                     width="300">
-              
+
                   <div class="showcase-actions">
                     <button class="btn-action" onclick="addToWishlist({id:41,name:'Men\'s Leather Formal Wear shoes',price:50.00,image:'./assets/images/products/shoe-1.jpg'})">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="eye-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="repeat-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action" onclick="addToCart({id:41,name:'Men\'s Leather Formal Wear shoes',price:50.00,image:'./assets/images/products/shoe-1.jpg'})">
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
                   </div>
                 </div>
-              
+
                 <div class="showcase-content">
                   <a href="#" class="showcase-category">formal</a>
-              
+
                   <h3>
                     <a href="#" class="showcase-title">Men's Leather Formal Wear shoes</a>
                   </h3>
-              
+
                   <div class="showcase-rating">
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
@@ -3184,52 +3169,52 @@
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star-outline"></ion-icon>
                   </div>
-              
+
                   <div class="price-box">
                     <p class="price">$50.00</p>
                     <del>$65.00</del>
                   </div>
-              
+
                 </div>
-              
+
               </div>
 
               <div class="showcase">
-              
+
                 <div class="showcase-banner">
                   <img src="./assets/images/products/shorts-1.jpg" alt="Better Basics French Terry Sweatshorts"
                     class="product-img default" width="300">
                   <img src="./assets/images/products/shorts-2.jpg" alt="Better Basics French Terry Sweatshorts"
                     class="product-img hover" width="300">
-              
+
                   <p class="showcase-badge angle black">sale</p>
-              
+
                   <div class="showcase-actions">
                     <button class="btn-action" onclick="addToWishlist({id:42,name:'Better Basics French Terry Sweatshorts',price:78.00,image:'./assets/images/products/shorts-1.jpg'})">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="eye-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action">
                       <ion-icon name="repeat-outline"></ion-icon>
                     </button>
-              
+
                     <button class="btn-action" onclick="addToCart({id:42,name:'Better Basics French Terry Sweatshorts',price:78.00,image:'./assets/images/products/shorts-1.jpg'})">
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
                   </div>
                 </div>
-              
+
                 <div class="showcase-content">
                   <a href="#" class="showcase-category">shorts</a>
-              
+
                   <h3>
                     <a href="#" class="showcase-title">Better Basics French Terry Sweatshorts</a>
                   </h3>
-              
+
                   <div class="showcase-rating">
                     <ion-icon name="star"></ion-icon>
                     <ion-icon name="star"></ion-icon>
@@ -3237,14 +3222,14 @@
                     <ion-icon name="star-outline"></ion-icon>
                     <ion-icon name="star-outline"></ion-icon>
                   </div>
-              
+
                   <div class="price-box">
                     <p class="price">$78.00</p>
                     <del>$85.00</del>
                   </div>
-              
+
                 </div>
-              
+
               </div>
 
             </div>
@@ -3256,10 +3241,6 @@
       </div>
 
     </div>
-
-
-
-
 
     <!--
       - TESTIMONIALS, CTA & SERVICE
@@ -3297,8 +3278,6 @@
 
           </div>
 
-
-
           <!--
             - CTA
           -->
@@ -3320,8 +3299,6 @@
             </a>
 
           </div>
-
-
 
           <!--
             - SERVICE
@@ -3349,63 +3326,63 @@
               </a>
 
               <a href="#" class="service-item">
-              
+
                 <div class="service-icon">
                   <ion-icon name="rocket-outline"></ion-icon>
                 </div>
-              
+
                 <div class="service-content">
-              
+
                   <h3 class="service-title">Next Day delivery</h3>
                   <p class="service-desc">UK Orders Only</p>
-              
+
                 </div>
-              
+
               </a>
 
               <a href="#" class="service-item">
-              
+
                 <div class="service-icon">
                   <ion-icon name="call-outline"></ion-icon>
                 </div>
-              
+
                 <div class="service-content">
-              
+
                   <h3 class="service-title">Best Online Support</h3>
                   <p class="service-desc">Hours: 8AM - 11PM</p>
-              
+
                 </div>
-              
+
               </a>
 
               <a href="#" class="service-item">
-              
+
                 <div class="service-icon">
                   <ion-icon name="arrow-undo-outline"></ion-icon>
                 </div>
-              
+
                 <div class="service-content">
-              
+
                   <h3 class="service-title">Return Policy</h3>
                   <p class="service-desc">Easy & Free Return</p>
-              
+
                 </div>
-              
+
               </a>
 
               <a href="#" class="service-item">
-              
+
                 <div class="service-icon">
                   <ion-icon name="ticket-outline"></ion-icon>
                 </div>
-              
+
                 <div class="service-content">
-              
+
                   <h3 class="service-title">30% money back</h3>
                   <p class="service-desc">For Order Over $100</p>
-              
+
                 </div>
-              
+
               </a>
 
             </div>
@@ -3417,10 +3394,6 @@
       </div>
 
     </div>
-
-
-
-
 
     <!--
       - BLOG
@@ -3455,72 +3428,72 @@
           </div>
 
           <div class="blog-card">
-          
+
             <a href="#">
               <img src="./assets/images/blog-2.jpg" alt="Curbside fashion Trends: How to Win the Pickup Battle."
                 class="blog-banner" width="300">
             </a>
-          
+
             <div class="blog-content">
-          
+
               <a href="#" class="blog-category">Clothes</a>
-          
+
               <h3>
                 <a href="#" class="blog-title">Curbside fashion Trends: How to Win the Pickup Battle.</a>
               </h3>
-          
+
               <p class="blog-meta">
                 By <cite>Mr Robin</cite> / <time datetime="2022-01-18">Jan 18, 2022</time>
               </p>
-          
+
             </div>
-          
+
           </div>
 
           <div class="blog-card">
-          
+
             <a href="#">
               <img src="./assets/images/blog-3.jpg" alt="EBT vendors: Claim Your Share of SNAP Online Revenue."
                 class="blog-banner" width="300">
             </a>
-          
+
             <div class="blog-content">
-          
+
               <a href="#" class="blog-category">Shoes</a>
-          
+
               <h3>
                 <a href="#" class="blog-title">EBT vendors: Claim Your Share of SNAP Online Revenue.</a>
               </h3>
-          
+
               <p class="blog-meta">
                 By <cite>Mr Selsa</cite> / <time datetime="2022-02-10">Feb 10, 2022</time>
               </p>
-          
+
             </div>
-          
+
           </div>
 
           <div class="blog-card">
-          
+
             <a href="#">
               <img src="./assets/images/blog-4.jpg" alt="Curbside fashion Trends: How to Win the Pickup Battle."
                 class="blog-banner" width="300">
             </a>
-          
+
             <div class="blog-content">
-          
+
               <a href="#" class="blog-category">Electronics</a>
-          
+
               <h3>
                 <a href="#" class="blog-title">Curbside fashion Trends: How to Win the Pickup Battle.</a>
               </h3>
-          
+
               <p class="blog-meta">
                 By <cite>Mr Pawar</cite> / <time datetime="2022-03-15">Mar 15, 2022</time>
               </p>
-          
+
             </div>
-          
+
           </div>
 
         </div>
@@ -3530,10 +3503,6 @@
     </div>
 
   </main>
-
-
-
-
 
   <!--
     - FOOTER
@@ -3563,7 +3532,7 @@
 
         <div class="footer-category-box">
           <h3 class="category-box-title">footwear :</h3>
-        
+
           <a href="#" class="footer-category-link">sport</a>
           <a href="#" class="footer-category-link">formal</a>
           <a href="#" class="footer-category-link">Boots</a>
@@ -3578,7 +3547,7 @@
 
         <div class="footer-category-box">
           <h3 class="category-box-title">jewellery :</h3>
-        
+
           <a href="#" class="footer-category-link">Necklace</a>
           <a href="#" class="footer-category-link">Earrings</a>
           <a href="#" class="footer-category-link">Couple rings</a>
@@ -3594,7 +3563,7 @@
 
         <div class="footer-category-box">
           <h3 class="category-box-title">cosmetics :</h3>
-        
+
           <a href="#" class="footer-category-link">Shampoo</a>
           <a href="#" class="footer-category-link">Bodywash</a>
           <a href="#" class="footer-category-link">Facewash</a>
@@ -3650,87 +3619,87 @@
         </ul>
 
         <ul class="footer-nav-list">
-        
+
           <li class="footer-nav-item">
             <h2 class="nav-title">Products</h2>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Prices drop</a>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">New products</a>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Best sales</a>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Contact us</a>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Sitemap</a>
           </li>
-        
+
         </ul>
 
         <ul class="footer-nav-list">
-        
+
           <li class="footer-nav-item">
             <h2 class="nav-title">Our Company</h2>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Delivery</a>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Legal Notice</a>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Terms and conditions</a>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">About us</a>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Secure payment</a>
           </li>
-        
+
         </ul>
 
         <ul class="footer-nav-list">
-        
+
           <li class="footer-nav-item">
             <h2 class="nav-title">Services</h2>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Prices drop</a>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">New products</a>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Best sales</a>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Contact us</a>
           </li>
-        
+
           <li class="footer-nav-item">
             <a href="#" class="footer-nav-link">Sitemap</a>
           </li>
-        
+
         </ul>
 
         <ul class="footer-nav-list">
@@ -3826,15 +3795,11 @@
 
   </footer>
 
-
-
-
-
-
   <!--
     - custom js link
   -->
   <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/profile.js"></script>
 
   <!--
     - ionicon link
@@ -3850,69 +3815,121 @@
 
     // Add to Cart
     function addToCart(product) {
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const existingItem = cart.find(item => item.id === product.id);
-        
-        if (existingItem) {
-            existingItem.quantity += 1;
-        } else {
-            cart.push({ ...product, quantity: 1 });
-        }
-        
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartCount();
-        setTimeout(function() {
-          window.location.href = 'cart.html';
-        }, 500);
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const existingItem = cart.find(item => item.id === product.id);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      setTimeout(function() {
+        window.location.href = 'cart.html';
+      }, 500);
     }
 
     // Add to Wishlist
     function addToWishlist(product) {
-        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-        const exists = wishlist.find(item => item.id === product.id);
-        
-        if (!exists) {
-            wishlist.push({ ...product, addedDate: new Date().toISOString() });
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            updateWishlistCount();
-        } else {
-            showNotification(`${product.name} is already in your wishlist!`, 'info');
-        }
+      let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      const exists = wishlist.find(item => item.id === product.id);
+
+      if (!exists) {
+        wishlist.push({ ...product, addedDate: new Date().toISOString() });
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        updateWishlistCount();
+        showNotification(`${product.name} added to wishlist! ❤️`);
+      } else {
+        showNotification(`${product.name} is already in your wishlist!`, 'info');
+      }
     }
 
     // Update Cart Count
     function updateCartCount() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-        
-        document.querySelectorAll('.header-user-actions .count, .mobile-bottom-navigation .count')
-            .forEach(badge => {
-                const parent = badge.closest('.action-btn');
-                if (parent && parent.querySelector('ion-icon[name="bag-handle-outline"]')) {
-                    badge.textContent = totalItems;
-                }
-            });
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
+      document.querySelectorAll('.header-user-actions .count-badge, .mobile-bottom-navigation .count-badge')
+        .forEach(badge => {
+          const parent = badge.closest('.action-btn');
+          if (parent && parent.querySelector('ion-icon[name="bag-handle-outline"]')) {
+            badge.textContent = totalItems;
+          }
+        });
     }
 
     // Update Wishlist Count
     function updateWishlistCount() {
-        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-        const totalItems = wishlist.length;
-        
-        document.querySelectorAll('.header-user-actions .count, .mobile-bottom-navigation .count')
-            .forEach(badge => {
-                const parent = badge.closest('.action-btn');
-                if (parent && parent.querySelector('ion-icon[name="heart-outline"]')) {
-                    badge.textContent = totalItems;
-                }
-            });
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      const totalItems = wishlist.length;
+
+      document.querySelectorAll('.header-user-actions .count-badge, .mobile-bottom-navigation .count-badge')
+        .forEach(badge => {
+          const parent = badge.closest('.action-btn');
+          if (parent && parent.querySelector('ion-icon[name="heart-outline"]')) {
+            badge.textContent = totalItems;
+          }
+        });
     }
 
+    // Show Notification
+    function showNotification(message) {
+      const toast = document.querySelector('[data-toast]');
+      if (toast) {
+        const msgElement = toast.querySelector('.toast-message');
+        const titleElement = toast.querySelector('.toast-title');
+        const metaElement = toast.querySelector('.toast-meta');
 
-    // Initialize counts on page load
+        if (msgElement) msgElement.textContent = message;
+        if (titleElement) titleElement.textContent = 'Wishlist Update';
+        if (metaElement) metaElement.innerHTML = '<time datetime="PT0M">Just now</time>';
+
+        toast.classList.add('active');
+        setTimeout(() => toast.classList.remove('active'), 3000);
+      }
+    }
+
+    // ============================================
+    // PROFILE DROPDOWN STATE MANAGEMENT
+    // ============================================
+
+    function updateProfileDropdown() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const dropdownHeader = document.getElementById('dropdownHeader');
+
+      if (user) {
+        dropdownHeader.innerHTML = `
+          <h4 style="font-size: 15px; font-weight: 600; color: #1a1a2e; margin: 0 0 2px 0;">Hello ${user.name || 'User'}</h4>
+          <p style="font-size: 13px; color: #888; margin: 0 0 4px 0;">${user.phone || user.email || ''}</p>
+        `;
+      } else {
+        dropdownHeader.innerHTML = `
+          <h4 style="font-size: 15px; font-weight: 600; color: #1a1a2e; margin: 0 0 2px 0;">Welcome</h4>
+          <p style="font-size: 13px; color: #888; margin: 0 0 10px 0;">To access account and manage orders</p>
+          <button class="login-btn" onclick="window.location.href='login.html'" style="width: 100%; padding: 10px; background: #ff3f6c; color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.3s ease;">
+            LOGIN / SIGNUP
+          </button>
+        `;
+      }
+    }
+
+    // ============================================
+    // INITIALIZE COUNTS ON PAGE LOAD
+    // ============================================
+
     document.addEventListener('DOMContentLoaded', function() {
-        updateCartCount();
-        updateWishlistCount();
+      updateCartCount();
+      updateWishlistCount();
+      updateProfileDropdown();
+    });
+
+    // Re-run on page show (for back/forward navigation)
+    window.addEventListener('pageshow', function() {
+      updateCartCount();
+      updateWishlistCount();
+      updateProfileDropdown();
     });
   </script>
 

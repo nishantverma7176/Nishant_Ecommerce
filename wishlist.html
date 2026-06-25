@@ -2,63 +2,204 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nishant - Wishlist</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nishant – Wishlist</title>
 
   <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Your existing CSS file -->
-  <link rel="stylesheet" href="./assets/css/style-prefix.css" />
+  <!-- Your existing main stylesheet (no new CSS added) -->
+  <link rel="stylesheet" href="./assets/css/style.css" />
 
+  <!-- Tiny inline tweaks only for wishlist-specific alignment – reuses existing classes -->
+  <style>
+    .wishlist-page .section-title {
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--eerie-black);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .wishlist-page .section-title ion-icon {
+      color: var(--salmon-pink);
+      font-size: 30px;
+    }
+
+    /* Wishlist item – uses .showcase as base, with inner spacing */
+    .wishlist-item {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--cultured);
+      transition: background 0.2s;
+    }
+    .wishlist-item:hover {
+      background: rgba(0, 0, 0, 0.01);
+    }
+    .wishlist-item .item-image {
+      flex-shrink: 0;
+      width: 90px;
+      height: 90px;
+      background: #fafafa;
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--cultured);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+    }
+    .wishlist-item .item-image img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .wishlist-item .item-details {
+      flex: 1;
+      min-width: 0;
+    }
+    .wishlist-item .item-category {
+      font-size: var(--fs-10);
+      text-transform: uppercase;
+      color: var(--salmon-pink);
+      font-weight: 500;
+      letter-spacing: 0.4px;
+    }
+    .wishlist-item .item-name {
+      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+      font-weight: 600;
+      color: var(--eerie-black);
+      margin: 2px 0 4px;
+      line-height: 1.3;
+    }
+    .wishlist-item .item-price {
+      font-size: var(--fs-6);
+      font-weight: 700;
+      color: var(--salmon-pink);
+    }
+    .wishlist-item .item-price del {
+      font-weight: 400;
+      color: var(--sonic-silver);
+      margin-left: 8px;
+      font-size: var(--fs-8);
+    }
+    .wishlist-item .item-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .add-to-cart-btn {
+      background: var(--salmon-pink);
+      color: var(--white);
+      border: none;
+      padding: 8px 18px;
+      border-radius: var(--border-radius-md);
+      font-size: var(--fs-8);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .add-to-cart-btn:hover {
+      background: var(--eerie-black);
+      transform: scale(1.03);
+    }
+    .add-to-cart-btn ion-icon {
+      font-size: 18px;
+    }
+    .remove-wishlist-btn {
+      background: transparent;
+      border: none;
+      color: var(--sonic-silver);
+      font-size: 22px;
+      cursor: pointer;
+      transition: color 0.2s;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .remove-wishlist-btn:hover {
+      color: var(--bittersweet);
+    }
+
+    /* Empty state */
+    .empty-wishlist {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .empty-wishlist h3 {
+      font-size: var(--fs-2);
+      font-weight: 600;
+      color: var(--eerie-black);
+      margin-bottom: 8px;
+    }
+    .empty-wishlist p {
+      color: var(--sonic-silver);
+      margin-bottom: 24px;
+    }
+    .empty-wishlist .banner-btn {
+      display: inline-block;
+      padding: 10px 32px;
+    }
+
+    /* Product box full width */
+    .product-box {
+      width: 100%;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 600px) {
+      .wishlist-item {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .wishlist-item .item-image {
+        width: 70px;
+        height: 70px;
+      }
+      .wishlist-item .item-actions {
+        margin-left: auto;
+      }
+      .add-to-cart-btn {
+        padding: 6px 12px;
+        font-size: var(--fs-10);
+      }
+      .add-to-cart-btn ion-icon {
+        font-size: 14px;
+      }
+    }
+    @media (max-width: 420px) {
+      .wishlist-item .item-actions {
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+        justify-content: flex-end;
+      }
+      .add-to-cart-btn {
+        flex: 1;
+        justify-content: center;
+        min-width: 100px;
+      }
+    }
+  </style>
 </head>
 <body>
 
   <!-- OVERLAY -->
   <div class="overlay" data-overlay></div>
 
-  <!-- MODAL -->
-  <div class="modal" data-modal>
-    <div class="modal-close-overlay" data-modal-overlay></div>
-    <div class="modal-content">
-      <button class="modal-close-btn" data-modal-close>
-        <ion-icon name="close-outline"></ion-icon>
-      </button>
-      <div class="newsletter-img">
-        <img src="./assets/images/newsletter.png" alt="subscribe newsletter" width="400" height="400">
-      </div>
-      <div class="newsletter">
-        <form action="#">
-          <div class="newsletter-header">
-            <h3 class="newsletter-title">Subscribe Newsletter.</h3>
-            <p class="newsletter-desc">Subscribe the <b>Nishant</b> to get latest products and discount update.</p>
-          </div>
-          <input type="email" name="email" class="email-field" placeholder="Email Address" required>
-          <button type="submit" class="btn-newsletter">Subscribe</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- NOTIFICATION TOAST -->
-  <div class="notification-toast" data-toast>
-    <button class="toast-close-btn" data-toast-close>
-      <ion-icon name="close-outline"></ion-icon>
-    </button>
-    <div class="toast-banner">
-      <img src="./assets/images/products/jewellery-1.jpg" alt="Rose Gold Earrings" width="80" height="70">
-    </div>
-    <div class="toast-detail">
-      <p class="toast-message">Someone in new just bought</p>
-      <p class="toast-title">Rose Gold Earrings</p>
-      <p class="toast-meta"><time datetime="PT2M">2 Minutes</time> ago</p>
-    </div>
-  </div>
-
-  <!-- HEADER -->
+  <!-- ===== HEADER (same as your original) ===== -->
   <header>
+    <!-- Header Top -->
     <div class="header-top">
       <div class="container">
         <ul class="header-social-container">
@@ -84,31 +225,95 @@
       </div>
     </div>
 
+    <!-- Header Main -->
     <div class="header-main">
       <div class="container">
-        <a href="index.html" class="header-logo">
-          Nishant
-        </a>
+        <a href="index.html" class="header-logo">Nishant</a>
         <div class="header-search-container">
           <input type="search" name="search" class="search-field" placeholder="Enter your product name...">
           <button class="search-btn"><ion-icon name="search-outline"></ion-icon></button>
         </div>
         <div class="header-user-actions">
-          <button class="action-btn"><ion-icon name="person-outline"></ion-icon></button>
-          <button class="action-btn" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon><span class="count">0</span></button>
-          <button class="action-btn" onclick="window.location.href='cart.html'"><ion-icon name="bag-handle-outline"></ion-icon><span class="count">0</span></button>
+          <!-- Profile Dropdown -->
+          <div class="profile-dropdown">
+            <button class="action-btn profile-btn" id="profileBtn">
+              <ion-icon name="person-outline"></ion-icon>
+            </button>
+            <div class="dropdown-menu" id="loggedOutMenu">
+              <div class="dropdown-header">
+                <h4>Welcome</h4>
+                <p>To access account and manage orders</p>
+                <button class="login-btn" onclick="loginUser()">LOGIN / SIGNUP</button>
+              </div>
+              <ul class="dropdown-list">
+                <li><a href="#"><ion-icon name="bag-outline"></ion-icon> Orders</a></li>
+                <li><a href="#" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon> Wishlist</a></li>
+                <li><a href="#"><ion-icon name="gift-outline"></ion-icon> Gift Cards</a></li>
+                <li><a href="#"><ion-icon name="call-outline"></ion-icon> Contact Us</a></li>
+                <li><a href="#"><ion-icon name="star-outline"></ion-icon> Myntra Insider <span class="badge-new">New</span></a></li>
+              </ul>
+              <hr class="dropdown-divider">
+              <ul class="dropdown-list">
+                <li><a href="#"><ion-icon name="card-outline"></ion-icon> Myntra Credit</a></li>
+                <li><a href="#"><ion-icon name="pricetag-outline"></ion-icon> Coupons</a></li>
+                <li><a href="#"><ion-icon name="wallet-outline"></ion-icon> Saved Cards</a></li>
+                <li><a href="#"><ion-icon name="phone-portrait-outline"></ion-icon> Saved VPA</a></li>
+                <li><a href="#"><ion-icon name="location-outline"></ion-icon> Saved Addresses</a></li>
+              </ul>
+            </div>
+            <div class="dropdown-menu" id="loggedInMenu" style="display: none;">
+              <div class="dropdown-header">
+                <h4 id="userName">Hello Mayank</h4>
+                <p id="userPhone">8449079775</p>
+              </div>
+              <ul class="dropdown-list">
+                <li><a href="#"><ion-icon name="bag-outline"></ion-icon> Orders</a></li>
+                <li><a href="#" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon> Wishlist</a></li>
+                <li><a href="#"><ion-icon name="gift-outline"></ion-icon> Gift Cards</a></li>
+                <li><a href="#"><ion-icon name="call-outline"></ion-icon> Contact Us</a></li>
+                <li><a href="#"><ion-icon name="star-outline"></ion-icon> Myntra Insider <span class="badge-new">New</span></a></li>
+              </ul>
+              <hr class="dropdown-divider">
+              <ul class="dropdown-list">
+                <li><a href="#"><ion-icon name="card-outline"></ion-icon> Myntra Credit</a></li>
+                <li><a href="#"><ion-icon name="pricetag-outline"></ion-icon> Coupons</a></li>
+                <li><a href="#"><ion-icon name="wallet-outline"></ion-icon> Saved Cards</a></li>
+                <li><a href="#"><ion-icon name="phone-portrait-outline"></ion-icon> Saved VPA</a></li>
+                <li><a href="#"><ion-icon name="location-outline"></ion-icon> Saved Addresses</a></li>
+              </ul>
+              <hr class="dropdown-divider">
+              <ul class="dropdown-list">
+                <li><a href="#"><ion-icon name="create-outline"></ion-icon> Edit Profile</a></li>
+                <li><a href="#" class="logout-link" onclick="logoutUser()"><ion-icon name="log-out-outline"></ion-icon> Logout</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Wishlist -->
+          <button class="action-btn" onclick="window.location.href='wishlist.html'">
+            <ion-icon name="heart-outline"></ion-icon>
+            <span class="count-badge">0</span>
+          </button>
+
+          <!-- Cart -->
+          <button class="action-btn" onclick="window.location.href='cart.html'">
+            <ion-icon name="bag-handle-outline"></ion-icon>
+            <span class="count-badge">0</span>
+          </button>
         </div>
       </div>
     </div>
 
+    <!-- Mobile bottom nav -->
     <div class="mobile-bottom-navigation">
       <button class="action-btn" data-mobile-menu-open-btn><ion-icon name="menu-outline"></ion-icon></button>
-      <button class="action-btn" onclick="window.location.href='cart.html'"><ion-icon name="bag-handle-outline"></ion-icon><span class="count">0</span></button>
+      <button class="action-btn" onclick="window.location.href='cart.html'"><ion-icon name="bag-handle-outline"></ion-icon><span class="count-badge">0</span></button>
       <button class="action-btn" onclick="window.location.href='index.html'"><ion-icon name="home-outline"></ion-icon></button>
-      <button class="action-btn" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon><span class="count">0</span></button>
+      <button class="action-btn" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon><span class="count-badge">0</span></button>
       <button class="action-btn" data-mobile-menu-open-btn><ion-icon name="grid-outline"></ion-icon></button>
     </div>
 
+    <!-- Mobile slide menu -->
     <nav class="mobile-navigation-menu has-scrollbar" data-mobile-menu>
       <div class="menu-top">
         <h2 class="menu-title">Menu</h2>
@@ -155,26 +360,27 @@
     </nav>
   </header>
 
-  <!-- MAIN - WISHLIST PAGE -->
-  <main>
-    <div class="container" style="padding: 40px 20px;">
-      <h2 class="section-title" style="font-size: 28px; font-weight: 700; margin-bottom: 28px;">❤️ Your Wishlist</h2>
+  <!-- ===== MAIN: WISHLIST PAGE ===== -->
+  <main class="wishlist-page">
+    <div class="container">
+      <h2 class="section-title">
+        <ion-icon name="heart-outline"></ion-icon> Your Wishlist
+      </h2>
 
       <div class="product-container">
-        <div class="container" style="padding: 0;">
+        <div class="container" style="padding:0;">
+          <div class="product-box">
 
-          <div class="product-box" style="width: 100%;">
-            
-            <!-- Empty Wishlist Message -->
-            <div id="empty-wishlist" style="text-align: center; padding: 60px 20px; display: none;">
-              <h3 style="font-size: 24px; margin-bottom: 8px;">Your wishlist is empty!</h3>
-              <p style="color: #888; margin-bottom: 24px;">Start adding items you love.</p>
-              <a href="index.html" class="banner-btn" style="display: inline-block;">Start Shopping</a>
+            <!-- Empty Wishlist State -->
+            <div id="empty-wishlist" class="empty-wishlist" style="display:none;">
+              <h3>💔 Your wishlist is empty</h3>
+              <p>Start adding items you love and save them here.</p>
+              <a href="index.html" class="banner-btn">Start Shopping</a>
             </div>
 
             <!-- Wishlist Items Container -->
             <div id="wishlist-items-container">
-              <!-- Items will be dynamically rendered here -->
+              <!-- Items will be rendered by JavaScript -->
             </div>
 
           </div>
@@ -183,7 +389,7 @@
     </div>
   </main>
 
-  <!-- FOOTER -->
+  <!-- ===== FOOTER ===== -->
   <footer>
     <div class="footer-category">
       <div class="container">
@@ -267,186 +473,175 @@
     </div>
   </footer>
 
-  <!-- ION ICONS -->
+  <!-- ===== IONICONS ===== -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-  <!-- Your existing JS file -->
+  <!-- ===== YOUR EXISTING JS FILES ===== -->
   <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/profile.js"></script>
 
-  <!-- Wishlist JavaScript -->
+  <!-- ===== WISHLIST PAGE JAVASCRIPT ===== -->
   <script>
-    // ============================================
-    // RENDER WISHLIST ITEMS
-    // ============================================
+    // ------------------------------------------------------------------
+    // WISHLIST FUNCTIONALITY – uses localStorage, reuses your existing style
+    // ------------------------------------------------------------------
+
+    // Render all wishlist items
     function renderWishlistItems() {
-        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-        const container = document.getElementById('wishlist-items-container');
-        const emptyWishlist = document.getElementById('empty-wishlist');
-        
-        container.innerHTML = '';
-        
-        if (wishlist.length === 0) {
-            emptyWishlist.style.display = 'block';
-            return;
-        }
-        
-        emptyWishlist.style.display = 'none';
-        
-        wishlist.forEach((item, index) => {
-            const wishlistItem = createWishlistItemHTML(item, index);
-            container.appendChild(wishlistItem);
-        });
-    }
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      const container = document.getElementById('wishlist-items-container');
+      const emptyEl = document.getElementById('empty-wishlist');
 
-    // ============================================
-    // CREATE WISHLIST ITEM HTML
-    // ============================================
-    function createWishlistItemHTML(item, index) {
+      container.innerHTML = '';
+
+      if (wishlist.length === 0) {
+        emptyEl.style.display = 'block';
+        updateWishlistCount();
+        return;
+      }
+
+      emptyEl.style.display = 'none';
+
+      wishlist.forEach((item, index) => {
         const div = document.createElement('div');
-        div.className = 'showcase';
-        div.style.cssText = 'display: flex; align-items: center; gap: 20px; padding: 20px 0; border-bottom: 1px solid #eef2f6; margin-bottom: 0;';
-        
+        div.className = 'wishlist-item';
+
         div.innerHTML = `
-            <div class="showcase-banner" style="flex-shrink: 0;">
-                <img src="${item.image || './assets/images/products/default.jpg'}" 
-                     alt="${item.name}" 
-                     width="100" 
-                     height="100" 
-                     style="object-fit: contain; border-radius: 12px; background: #fafafa; padding: 6px;">
+          <div class="item-image">
+            <img src="${item.image || './assets/images/products/default.jpg'}" alt="${item.name}">
+          </div>
+          <div class="item-details">
+            <div class="item-category">${item.category || 'Product'}</div>
+            <div class="item-name">${item.name}</div>
+            <div class="item-price">
+              $${Number(item.price).toFixed(2)}
             </div>
-            <div class="showcase-content" style="flex: 1;">
-                <a href="#" class="showcase-category">${item.category || 'Product'}</a>
-                <h3 class="showcase-title" style="font-size: 18px; font-weight: 600; margin: 4px 0;">${item.name}</h3>
-                <div class="price-box">
-                    <p class="price">$${item.price.toFixed(2)}</p>
-                </div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 16px;">
-                <button class="add-to-cart-btn" data-index="${index}" style="background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px;">
-                    🛒 Add to Cart
-                </button>
-                <button class="remove-btn" data-index="${index}" style="background: none; border: none; color: #ff4444; font-size: 24px; cursor: pointer;">
-                    <ion-icon name="trash-outline"></ion-icon>
-                </button>
-            </div>
+          </div>
+          <div class="item-actions">
+            <button class="add-to-cart-btn" data-index="${index}">
+              <ion-icon name="cart-outline"></ion-icon> Add to Cart
+            </button>
+            <button class="remove-wishlist-btn" data-index="${index}">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
         `;
-        
-        // Add to Cart from Wishlist
-        div.querySelector('.add-to-cart-btn').addEventListener('click', function() {
-            moveToCart(index);
+
+        container.appendChild(div);
+      });
+
+      // Attach event listeners
+      container.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const idx = parseInt(this.dataset.index);
+          moveToCart(idx);
         });
-        
-        // Remove from Wishlist
-        div.querySelector('.remove-btn').addEventListener('click', function() {
-            removeFromWishlist(index);
+      });
+      container.querySelectorAll('.remove-wishlist-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const idx = parseInt(this.dataset.index);
+          removeFromWishlist(idx);
         });
-        
-        return div;
+      });
+
+      updateWishlistCount();
     }
 
-    // ============================================
-    // MOVE ITEM FROM WISHLIST TO CART
-    // ============================================
+    // Move item from wishlist to cart
     function moveToCart(index) {
-        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        
-        if (wishlist[index]) {
-            const item = wishlist[index];
-            
-            // Check if already in cart
-            const existingItem = cart.find(cartItem => cartItem.id === item.id);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ ...item, quantity: 1 });
-            }
-            
-            // Remove from wishlist
-            wishlist.splice(index, 1);
-            
-            localStorage.setItem('cart', JSON.stringify(cart));
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            
-            renderWishlistItems();
-            updateCartCount();
-            updateWishlistCount();
-            showNotification(`${item.name} moved to cart! 🛒`);
-        }
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      if (!wishlist[index]) return;
+
+      const item = wishlist[index];
+      const existing = cart.find(cartItem => cartItem.id === item.id);
+
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ ...item, quantity: 1 });
+      }
+
+      wishlist.splice(index, 1);
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+
+      renderWishlistItems();
+      updateCartCount();
+      showToast(`${item.name} moved to cart! 🛒`);
     }
 
-    // ============================================
-    // REMOVE FROM WISHLIST
-    // ============================================
+    // Remove from wishlist
     function removeFromWishlist(index) {
-        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-        const itemName = wishlist[index]?.name || 'Item';
-        wishlist.splice(index, 1);
-        localStorage.setItem('wishlist', JSON.stringify(wishlist));
-        renderWishlistItems();
-        updateWishlistCount();
-        showNotification(`${itemName} removed from wishlist`);
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      if (!wishlist[index]) return;
+      const itemName = wishlist[index].name;
+      wishlist.splice(index, 1);
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      renderWishlistItems();
+      showToast(`${itemName} removed from wishlist`);
     }
 
-    // ============================================
-    // UPDATE WISHLIST COUNT
-    // ============================================
+    // Update wishlist badge count
     function updateWishlistCount() {
-        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-        const totalItems = wishlist.length;
-        
-        document.querySelectorAll('.header-user-actions .count, .mobile-bottom-navigation .count')
-            .forEach(badge => {
-                const parent = badge.closest('.action-btn');
-                if (parent && parent.querySelector('ion-icon[name="heart-outline"]')) {
-                    badge.textContent = totalItems;
-                }
-            });
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      const total = wishlist.length;
+
+      document.querySelectorAll('.header-user-actions .count-badge, .mobile-bottom-navigation .count-badge')
+        .forEach(badge => {
+          const parent = badge.closest('.action-btn');
+          if (parent && parent.querySelector('ion-icon[name="heart-outline"]')) {
+            badge.textContent = total;
+          }
+        });
     }
 
-    // ============================================
-    // UPDATE CART COUNT
-    // ============================================
+    // Update cart badge count
     function updateCartCount() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        
-        document.querySelectorAll('.header-user-actions .count, .mobile-bottom-navigation .count')
-            .forEach(badge => {
-                const parent = badge.closest('.action-btn');
-                if (parent && parent.querySelector('ion-icon[name="bag-handle-outline"]')) {
-                    badge.textContent = totalItems;
-                }
-            });
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const total = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
+      document.querySelectorAll('.header-user-actions .count-badge, .mobile-bottom-navigation .count-badge')
+        .forEach(badge => {
+          const parent = badge.closest('.action-btn');
+          if (parent && parent.querySelector('ion-icon[name="bag-handle-outline"]')) {
+            badge.textContent = total;
+          }
+        });
     }
 
-    // ============================================
-    // SHOW NOTIFICATION
-    // ============================================
-    function showNotification(message) {
-        const toast = document.querySelector('[data-toast]');
-        if (toast) {
-            const msgElement = toast.querySelector('.toast-message');
-            const titleElement = toast.querySelector('.toast-title');
-            const metaElement = toast.querySelector('.toast-meta');
-            
-            if (msgElement) msgElement.textContent = message;
-            if (titleElement) titleElement.textContent = 'Wishlist Update';
-            if (metaElement) metaElement.innerHTML = '<time datetime="PT0M">Just now</time>';
-            
-            toast.classList.add('active');
-            setTimeout(() => toast.classList.remove('active'), 3000);
-        }
+    // Toast notification (reuses existing notification-toast)
+    function showToast(message) {
+      const toast = document.querySelector('[data-toast]');
+      if (!toast) return;
+      const msgEl = toast.querySelector('.toast-message');
+      const titleEl = toast.querySelector('.toast-title');
+      const metaEl = toast.querySelector('.toast-meta');
+      if (msgEl) msgEl.textContent = message;
+      if (titleEl) titleEl.textContent = 'Wishlist Update';
+      if (metaEl) metaEl.innerHTML = '<time datetime="PT0M">Just now</time>';
+      toast.classList.add('active');
+      clearTimeout(toast._timeout);
+      toast._timeout = setTimeout(() => toast.classList.remove('active'), 3000);
     }
 
-    // ============================================
-    // INITIALIZE ON PAGE LOAD
-    // ============================================
+    // Dummy login/logout functions
+    // function loginUser() { alert('Login/Signup functionality coming soon!'); }
+    // function logoutUser() { alert('Logout functionality coming soon!'); }
+
+    // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
-        renderWishlistItems();
-        updateWishlistCount();
-        updateCartCount();
+      renderWishlistItems();
+      updateCartCount();
+    });
+
+    // Re-render on page show (back/forward)
+    window.addEventListener('pageshow', function() {
+      renderWishlistItems();
+      updateCartCount();
     });
   </script>
 

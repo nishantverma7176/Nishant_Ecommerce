@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nishant - Login / Signup</title>
+
+  <!-- custom css link -->
+  <link rel="stylesheet" href="./assets/css/style.css">
+
+  <!-- google font link -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Tiny inline styles – all colours, fonts and spacing reuse your existing CSS variables -->
+  <style>
+    /* ---- Login page specific enhancements (all colours from :root) ---- */
+    .login-page {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      background: #f8f9fa;
+    }
+
+    .login-card {
+      background: var(--white);
+      border-radius: var(--border-radius-md);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+      padding: 40px 32px;
+      max-width: 440px;
+      width: 100%;
+      transition: all 0.3s ease;
+      border: 1px solid var(--cultured);
+    }
+
+    .login-card .brand {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .login-card .brand h1 {
+      font-size: var(--fs-2);
+      font-weight: 800;
+      color: var(--eerie-black);
+      letter-spacing: 1px;
+    }
+    .login-card .brand p {
+      color: var(--sonic-silver);
+      font-size: var(--fs-7);
+      margin-top: 4px;
+    }
+
+    /* Tabs */
+    .auth-tabs {
+      display: flex;
+      border-bottom: 2px solid var(--cultured);
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 10px 0;
+      background: none;
+      border: none;
+      font-size: var(--fs-6);
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      color: var(--sonic-silver);
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    .auth-tab.active {
+      color: var(--eerie-black);
+    }
+    .auth-tab-underline {
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 50%;
+      height: 2px;
+      background: var(--salmon-pink);
+      transition: all 0.3s ease;
+    }
+
+    /* Form elements – reuse existing input styling */
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: var(--fs-8);
+      font-weight: 500;
+      color: var(--eerie-black);
+      margin-bottom: 4px;
+    }
+    .form-group .input-wrapper {
+      position: relative;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--cultured);
+      border-radius: var(--border-radius-sm);
+      font-size: var(--fs-7);
+      font-family: 'Poppins', sans-serif;
+      background: #fafafa;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+    .form-group input:focus {
+      border-color: var(--salmon-pink);
+      outline: none;
+      background: var(--white);
+    }
+    .form-group input.error {
+      border-color: var(--bittersweet);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--sonic-silver);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .password-toggle:hover {
+      color: var(--eerie-black);
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .form-options label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--fs-8);
+      color: var(--sonic-silver);
+      cursor: pointer;
+    }
+    .form-options label input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--salmon-pink);
+      cursor: pointer;
+    }
+    .form-options a {
+      color: var(--salmon-pink);
+      text-decoration: none;
+      font-size: var(--fs-8);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .form-options a:hover {
+      color: var(--eerie-black);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: var(--salmon-pink);
+      color: var(--white);
+      border: none;
+      border-radius: var(--border-radius-sm);
+      font-size: var(--fs-6);
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: var(--eerie-black);
+      transform: scale(1.01);
+    }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-primary .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top: 2px solid var(--white);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 22px 0 18px;
+    }
+    .divider span {
+      flex: 1;
+      height: 1px;
+      background: var(--cultured);
+    }
+    .divider p {
+      font-size: var(--fs-9);
+      color: var(--sonic-silver);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .social-login {
+      display: flex;
+      gap: 12px;
+    }
+    .social-btn {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1.5px solid var(--cultured);
+      border-radius: var(--border-radius-sm);
+      background: var(--white);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: var(--fs-8);
+      font-weight: 500;
+      font-family: 'Poppins', sans-serif;
+      color: var(--eerie-black);
+    }
+    .social-btn:hover {
+      border-color: var(--salmon-pink);
+      background: #fff5f7;
+    }
+    .social-btn svg {
+      flex-shrink: 0;
+    }
+
+    .auth-switch {
+      text-align: center;
+      margin-top: 18px;
+      font-size: var(--fs-8);
+      color: var(--sonic-silver);
+    }
+    .auth-switch a {
+      color: var(--salmon-pink);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .auth-switch a:hover {
+      color: var(--eerie-black);
+    }
+
+    .error-message {
+      color: var(--bittersweet);
+      font-size: var(--fs-9);
+      margin-top: 4px;
+      display: none;
+    }
+    .error-message.show {
+      display: block;
+    }
+
+    /* Responsive */
+    @media (max-width: 500px) {
+      .login-card {
+        padding: 28px 18px;
+        margin: 0 8px;
+      }
+      .login-card .brand h1 {
+        font-size: var(--fs-3);
+      }
+      .social-login {
+        flex-direction: column;
+      }
+      .social-btn {
+        justify-content: center;
+      }
+      .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+    @media (max-width: 380px) {
+      .login-card {
+        padding: 20px 14px;
+      }
+      .auth-tab {
+        font-size: var(--fs-7);
+        padding: 8px 0;
+      }
+      .form-group input {
+        font-size: var(--fs-8);
+        padding: 8px 12px;
+      }
+      .btn-primary {
+        font-size: var(--fs-7);
+        padding: 10px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-top">
+      <div class="container">
+        <ul class="header-social-container">
+          <li><a href="#" class="social-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
+          <li><a href="http://x.com/NVerma26289" class="social-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
+          <li><a href="https://www.instagram.com/verma.mr.nishant/" class="social-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
+          <li><a href="https://www.linkedin.com/in/nishant-verma-41181428b/" class="social-link"><ion-icon name="logo-linkedin"></ion-icon></a></li>
+        </ul>
+        <div class="header-alert-news">
+          <p><b>Free Shipping</b> This Week Order Over - $55</p>
+        </div>
+        <div class="header-top-actions">
+          <select name="currency">
+            <option value="usd">USD &dollar;</option>
+            <option value="rup">RUP &#8377;</option>
+          </select>
+          <select name="language">
+            <option value="en-US">English</option>
+            <option value="es-ES">Espa&ntilde;ol</option>
+            <option value="fr">Fran&ccedil;ais</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-main">
+      <div class="container">
+        <a href="index.html" class="header-logo">Nishant</a>
+        <div class="header-search-container">
+          <input type="search" name="search" class="search-field" placeholder="Enter your product name...">
+          <button class="search-btn"><ion-icon name="search-outline"></ion-icon></button>
+        </div>
+        <div class="header-user-actions">
+          <button class="action-btn" onclick="window.location.href='login.html'">
+            <ion-icon name="person-outline"></ion-icon>
+          </button>
+          <button class="action-btn" onclick="window.location.href='wishlist.html'">
+            <ion-icon name="heart-outline"></ion-icon>
+            <span class="count-badge">0</span>
+          </button>
+          <button class="action-btn" onclick="window.location.href='cart.html'">
+            <ion-icon name="bag-handle-outline"></ion-icon>
+            <span class="count-badge">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN - LOGIN PAGE -->
+  <main class="login-page">
+    <div class="login-card">
+
+      <!-- Brand -->
+      <div class="brand">
+        <h1>Nishant</h1>
+        <p>Welcome back! Please login to your account</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="loginTab" onclick="switchTab('login')">Login</button>
+        <button class="auth-tab" id="signupTab" onclick="switchTab('signup')">Signup</button>
+        <div class="auth-tab-underline" id="tabUnderline"></div>
+      </div>
+
+      <!-- ===== LOGIN FORM ===== -->
+      <div id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" placeholder="Enter your email" autocomplete="email">
+          <div class="error-message" id="loginEmailError">Please enter a valid email</div>
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password">
+            <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)" aria-label="Toggle password visibility">
+              <ion-icon name="eye-outline"></ion-icon>
+            </button>
+          </div>
+          <div class="error-message" id="loginPasswordError">Please enter your password</div>
+        </div>
+
+        <div class="form-options">
+          <label>
+            <input type="checkbox" id="rememberMe"> Remember me
+          </label>
+          <a href="#" onclick="alert('Password reset functionality coming soon!')">Forgot Password?</a>
+        </div>
+
+        <button class="btn-primary" id="loginBtn" onclick="handleLogin()">
+          Login
+        </button>
+      </div>
+
+      <!-- ===== SIGNUP FORM ===== -->
+      <div id="signupForm" style="display: none;">
+        <div class="form-group">
+          <label for="signupName">Full Name</label>
+          <input type="text" id="signupName" placeholder="Enter your full name" autocomplete="name">
+          <div class="error-message" id="signupNameError">Please enter your name</div>
+        </div>
+
+        <div class="form-group">
+          <label for="signupEmail">Email Address</label>
+          <input type="email" id="signupEmail" placeholder="Enter your email" autocomplete="email">
+          <div class="error-message" id="signupEmailError">Please enter a valid email</div>
+        </div>
+
+        <div class="form-group">
+          <label for="signupPhone">Phone Number</label>
+          <input type="tel" id="signupPhone" placeholder="Enter your phone number" autocomplete="tel">
+          <div class="error-message" id="signupPhoneError">Please enter a phone number</div>
+        </div>
+
+        <div class="form-group">
+          <label for="signupPassword">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="signupPassword" placeholder="Create a password (min 8 chars)" autocomplete="new-password">
+            <button type="button" class="password-toggle" onclick="togglePassword('signupPassword', this)" aria-label="Toggle password visibility">
+              <ion-icon name="eye-outline"></ion-icon>
+            </button>
+          </div>
+          <div class="error-message" id="signupPasswordError">Password must be at least 8 characters</div>
+        </div>
+
+        <button class="btn-primary" id="signupBtn" onclick="handleSignup()">
+          Create Account
+        </button>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span></span>
+        <p>OR</p>
+        <span></span>
+      </div>
+
+      <!-- Social Login -->
+      <div class="social-login">
+        <button class="social-btn" onclick="handleGoogleLogin()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59A14.5 14.5 0 0 1 9.5 24c0-1.59.28-3.14.76-4.59l-7.98-6.19A23.99 23.99 0 0 0 0 24c0 3.77.87 7.35 2.56 10.56l7.97-5.97z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 5.97C6.51 42.62 14.62 48 24 48z"/></svg>
+          Google
+        </button>
+        <button class="social-btn" onclick="handleGitHubLogin()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"><path fill="#181717" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </button>
+      </div>
+
+      <!-- Switch links -->
+      <div class="auth-switch" id="signupLink">
+        Don't have an account? <a href="#" onclick="switchTab('signup')">Sign Up</a>
+      </div>
+      <div class="auth-switch" id="loginLink" style="display: none;">
+        Already have an account? <a href="#" onclick="switchTab('login')">Login</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ION ICONS -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- CLERK SCRIPTS -->
+  <script defer crossorigin="anonymous" src="https://adequate-heron-66.clerk.accounts.dev/npm/@clerk/ui@1/dist/ui.browser.js" type="text/javascript"></script>
+  <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_test_YWRlcXVhdGUtaGVyb24tNjYuY2xlcmsuYWNjb3VudHMuZGV2JA" src="https://adequate-heron-66.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js" type="text/javascript"></script>
+
+  <!-- Login JavaScript -->
+  <script>
+    // ============================================
+    // TAB SWITCHING
+    // ============================================
+    function switchTab(tab) {
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      const loginLink = document.getElementById('loginLink');
+      const signupLink = document.getElementById('signupLink');
+      const loginTab = document.getElementById('loginTab');
+      const signupTab = document.getElementById('signupTab');
+      const underline = document.getElementById('tabUnderline');
+
+      if (tab === 'login') {
+        loginForm.style.display = 'block';
+        signupForm.style.display = 'none';
+        loginLink.style.display = 'none';
+        signupLink.style.display = 'block';
+        loginTab.classList.add('active');
+        signupTab.classList.remove('active');
+        underline.style.left = '0';
+        underline.style.width = '50%';
+        // Clear any signup errors
+        clearErrors('signup');
+      } else {
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+        loginLink.style.display = 'block';
+        signupLink.style.display = 'none';
+        signupTab.classList.add('active');
+        loginTab.classList.remove('active');
+        underline.style.left = '50%';
+        underline.style.width = '50%';
+        clearErrors('login');
+      }
+    }
+
+    // ============================================
+    // PASSWORD TOGGLE
+    // ============================================
+    function togglePassword(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon = btn.querySelector('ion-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.name = 'eye-off-outline';
+      } else {
+        input.type = 'password';
+        icon.name = 'eye-outline';
+      }
+    }
+
+    // ============================================
+    // ERROR HELPERS
+    // ============================================
+    function showError(elementId) {
+      const el = document.getElementById(elementId);
+      if (el) el.classList.add('show');
+    }
+
+    function hideError(elementId) {
+      const el = document.getElementById(elementId);
+      if (el) el.classList.remove('show');
+    }
+
+    function clearErrors(prefix) {
+      document.querySelectorAll(`#${prefix}Form .error-message`).forEach(el => el.classList.remove('show'));
+      document.querySelectorAll(`#${prefix}Form input`).forEach(el => el.classList.remove('error'));
+    }
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    // ============================================
+    // WAIT FOR CLERK
+    // ============================================
+    function waitForClerk() {
+      return new Promise((resolve) => {
+        if (window.Clerk) { resolve(window.Clerk); return; }
+        document.addEventListener('clerk-loaded', function() { resolve(window.Clerk); });
+        let attempts = 0;
+        const interval = setInterval(() => {
+          attempts++;
+          if (window.Clerk) { clearInterval(interval); resolve(window.Clerk); }
+          if (attempts > 50) { clearInterval(interval); resolve(null); }
+        }, 200);
+      });
+    }
+
+    // ============================================
+    // HANDLE LOGIN
+    // ============================================
+    async function handleLogin() {
+      const email = document.getElementById('loginEmail');
+      const password = document.getElementById('loginPassword');
+      const btn = document.getElementById('loginBtn');
+      let valid = true;
+
+      // Validate
+      if (!email.value || !validateEmail(email.value)) {
+        email.classList.add('error');
+        showError('loginEmailError');
+        valid = false;
+      } else {
+        email.classList.remove('error');
+        hideError('loginEmailError');
+      }
+
+      if (!password.value || password.value.length < 6) {
+        password.classList.add('error');
+        showError('loginPasswordError');
+        valid = false;
+      } else {
+        password.classList.remove('error');
+        hideError('loginPasswordError');
+      }
+
+      if (!valid) return;
+
+      // Show loading
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Logging in...';
+
+      const Clerk = await waitForClerk();
+      if (!Clerk) {
+        btn.disabled = false;
+        btn.textContent = 'Login';
+        alert('Clerk is not available. Please refresh the page.');
+        return;
+      }
+
+      try {
+        const result = await Clerk.signIn.create({
+          identifier: email.value,
+          password: password.value,
+        });
+
+        if (result.status === 'complete') {
+          const user = result.user;
+          const userData = {
+            name: user.firstName || user.emailAddresses[0].emailAddress.split('@')[0] || 'User',
+            email: user.emailAddresses[0].emailAddress,
+            phone: user.phoneNumbers[0]?.phoneNumber || 'N/A'
+          };
+          localStorage.setItem('user', JSON.stringify(userData));
+          // Show success then redirect
+          btn.innerHTML = '✅ Success!';
+          btn.style.background = '#4CAF50';
+          setTimeout(() => { window.location.href = 'index.html'; }, 800);
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Login';
+          alert('Please complete the sign-in process.');
+        }
+      } catch (error) {
+        btn.disabled = false;
+        btn.textContent = 'Login';
+        console.error('Login error:', error);
+        alert('Login failed: ' + (error.message || 'Please check your credentials.'));
+      }
+    }
+
+    // ============================================
+    // HANDLE SIGNUP
+    // ============================================
+    async function handleSignup() {
+      const name = document.getElementById('signupName');
+      const email = document.getElementById('signupEmail');
+      const phone = document.getElementById('signupPhone');
+      const password = document.getElementById('signupPassword');
+      const btn = document.getElementById('signupBtn');
+      let valid = true;
+
+      // Validate
+      if (!name.value || name.value.trim().length < 2) {
+        name.classList.add('error');
+        showError('signupNameError');
+        valid = false;
+      } else {
+        name.classList.remove('error');
+        hideError('signupNameError');
+      }
+
+      if (!email.value || !validateEmail(email.value)) {
+        email.classList.add('error');
+        showError('signupEmailError');
+        valid = false;
+      } else {
+        email.classList.remove('error');
+        hideError('signupEmailError');
+      }
+
+      if (!phone.value || phone.value.trim().length < 10) {
+        phone.classList.add('error');
+        showError('signupPhoneError');
+        valid = false;
+      } else {
+        phone.classList.remove('error');
+        hideError('signupPhoneError');
+      }
+
+      if (!password.value || password.value.length < 8) {
+        password.classList.add('error');
+        showError('signupPasswordError');
+        valid = false;
+      } else {
+        password.classList.remove('error');
+        hideError('signupPasswordError');
+      }
+
+      if (!valid) return;
+
+      // Show loading
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Creating account...';
+
+      const Clerk = await waitForClerk();
+      if (!Clerk) {
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+        alert('Clerk is not available. Please refresh the page.');
+        return;
+      }
+
+      try {
+        const result = await Clerk.signUp.create({
+          firstName: name.value.trim(),
+          emailAddress: email.value,
+          phoneNumber: phone.value,
+          password: password.value,
+        });
+
+        if (result.status === 'complete') {
+          const userData = {
+            name: name.value.trim(),
+            email: email.value,
+            phone: phone.value
+          };
+          localStorage.setItem('user', JSON.stringify(userData));
+          btn.innerHTML = '✅ Account created!';
+          btn.style.background = '#4CAF50';
+          setTimeout(() => { window.location.href = 'index.html'; }, 800);
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Create Account';
+          alert('Please verify your email/phone to complete signup.');
+        }
+      } catch (error) {
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+        console.error('Signup error:', error);
+        alert('Signup failed: ' + (error.message || 'Please try again.'));
+      }
+    }
+
+    // ============================================
+    // SOCIAL LOGIN
+    // ============================================
+    function handleGoogleLogin() {
+      const Clerk = window.Clerk;
+      if (Clerk) {
+        Clerk.openSignIn({ strategy: 'oauth_google' });
+      } else {
+        alert('Clerk is not initialized. Please refresh the page.');
+      }
+    }
+
+    function handleGitHubLogin() {
+      const Clerk = window.Clerk;
+      if (Clerk) {
+        Clerk.openSignIn({ strategy: 'oauth_github' });
+      } else {
+        alert('Clerk is not initialized. Please refresh the page.');
+      }
+    }
+
+    // ============================================
+    // CART & WISHLIST COUNTS
+    // ============================================
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const total = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      document.querySelectorAll('.header-user-actions .count-badge').forEach(badge => {
+        const parent = badge.closest('.action-btn');
+        if (parent && parent.querySelector('ion-icon[name="bag-handle-outline"]')) {
+          badge.textContent = total;
+        }
+      });
+    }
+
+    function updateWishlistCount() {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      const total = wishlist.length;
+      document.querySelectorAll('.header-user-actions .count-badge').forEach(badge => {
+        const parent = badge.closest('.action-btn');
+        if (parent && parent.querySelector('ion-icon[name="heart-outline"]')) {
+          badge.textContent = total;
+        }
+      });
+    }
+
+    // ============================================
+    // INITIALIZE
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+      updateCartCount();
+      updateWishlistCount();
+
+      // Real-time validation feedback
+      document.querySelectorAll('#loginForm input, #signupForm input').forEach(input => {
+        input.addEventListener('input', function() {
+          const errorId = this.id + 'Error';
+          const errorEl = document.getElementById(errorId);
+          if (errorEl) {
+            errorEl.classList.remove('show');
+            this.classList.remove('error');
+          }
+        });
+      });
+
+      // Enter key support
+      document.getElementById('loginPassword').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') handleLogin();
+      });
+      document.getElementById('signupPassword').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') handleSignup();
+      });
+
+      console.log('✅ Login page initialized');
+    });
+
+    // Re-count on page show
+    window.addEventListener('pageshow', function() {
+      updateCartCount();
+      updateWishlistCount();
+    });
+  </script>
+
+</body>
+</html>

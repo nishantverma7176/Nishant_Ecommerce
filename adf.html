@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="abs.css
+    ">
+</head>
+<body>
+    <div class="header-user-actions">
+  
+  <!-- Profile Dropdown -->
+  <div class="profile-dropdown">
+    <button class="action-btn profile-btn">
+      <ion-icon name="person-outline"></ion-icon>
+    </button>
+    
+    <!-- Logged Out Dropdown -->
+    <div class="dropdown-menu" id="loggedOutMenu">
+      <div class="dropdown-header">
+        <h4>Welcome</h4>
+        <p>To access account and manage orders</p>
+        <button class="login-btn" onclick="loginUser()">LOGIN / SIGNUP</button>
+      </div>
+      
+      <ul class="dropdown-list">
+        <li><a href="#"><ion-icon name="bag-outline"></ion-icon> Orders</a></li>
+        <li><a href="#" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon> Wishlist</a></li>
+        <li><a href="#"><ion-icon name="gift-outline"></ion-icon> Gift Cards</a></li>
+        <li><a href="#"><ion-icon name="call-outline"></ion-icon> Contact Us</a></li>
+        <li><a href="#"><ion-icon name="star-outline"></ion-icon> Myntra Insider <span class="badge-new">New</span></a></li>
+      </ul>
+      
+      <div class="dropdown-divider"></div>
+      
+      <ul class="dropdown-list">
+        <li><a href="#"><ion-icon name="card-outline"></ion-icon> Myntra Credit</a></li>
+        <li><a href="#"><ion-icon name="pricetag-outline"></ion-icon> Coupons</a></li>
+        <li><a href="#"><ion-icon name="wallet-outline"></ion-icon> Saved Cards</a></li>
+        <li><a href="#"><ion-icon name="phone-portrait-outline"></ion-icon> Saved VPA</a></li>
+        <li><a href="#"><ion-icon name="location-outline"></ion-icon> Saved Addresses</a></li>
+      </ul>
+    </div>
+    
+    <!-- Logged In Dropdown -->
+    <div class="dropdown-menu" id="loggedInMenu" style="display: none;">
+      <div class="dropdown-header">
+        <h4 id="userName">Hello Mayank</h4>
+        <p id="userPhone">8449079775</p>
+      </div>
+      
+      <ul class="dropdown-list">
+        <li><a href="#"><ion-icon name="bag-outline"></ion-icon> Orders</a></li>
+        <li><a href="#" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon> Wishlist</a></li>
+        <li><a href="#"><ion-icon name="gift-outline"></ion-icon> Gift Cards</a></li>
+        <li><a href="#"><ion-icon name="call-outline"></ion-icon> Contact Us</a></li>
+        <li><a href="#"><ion-icon name="star-outline"></ion-icon> Myntra Insider <span class="badge-new">New</span></a></li>
+      </ul>
+      
+      <div class="dropdown-divider"></div>
+      
+      <ul class="dropdown-list">
+        <li><a href="#"><ion-icon name="card-outline"></ion-icon> Myntra Credit</a></li>
+        <li><a href="#"><ion-icon name="pricetag-outline"></ion-icon> Coupons</a></li>
+        <li><a href="#"><ion-icon name="wallet-outline"></ion-icon> Saved Cards</a></li>
+        <li><a href="#"><ion-icon name="phone-portrait-outline"></ion-icon> Saved VPA</a></li>
+        <li><a href="#"><ion-icon name="location-outline"></ion-icon> Saved Addresses</a></li>
+      </ul>
+      
+      <div class="dropdown-divider"></div>
+      
+      <ul class="dropdown-list">
+        <li><a href="#"><ion-icon name="create-outline"></ion-icon> Edit Profile</a></li>
+        <li><a href="#" class="logout-link" onclick="logoutUser()"><ion-icon name="log-out-outline"></ion-icon> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Wishlist Button -->
+  <button class="action-btn" onclick="window.location.href='wishlist.html'">
+    <ion-icon name="heart-outline"></ion-icon>
+    <span class="count-badge">0</span>
+  </button>
+
+  <!-- Cart Button -->
+  <button class="action-btn" onclick="window.location.href='cart.html'">
+    <ion-icon name="bag-handle-outline"></ion-icon>
+    <span class="count-badge">0</span>
+  </button>
+
+</div>
+</body>
+</html>

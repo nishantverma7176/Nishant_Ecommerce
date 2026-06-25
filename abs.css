@@ -1,0 +1,250 @@
+/* ============================================
+   PROFILE DROPDOWN - FIXED
+   ============================================ */
+
+.header-user-actions {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 99999;
+}
+
+.header-user-actions .action-btn {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #2b2b2b;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.header-user-actions .action-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #ff3f6c;
+}
+
+.header-user-actions .count-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #ff3f6c;
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 280px;
+  max-width: 320px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.25s ease;
+  z-index: 99999;
+  padding: 6px 0;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.profile-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-header {
+  padding: 12px 20px 10px 20px;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.dropdown-header h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 2px 0;
+}
+
+.dropdown-header p {
+  font-size: 13px;
+  color: #888;
+  margin: 0 0 10px 0;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 10px;
+  background: #ff3f6c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.login-btn:hover {
+  background: #e6355a;
+  transform: scale(1.02);
+}
+
+.dropdown-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-list li {
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-list li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px;
+  color: #1a1a2e;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.dropdown-list li a:hover {
+  background: #f8f9fa;
+}
+
+.dropdown-list li a ion-icon {
+  font-size: 18px;
+  color: #666;
+  min-width: 22px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown-list li a:hover ion-icon {
+  color: #ff3f6c;
+}
+
+.dropdown-list li a .badge-new {
+  font-size: 10px;
+  color: #ff3f6c;
+  font-weight: 600;
+  margin-left: auto;
+  background: #fff0f3;
+  padding: 1px 10px;
+  border-radius: 12px;
+}
+
+.dropdown-list li a.logout-link {
+  color: #ff3f6c;
+}
+
+.dropdown-list li a.logout-link:hover {
+  background: #fff5f7;
+}
+
+.dropdown-list li a.logout-link ion-icon {
+  color: #ff3f6c;
+}
+
+.dropdown-divider {
+  border: none;
+  border-top: 1px solid #f0f2f5;
+  margin: 4px 16px;
+}
+
+@media (max-width: 768px) {
+  .dropdown-menu {
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    left: 10px;
+    min-width: unset;
+    width: auto;
+    border-radius: 12px;
+  }
+  .dropdown-list li a {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  .dropdown-header {
+    padding: 14px 20px 12px 20px;
+  }
+  .login-btn {
+    padding: 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dropdown-menu {
+    top: 54px;
+    right: 8px;
+    left: 8px;
+    border-radius: 12px;
+  }
+  .dropdown-list li a {
+    padding: 8px 16px;
+    font-size: 13px;
+    gap: 10px;
+  }
+  .dropdown-list li a ion-icon {
+    font-size: 16px;
+    min-width: 18px;
+  }
+  .dropdown-header {
+    padding: 10px 16px 8px 16px;
+  }
+  .dropdown-header h4 {
+    font-size: 14px;
+  }
+  .dropdown-header p {
+    font-size: 12px;
+  }
+  .login-btn {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+
+header {
+  position: relative;
+  z-index: 100;
+}
+
+.desktop-navigation-menu {
+  position: relative;
+  z-index: 99;
+}
