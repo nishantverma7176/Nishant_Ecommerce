@@ -25,55 +25,58 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
 
+  <style>
+    /* ---- Additional inline styles for the profile dropdown improvements ---- */
+    .dropdown-menu .logout-link {
+      color: #ff3f6c !important;
+      border-top: 1px solid #f0f2f5;
+      margin-top: 4px;
+      padding-top: 8px;
+    }
+    .dropdown-menu .logout-link:hover {
+      background: #fff5f7 !important;
+    }
+    .dropdown-menu .logout-link ion-icon {
+      color: #ff3f6c !important;
+    }
+
+    .dropdown-menu .edit-profile-link {
+      color: #1a1a2e !important;
+    }
+    .dropdown-menu .edit-profile-link:hover {
+      background: #f8f9fa !important;
+    }
+
+    /* Ensure the dropdown header shows user info properly */
+    .dropdown-header .user-phone {
+      font-size: 13px;
+      color: #888;
+      margin: 0 0 4px 0;
+    }
+
+    /* Mobile touch improvements */
+    @media (hover: none) {
+      .profile-dropdown.active .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Make sure the dropdown doesn't overflow on small screens */
+    @media (max-width: 480px) {
+      .dropdown-menu {
+        max-height: 70vh;
+        overflow-y: auto;
+      }
+    }
+  </style>
+
 </head>
 
 <body>
 
   <div class="overlay" data-overlay></div>
-
-  <!--
-    - MODAL
-  -->
-
-  <div class="modal" data-modal>
-
-    <div class="modal-close-overlay" data-modal-overlay></div>
-
-    <div class="modal-content">
-
-      <button class="modal-close-btn" data-modal-close>
-        <ion-icon name="close-outline"></ion-icon>
-      </button>
-
-      <div class="newsletter-img">
-        <img src="./assets/images/newsletter.png" alt="subscribe newsletter" width="400" height="400">
-      </div>
-
-      <div class="newsletter">
-
-        <form action="#">
-
-          <div class="newsletter-header">
-
-            <h3 class="newsletter-title">Subscribe Newsletter.</h3>
-
-            <p class="newsletter-desc">
-              Subscribe the <b>Nishant</b> to get latest products and discount update.
-            </p>
-
-          </div>
-
-          <input type="email" name="email" class="email-field" placeholder="Email Address" required>
-
-          <button type="submit" class="btn-newsletter">Subscribe</button>
-
-        </form>
-
-      </div>
-
-    </div>
-
-  </div>
 
   <!--
     - HEADER
@@ -162,7 +165,7 @@
         </div>
 
         <!-- ============================================ -->
-        <!-- PROFILE DROPDOWN - FULL MENU (like screenshot) -->
+        <!-- PROFILE DROPDOWN - IMPROVED VERSION          -->
         <!-- ============================================ -->
         <div class="header-user-actions">
 
@@ -175,7 +178,7 @@
             <!-- Dropdown Menu - Always shows full menu -->
             <div class="dropdown-menu" id="profileDropdown">
 
-              <!-- Header Section -->
+              <!-- Header Section - dynamically populated by JS -->
               <div class="dropdown-header" id="dropdownHeader">
                 <!-- Dynamic content loaded by JS -->
               </div>
@@ -199,7 +202,16 @@
                 <li><a href="#"><ion-icon name="location-outline"></ion-icon> Saved Addresses</a></li>
               </ul>
 
-              <!-- Explore Link (like in screenshot) -->
+              <!-- Profile & Logout Section - shown only when logged in -->
+              <div id="profileActions" style="display: none;">
+                <hr class="dropdown-divider">
+                <ul class="dropdown-list">
+                  <li><a href="#" class="edit-profile-link"><ion-icon name="create-outline"></ion-icon> Edit Profile</a></li>
+                  <li><a href="#" class="logout-link" onclick="logoutUser()"><ion-icon name="log-out-outline"></ion-icon> Logout</a></li>
+                </ul>
+              </div>
+
+              <!-- Explore Link (visible always) -->
               <div class="dropdown-footer" style="padding: 8px 16px 4px; border-top: 1px solid #f0f2f5; margin-top: 4px;">
                 <a href="#" style="display: flex; align-items: center; gap: 6px; color: #ff3f6c; font-size: 13px; font-weight: 600; text-decoration: none; padding: 4px 0;">
                   <ion-icon name="add-circle-outline" style="font-size: 18px;"></ion-icon> Explore
@@ -223,7 +235,7 @@
 
         </div>
         <!-- ============================================ -->
-        <!-- END PROFILE DROPDOWN -->
+        <!-- END PROFILE DROPDOWN                         -->
         <!-- ============================================ -->
 
       </div>
@@ -3725,6 +3737,7 @@
             </div>
 
             <a href="tel:+607936-8058" class="footer-nav-link">(607) 936-8058</a>
+
           </li>
 
           <li class="footer-nav-item flex">
@@ -3892,19 +3905,25 @@
     }
 
     // ============================================
-    // PROFILE DROPDOWN STATE MANAGEMENT
+    // PROFILE DROPDOWN STATE MANAGEMENT (IMPROVED)
     // ============================================
 
     function updateProfileDropdown() {
       const user = JSON.parse(localStorage.getItem('user'));
       const dropdownHeader = document.getElementById('dropdownHeader');
+      const profileActions = document.getElementById('profileActions');
 
-      if (user) {
+      if (user && user.name) {
+        // Logged in state
         dropdownHeader.innerHTML = `
-          <h4 style="font-size: 15px; font-weight: 600; color: #1a1a2e; margin: 0 0 2px 0;">Hello ${user.name || 'User'}</h4>
-          <p style="font-size: 13px; color: #888; margin: 0 0 4px 0;">${user.phone || user.email || ''}</p>
+          <h4 style="font-size: 15px; font-weight: 600; color: #1a1a2e; margin: 0 0 2px 0;">Hello ${user.name}</h4>
+          <p style="font-size: 13px; color: #888; margin: 0 0 4px 0;">${user.phoneNumber || user.phone || user.email || ''}</p>
         `;
+        if (profileActions) {
+          profileActions.style.display = 'block';
+        }
       } else {
+        // Logged out state
         dropdownHeader.innerHTML = `
           <h4 style="font-size: 15px; font-weight: 600; color: #1a1a2e; margin: 0 0 2px 0;">Welcome</h4>
           <p style="font-size: 13px; color: #888; margin: 0 0 10px 0;">To access account and manage orders</p>
@@ -3912,17 +3931,50 @@
             LOGIN / SIGNUP
           </button>
         `;
+        if (profileActions) {
+          profileActions.style.display = 'none';
+        }
       }
     }
 
+    // Logout function (called from the dropdown)
+    function logoutUser() {
+      localStorage.removeItem('user');
+      localStorage.removeItem('authToken');
+      updateProfileDropdown();
+      updateCartCount();
+      updateWishlistCount();
+      // Show a toast notification
+      showNotification('Logged out successfully! 👋');
+      setTimeout(function() {
+        window.location.href = 'index.html';
+      }, 500);
+    }
+
     // ============================================
-    // INITIALIZE COUNTS ON PAGE LOAD
+    // INITIALIZE ON PAGE LOAD
     // ============================================
 
     document.addEventListener('DOMContentLoaded', function() {
       updateCartCount();
       updateWishlistCount();
       updateProfileDropdown();
+
+      // For mobile: toggle dropdown on click
+      const profileBtn = document.getElementById('profileBtn');
+      const dropdown = document.querySelector('.profile-dropdown');
+      if (profileBtn && dropdown) {
+        profileBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          dropdown.classList.toggle('active');
+        });
+        // Close on outside click
+        document.addEventListener('click', function(e) {
+          if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('active');
+          }
+        });
+      }
     });
 
     // Re-run on page show (for back/forward navigation)

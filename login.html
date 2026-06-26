@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Tiny inline styles – all colours, fonts and spacing reuse your existing CSS variables -->
+  <!-- Tiny inline styles – reuse your existing CSS variables -->
   <style>
     /* ---- Login page specific enhancements (all colours from :root) ---- */
     .login-page {
@@ -54,7 +54,6 @@
       margin-top: 4px;
     }
 
-    /* Tabs */
     .auth-tabs {
       display: flex;
       border-bottom: 2px solid var(--cultured);
@@ -87,7 +86,6 @@
       transition: all 0.3s ease;
     }
 
-    /* Form elements – reuse existing input styling */
     .form-group {
       margin-bottom: 18px;
     }
@@ -285,7 +283,65 @@
       display: block;
     }
 
-    /* Responsive */
+    /* ----- Modal for Forgot Password ----- */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-box {
+      background: var(--white);
+      border-radius: var(--border-radius-md);
+      padding: 32px 28px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    .modal-box h3 {
+      font-size: var(--fs-4);
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--eerie-black);
+    }
+    .modal-box .close-modal {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--sonic-silver);
+      background: none;
+      border: none;
+    }
+    .modal-box .close-modal:hover {
+      color: var(--eerie-black);
+    }
+    .modal-box .step {
+      display: block;
+    }
+    .modal-box .step.hidden {
+      display: none;
+    }
+    .modal-box .message {
+      margin: 8px 0;
+      font-size: var(--fs-8);
+      color: var(--sonic-silver);
+    }
+    .modal-box .message.success {
+      color: var(--ocean-green);
+    }
+    .modal-box .message.error {
+      color: var(--bittersweet);
+    }
+
     @media (max-width: 500px) {
       .login-card {
         padding: 28px 18px;
@@ -328,7 +384,7 @@
 
 <body>
 
-  <!-- HEADER -->
+  <!-- HEADER (simplified – you can keep your full header, but here we just show the person icon) -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -338,19 +394,10 @@
           <li><a href="https://www.instagram.com/verma.mr.nishant/" class="social-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
           <li><a href="https://www.linkedin.com/in/nishant-verma-41181428b/" class="social-link"><ion-icon name="logo-linkedin"></ion-icon></a></li>
         </ul>
-        <div class="header-alert-news">
-          <p><b>Free Shipping</b> This Week Order Over - $55</p>
-        </div>
+        <div class="header-alert-news"><p><b>Free Shipping</b> This Week Order Over - $55</p></div>
         <div class="header-top-actions">
-          <select name="currency">
-            <option value="usd">USD &dollar;</option>
-            <option value="rup">RUP &#8377;</option>
-          </select>
-          <select name="language">
-            <option value="en-US">English</option>
-            <option value="es-ES">Espa&ntilde;ol</option>
-            <option value="fr">Fran&ccedil;ais</option>
-          </select>
+          <select name="currency"><option value="usd">USD &dollar;</option><option value="rup">RUP &#8377;</option></select>
+          <select name="language"><option value="en-US">English</option><option value="es-ES">Espa&ntilde;ol</option><option value="fr">Fran&ccedil;ais</option></select>
         </div>
       </div>
     </div>
@@ -379,11 +426,10 @@
     </div>
   </header>
 
-  <!-- MAIN - LOGIN PAGE -->
+  <!-- MAIN - LOGIN CARD -->
   <main class="login-page">
     <div class="login-card">
 
-      <!-- Brand -->
       <div class="brand">
         <h1>Nishant</h1>
         <p>Welcome back! Please login to your account</p>
@@ -399,9 +445,9 @@
       <!-- ===== LOGIN FORM ===== -->
       <div id="loginForm">
         <div class="form-group">
-          <label for="loginEmail">Email Address</label>
-          <input type="email" id="loginEmail" placeholder="Enter your email" autocomplete="email">
-          <div class="error-message" id="loginEmailError">Please enter a valid email</div>
+          <label for="loginUsername">Email or Phone</label>
+          <input type="text" id="loginUsername" placeholder="Enter your email or phone" autocomplete="username">
+          <div class="error-message" id="loginUsernameError">Please enter a valid email or phone</div>
         </div>
 
         <div class="form-group">
@@ -419,12 +465,10 @@
           <label>
             <input type="checkbox" id="rememberMe"> Remember me
           </label>
-          <a href="#" onclick="alert('Password reset functionality coming soon!')">Forgot Password?</a>
+          <a href="#" onclick="openForgotPassword()">Forgot Password?</a>
         </div>
 
-        <button class="btn-primary" id="loginBtn" onclick="handleLogin()">
-          Login
-        </button>
+        <button class="btn-primary" id="loginBtn" onclick="handleLogin()">Login</button>
       </div>
 
       <!-- ===== SIGNUP FORM ===== -->
@@ -450,33 +494,27 @@
         <div class="form-group">
           <label for="signupPassword">Password</label>
           <div class="input-wrapper">
-            <input type="password" id="signupPassword" placeholder="Create a password (min 8 chars)" autocomplete="new-password">
+            <input type="password" id="signupPassword" placeholder="Create a password (min 6 chars)" autocomplete="new-password">
             <button type="button" class="password-toggle" onclick="togglePassword('signupPassword', this)" aria-label="Toggle password visibility">
               <ion-icon name="eye-outline"></ion-icon>
             </button>
           </div>
-          <div class="error-message" id="signupPasswordError">Password must be at least 8 characters</div>
+          <div class="error-message" id="signupPasswordError">Password must be at least 6 characters</div>
         </div>
 
-        <button class="btn-primary" id="signupBtn" onclick="handleSignup()">
-          Create Account
-        </button>
+        <button class="btn-primary" id="signupBtn" onclick="handleSignup()">Create Account</button>
       </div>
 
       <!-- Divider -->
-      <div class="divider">
-        <span></span>
-        <p>OR</p>
-        <span></span>
-      </div>
+      <div class="divider"><span></span><p>OR</p><span></span></div>
 
-      <!-- Social Login -->
+      <!-- Social Login (placeholder) -->
       <div class="social-login">
-        <button class="social-btn" onclick="handleGoogleLogin()">
+        <button class="social-btn" onclick="alert('Google login coming soon!')">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59A14.5 14.5 0 0 1 9.5 24c0-1.59.28-3.14.76-4.59l-7.98-6.19A23.99 23.99 0 0 0 0 24c0 3.77.87 7.35 2.56 10.56l7.97-5.97z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 5.97C6.51 42.62 14.62 48 24 48z"/></svg>
           Google
         </button>
-        <button class="social-btn" onclick="handleGitHubLogin()">
+        <button class="social-btn" onclick="alert('GitHub login coming soon!')">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"><path fill="#181717" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
           GitHub
         </button>
@@ -493,16 +531,75 @@
     </div>
   </main>
 
-  <!-- ION ICONS -->
+  <!-- ===== FORGOT PASSWORD MODAL ===== -->
+  <div class="modal-overlay" id="forgotModal">
+    <div class="modal-box">
+      <button class="close-modal" onclick="closeForgotModal()">&times;</button>
+      <h3 id="modalTitle">Reset Password</h3>
+
+      <!-- Step 1: Enter Email -->
+      <div class="step" id="step1">
+        <p class="message">We'll send you an OTP to verify your email.</p>
+        <div class="form-group">
+          <label for="resetEmail">Email Address</label>
+          <input type="email" id="resetEmail" placeholder="Enter your email">
+          <div class="error-message" id="resetEmailError">Please enter a valid email</div>
+        </div>
+        <button class="btn-primary" id="sendOtpBtn" onclick="sendOtp()">Send OTP</button>
+      </div>
+
+      <!-- Step 2: Verify OTP -->
+      <div class="step hidden" id="step2">
+        <p class="message">Enter the OTP sent to your email.</p>
+        <div class="form-group">
+          <label for="otpCode">OTP</label>
+          <input type="text" id="otpCode" placeholder="Enter 6-digit OTP">
+          <div class="error-message" id="otpError">Invalid OTP</div>
+        </div>
+        <button class="btn-primary" id="verifyOtpBtn" onclick="verifyOtp()">Verify OTP</button>
+        <p style="margin-top:10px; font-size:var(--fs-8);">
+          <a href="#" onclick="resendOtp()">Resend OTP</a>
+        </p>
+      </div>
+
+      <!-- Step 3: Reset Password -->
+      <div class="step hidden" id="step3">
+        <p class="message">Create a new password.</p>
+        <div class="form-group">
+          <label for="newPassword">New Password</label>
+          <input type="password" id="newPassword" placeholder="Min 6 characters">
+          <div class="error-message" id="newPasswordError">Password must be at least 6 characters</div>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" placeholder="Confirm new password">
+          <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+        </div>
+        <button class="btn-primary" id="resetPassBtn" onclick="resetPassword()">Reset Password</button>
+      </div>
+
+      <!-- Success -->
+      <div class="step hidden" id="stepSuccess">
+        <p class="message success">✅ Password reset successfully!</p>
+        <button class="btn-primary" onclick="closeForgotModal()">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- IONICONS -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-  <!-- CLERK SCRIPTS -->
-  <script defer crossorigin="anonymous" src="https://adequate-heron-66.clerk.accounts.dev/npm/@clerk/ui@1/dist/ui.browser.js" type="text/javascript"></script>
-  <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_test_YWRlcXVhdGUtaGVyb24tNjYuY2xlcmsuYWNjb3VudHMuZGV2JA" src="https://adequate-heron-66.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js" type="text/javascript"></script>
+  <!-- Your profile.js (optional, but we already have the logic inline) -->
+  <script src="./assets/js/profile.js"></script>
 
-  <!-- Login JavaScript -->
+  <!-- ===== MAIN SCRIPT ===== -->
   <script>
+    // ============================================
+    // API BASE URL – change to your backend
+    // ============================================
+    const API_BASE = 'http://localhost:8080/api/auth';
+
     // ============================================
     // TAB SWITCHING
     // ============================================
@@ -524,7 +621,6 @@
         signupTab.classList.remove('active');
         underline.style.left = '0';
         underline.style.width = '50%';
-        // Clear any signup errors
         clearErrors('signup');
       } else {
         loginForm.style.display = 'none';
@@ -561,112 +657,105 @@
       const el = document.getElementById(elementId);
       if (el) el.classList.add('show');
     }
-
     function hideError(elementId) {
       const el = document.getElementById(elementId);
       if (el) el.classList.remove('show');
     }
-
     function clearErrors(prefix) {
       document.querySelectorAll(`#${prefix}Form .error-message`).forEach(el => el.classList.remove('show'));
       document.querySelectorAll(`#${prefix}Form input`).forEach(el => el.classList.remove('error'));
     }
-
     function validateEmail(email) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
     // ============================================
-    // WAIT FOR CLERK
+    // API HELPER
     // ============================================
-    function waitForClerk() {
-      return new Promise((resolve) => {
-        if (window.Clerk) { resolve(window.Clerk); return; }
-        document.addEventListener('clerk-loaded', function() { resolve(window.Clerk); });
-        let attempts = 0;
-        const interval = setInterval(() => {
-          attempts++;
-          if (window.Clerk) { clearInterval(interval); resolve(window.Clerk); }
-          if (attempts > 50) { clearInterval(interval); resolve(null); }
-        }, 200);
+    async function apiCall(endpoint, method, body) {
+      const url = `${API_BASE}${endpoint}`;
+      console.log(`🌐 ${method} ${url}`, body);
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
       });
+      const data = await response.json();
+      console.log(`📥 Response (${response.status}):`, data);
+      if (!response.ok) {
+        let errMsg = data.message || data.error || 'Bad Request';
+        if (data.fieldErrors) {
+          const fieldErrors = Object.entries(data.fieldErrors)
+            .map(([field, msg]) => `${field}: ${msg}`)
+            .join('; ');
+          errMsg = `Validation failed: ${fieldErrors}`;
+        } else if (data.errors && Array.isArray(data.errors)) {
+          errMsg = data.errors.map(e => e.defaultMessage || e).join('; ');
+        }
+        throw new Error(errMsg);
+      }
+      return data;
     }
 
     // ============================================
-    // HANDLE LOGIN
+    // HANDLE LOGIN – sends `username` + `password`
     // ============================================
     async function handleLogin() {
-      const email = document.getElementById('loginEmail');
-      const password = document.getElementById('loginPassword');
+      const usernameInput = document.getElementById('loginUsername');
+      const passwordInput = document.getElementById('loginPassword');
       const btn = document.getElementById('loginBtn');
       let valid = true;
 
-      // Validate
-      if (!email.value || !validateEmail(email.value)) {
-        email.classList.add('error');
-        showError('loginEmailError');
+      if (!usernameInput.value || usernameInput.value.trim().length < 3) {
+        usernameInput.classList.add('error');
+        showError('loginUsernameError');
         valid = false;
       } else {
-        email.classList.remove('error');
-        hideError('loginEmailError');
+        usernameInput.classList.remove('error');
+        hideError('loginUsernameError');
       }
 
-      if (!password.value || password.value.length < 6) {
-        password.classList.add('error');
+      if (!passwordInput.value || passwordInput.value.length < 6) {
+        passwordInput.classList.add('error');
         showError('loginPasswordError');
         valid = false;
       } else {
-        password.classList.remove('error');
+        passwordInput.classList.remove('error');
         hideError('loginPasswordError');
       }
-
       if (!valid) return;
 
-      // Show loading
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span> Logging in...';
 
-      const Clerk = await waitForClerk();
-      if (!Clerk) {
-        btn.disabled = false;
-        btn.textContent = 'Login';
-        alert('Clerk is not available. Please refresh the page.');
-        return;
-      }
-
       try {
-        const result = await Clerk.signIn.create({
-          identifier: email.value,
-          password: password.value,
+        const data = await apiCall('/login', 'POST', {
+          username: usernameInput.value.trim(),
+          password: passwordInput.value
         });
 
-        if (result.status === 'complete') {
-          const user = result.user;
-          const userData = {
-            name: user.firstName || user.emailAddresses[0].emailAddress.split('@')[0] || 'User',
-            email: user.emailAddresses[0].emailAddress,
-            phone: user.phoneNumbers[0]?.phoneNumber || 'N/A'
-          };
-          localStorage.setItem('user', JSON.stringify(userData));
-          // Show success then redirect
-          btn.innerHTML = '✅ Success!';
-          btn.style.background = '#4CAF50';
-          setTimeout(() => { window.location.href = 'index.html'; }, 800);
-        } else {
-          btn.disabled = false;
-          btn.textContent = 'Login';
-          alert('Please complete the sign-in process.');
-        }
+        // ✅ Store user data with the correct keys
+        const userData = {
+          name: data.user?.name || usernameInput.value.split('@')[0] || 'User',
+          email: data.user?.email || usernameInput.value,
+          phoneNumber: data.user?.phoneNumber || data.user?.phone || 'N/A',
+          token: data.token,
+        };
+        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('authToken', data.token);
+
+        btn.innerHTML = '✅ Success!';
+        btn.style.background = '#4CAF50';
+        setTimeout(() => window.location.href = 'index.html', 800);
       } catch (error) {
         btn.disabled = false;
         btn.textContent = 'Login';
-        console.error('Login error:', error);
-        alert('Login failed: ' + (error.message || 'Please check your credentials.'));
+        alert('Login failed: ' + error.message);
       }
     }
 
     // ============================================
-    // HANDLE SIGNUP
+    // HANDLE SIGNUP – sends `name`, `email`, `phoneNumber`, `password`
     // ============================================
     async function handleSignup() {
       const name = document.getElementById('signupName');
@@ -676,7 +765,6 @@
       const btn = document.getElementById('signupBtn');
       let valid = true;
 
-      // Validate
       if (!name.value || name.value.trim().length < 2) {
         name.classList.add('error');
         showError('signupNameError');
@@ -704,7 +792,7 @@
         hideError('signupPhoneError');
       }
 
-      if (!password.value || password.value.length < 8) {
+      if (!password.value || password.value.length < 6) {
         password.classList.add('error');
         showError('signupPasswordError');
         valid = false;
@@ -712,75 +800,178 @@
         password.classList.remove('error');
         hideError('signupPasswordError');
       }
-
       if (!valid) return;
 
-      // Show loading
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span> Creating account...';
 
-      const Clerk = await waitForClerk();
-      if (!Clerk) {
-        btn.disabled = false;
-        btn.textContent = 'Create Account';
-        alert('Clerk is not available. Please refresh the page.');
-        return;
-      }
-
       try {
-        const result = await Clerk.signUp.create({
-          firstName: name.value.trim(),
-          emailAddress: email.value,
+        await apiCall('/register', 'POST', {
+          name: name.value.trim(),
+          email: email.value,
           phoneNumber: phone.value,
-          password: password.value,
+          password: password.value
         });
 
-        if (result.status === 'complete') {
-          const userData = {
-            name: name.value.trim(),
-            email: email.value,
-            phone: phone.value
-          };
-          localStorage.setItem('user', JSON.stringify(userData));
-          btn.innerHTML = '✅ Account created!';
-          btn.style.background = '#4CAF50';
-          setTimeout(() => { window.location.href = 'index.html'; }, 800);
-        } else {
+        btn.innerHTML = '✅ Account created!';
+        btn.style.background = '#4CAF50';
+        setTimeout(() => {
+          alert('Account created successfully! Please login.');
+          switchTab('login');
+          document.getElementById('loginUsername').value = email.value;
           btn.disabled = false;
           btn.textContent = 'Create Account';
-          alert('Please verify your email/phone to complete signup.');
-        }
+          btn.style.background = '';
+        }, 800);
       } catch (error) {
         btn.disabled = false;
         btn.textContent = 'Create Account';
-        console.error('Signup error:', error);
-        alert('Signup failed: ' + (error.message || 'Please try again.'));
+        alert('Signup failed: ' + error.message);
       }
     }
 
     // ============================================
-    // SOCIAL LOGIN
+    // FORGOT PASSWORD FLOW
     // ============================================
-    function handleGoogleLogin() {
-      const Clerk = window.Clerk;
-      if (Clerk) {
-        Clerk.openSignIn({ strategy: 'oauth_google' });
+    let resetEmail = '';
+
+    function openForgotPassword() {
+      document.getElementById('forgotModal').classList.add('active');
+      showStep('step1');
+      document.getElementById('resetEmail').value = '';
+      document.getElementById('otpCode').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+      document.getElementById('modalTitle').textContent = 'Reset Password';
+      clearErrors('reset');
+    }
+
+    function closeForgotModal() {
+      document.getElementById('forgotModal').classList.remove('active');
+    }
+
+    function showStep(stepId) {
+      document.querySelectorAll('.step').forEach(el => el.classList.add('hidden'));
+      document.getElementById(stepId).classList.remove('hidden');
+    }
+
+    async function sendOtp() {
+      const emailInput = document.getElementById('resetEmail');
+      const btn = document.getElementById('sendOtpBtn');
+      const errorEl = document.getElementById('resetEmailError');
+
+      if (!emailInput.value || !validateEmail(emailInput.value)) {
+        emailInput.classList.add('error');
+        errorEl.classList.add('show');
+        return;
       } else {
-        alert('Clerk is not initialized. Please refresh the page.');
+        emailInput.classList.remove('error');
+        errorEl.classList.remove('show');
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Sending...';
+
+      try {
+        await apiCall('/forgot-password', 'POST', { email: emailInput.value });
+        resetEmail = emailInput.value;
+        showStep('step2');
+        document.getElementById('modalTitle').textContent = 'Verify OTP';
+        alert('OTP sent to your email.');
+      } catch (error) {
+        alert('Failed to send OTP: ' + error.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send OTP';
       }
     }
 
-    function handleGitHubLogin() {
-      const Clerk = window.Clerk;
-      if (Clerk) {
-        Clerk.openSignIn({ strategy: 'oauth_github' });
+    async function verifyOtp() {
+      const otpInput = document.getElementById('otpCode');
+      const btn = document.getElementById('verifyOtpBtn');
+      const errorEl = document.getElementById('otpError');
+
+      if (!otpInput.value || otpInput.value.length !== 6) {
+        otpInput.classList.add('error');
+        errorEl.classList.add('show');
+        return;
       } else {
-        alert('Clerk is not initialized. Please refresh the page.');
+        otpInput.classList.remove('error');
+        errorEl.classList.remove('show');
       }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Verifying...';
+
+      try {
+        await apiCall('/verify-otp', 'POST', {
+          email: resetEmail,
+          otp: otpInput.value
+        });
+        showStep('step3');
+        document.getElementById('modalTitle').textContent = 'Set New Password';
+        alert('OTP verified!');
+      } catch (error) {
+        alert('Invalid OTP: ' + error.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Verify OTP';
+      }
+    }
+
+    async function resetPassword() {
+      const newPass = document.getElementById('newPassword');
+      const confirmPass = document.getElementById('confirmPassword');
+      const btn = document.getElementById('resetPassBtn');
+      const errNew = document.getElementById('newPasswordError');
+      const errConfirm = document.getElementById('confirmPasswordError');
+      let valid = true;
+
+      if (!newPass.value || newPass.value.length < 6) {
+        newPass.classList.add('error');
+        errNew.classList.add('show');
+        valid = false;
+      } else {
+        newPass.classList.remove('error');
+        errNew.classList.remove('show');
+      }
+
+      if (newPass.value !== confirmPass.value) {
+        confirmPass.classList.add('error');
+        errConfirm.classList.add('show');
+        valid = false;
+      } else {
+        confirmPass.classList.remove('error');
+        errConfirm.classList.remove('show');
+      }
+      if (!valid) return;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Resetting...';
+
+      try {
+        await apiCall('/reset-password', 'POST', {
+          email: resetEmail,
+          newPassword: newPass.value,
+          otp: document.getElementById('otpCode').value
+        });
+        showStep('stepSuccess');
+        document.getElementById('modalTitle').textContent = 'Success';
+      } catch (error) {
+        alert('Failed to reset password: ' + error.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Reset Password';
+      }
+    }
+
+    function resendOtp() {
+      document.getElementById('resetEmail').value = resetEmail;
+      sendOtp();
     }
 
     // ============================================
-    // CART & WISHLIST COUNTS
+    // CART & WISHLIST COUNTS (from profile.js)
     // ============================================
     function updateCartCount() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];

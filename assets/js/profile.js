@@ -1,5 +1,5 @@
 // ============================================
-// PROFILE DROPDOWN FUNCTIONS
+// PROFILE DROPDOWN FUNCTIONS – API version
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -13,22 +13,29 @@ function loginUser() {
 }
 
 function logoutUser() {
+    // Clear user data and token
     localStorage.removeItem('user');
+    localStorage.removeItem('authToken');
     checkLoginStatus();
     updateCartCount();
     updateWishlistCount();
+    // Redirect to home page
+    window.location.href = 'index.html';
 }
 
 function checkLoginStatus() {
     const user = JSON.parse(localStorage.getItem('user'));
     const loggedOut = document.getElementById('loggedOutMenu');
     const loggedIn = document.getElementById('loggedInMenu');
-    
-    if (user) {
+
+    if (user && user.name) {
         if (loggedOut) loggedOut.style.display = 'none';
         if (loggedIn) loggedIn.style.display = 'block';
-        document.getElementById('userName').textContent = 'Hello ' + user.name;
-        document.getElementById('userPhone').textContent = user.phone;
+        const nameEl = document.getElementById('userName');
+        const phoneEl = document.getElementById('userPhone');
+        if (nameEl) nameEl.textContent = 'Hello ' + (user.name || 'User');
+        // Use phoneNumber if available, fallback to phone or 'N/A'
+        if (phoneEl) phoneEl.textContent = user.phoneNumber || user.phone || 'N/A';
     } else {
         if (loggedOut) loggedOut.style.display = 'block';
         if (loggedIn) loggedIn.style.display = 'none';
