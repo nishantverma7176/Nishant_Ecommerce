@@ -5,158 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nishant – Shopping Cart</title>
 
+  <!-- favicon -->
+  <link rel="shortcut icon" href="./assets/images/logo/favicon.ico" type="image/x-icon">
+
   <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Your existing main stylesheet (no new CSS added) -->
+  <!-- Your existing main stylesheet -->
   <link rel="stylesheet" href="./assets/css/style.css" />
 
-  <!-- Tiny inline tweaks only for cart-specific alignment (reuses existing classes) -->
   <style>
-    /* Minimal overrides to keep layout clean – all colours and fonts come from style.css */
-    .cart-page .section-title {
-      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
-      font-weight: 700;
-      color: var(--eerie-black);
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .cart-page {
+      padding: 30px 0 60px;
+      min-height: 60vh;
     }
-    .cart-page .section-title ion-icon {
-      color: var(--salmon-pink);
-      font-size: 30px;
-    }
-
-    /* Cart item – uses .showcase as base, but we tweak inner spacing */
-    .cart-item {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      padding: 18px 0;
-      border-bottom: 1px solid var(--cultured);
-    }
-    .cart-item .item-image {
-      flex-shrink: 0;
-      width: 90px;
-      height: 90px;
-      background: #fafafa;
-      border-radius: var(--border-radius-md);
-      border: 1px solid var(--cultured);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px;
-    }
-    .cart-item .item-image img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-    .cart-item .item-details {
-      flex: 1;
-      min-width: 0;
-    }
-    .cart-item .item-category {
-      font-size: var(--fs-10);
-      text-transform: uppercase;
-      color: var(--salmon-pink);
-      font-weight: 500;
-      letter-spacing: 0.4px;
-    }
-    .cart-item .item-name {
-      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
-      font-weight: 600;
-      color: var(--eerie-black);
-      margin: 2px 0 4px;
-      line-height: 1.3;
-    }
-    .cart-item .item-price {
-      font-size: var(--fs-6);
-      font-weight: 700;
-      color: var(--salmon-pink);
-    }
-    .cart-item .item-price del {
-      font-weight: 400;
-      color: var(--sonic-silver);
-      margin-left: 8px;
-      font-size: var(--fs-8);
-    }
-    .cart-item .item-controls {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-shrink: 0;
-    }
-    .qty-wrapper {
-      display: flex;
-      align-items: center;
-      border: 1px solid #ddd;
-      border-radius: 40px;
-      overflow: hidden;
-      background: var(--white);
-    }
-    .qty-wrapper button {
-      background: transparent;
-      border: none;
-      padding: 6px 14px;
-      font-size: 22px;
-      font-weight: 300;
-      color: var(--onyx);
-      cursor: pointer;
-      transition: background 0.2s;
-      line-height: 1;
-    }
-    .qty-wrapper button:hover {
-      background: var(--cultured);
-    }
-    .qty-wrapper span {
-      min-width: 32px;
-      text-align: center;
-      font-weight: 500;
-      font-size: var(--fs-6);
-    }
-    .remove-btn {
-      background: transparent;
-      border: none;
-      color: var(--sonic-silver);
-      font-size: 22px;
-      cursor: pointer;
-      transition: color 0.2s;
-      padding: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .remove-btn:hover {
-      color: var(--bittersweet);
-    }
-
-    /* Cart summary – uses existing .banner-btn and .price-box */
     .cart-summary {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
       gap: 16px;
       margin-top: 30px;
       padding-top: 20px;
       border-top: 2px solid var(--cultured);
+      width: 100%;
     }
-    .cart-summary .total-label {
-      font-size: var(--fs-5);
-      font-weight: 600;
-      color: var(--eerie-black);
-    }
-    .cart-summary .total-price {
-      font-size: var(--fs-3);
-      font-weight: 700;
-      color: var(--salmon-pink);
-    }
-
-    /* Empty state */
     .empty-cart {
       text-align: center;
       padding: 60px 20px;
@@ -175,25 +50,7 @@
       display: inline-block;
       padding: 10px 32px;
     }
-
-    /* Ensure cart page fits inside .product-box */
-    .product-box {
-      width: 100%;
-    }
-
-    /* Mobile responsiveness */
-    @media (max-width: 600px) {
-      .cart-item {
-        flex-wrap: wrap;
-        gap: 12px;
-      }
-      .cart-item .item-image {
-        width: 70px;
-        height: 70px;
-      }
-      .cart-item .item-controls {
-        margin-left: auto;
-      }
+    @media (max-width: 768px) {
       .cart-summary {
         flex-direction: column;
         align-items: stretch;
@@ -203,10 +60,6 @@
         width: 100%;
         text-align: center;
       }
-      .qty-wrapper button {
-        padding: 4px 10px;
-        font-size: 18px;
-      }
     }
   </style>
 </head>
@@ -215,26 +68,34 @@
   <!-- OVERLAY -->
   <div class="overlay" data-overlay></div>
 
-  
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" data-toast>
+    <ion-icon name="heart-circle-outline"></ion-icon>
+    <span class="toast-message">Added to cart!</span>
+  </div>
 
-  <!-- ===== HEADER (same as your original) ===== -->
+  <!-- ============================================ -->
+  <!-- HEADER -->
+  <!-- ============================================ -->
   <header>
-    <!-- Header Top -->
+
     <div class="header-top">
       <div class="container">
         <ul class="header-social-container">
           <li><a href="#" class="social-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
-          <li><a href="#" class="social-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
-          <li><a href="#" class="social-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
-          <li><a href="#" class="social-link"><ion-icon name="logo-linkedin"></ion-icon></a></li>
+          <li><a href="http://x.com/NVerma26289" class="social-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
+          <li><a href="https://www.instagram.com/verma.mr.nishant/" class="social-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
+          <li><a href="https://www.linkedin.com/in/nishant-verma-41181428b/" class="social-link"><ion-icon name="logo-linkedin"></ion-icon></a></li>
         </ul>
+
         <div class="header-alert-news">
           <p><b>Free Shipping</b> This Week Order Over - $55</p>
         </div>
+
         <div class="header-top-actions">
-          <select name="currency">
+          <select name="currency" id="currencySelector">
             <option value="usd">USD &dollar;</option>
-            <option value="rup">RUP &#8377;</option>
+            <option value="inr">INR &#8377;</option>
           </select>
           <select name="language">
             <option value="en-US">English</option>
@@ -245,26 +106,31 @@
       </div>
     </div>
 
-    <!-- Header Main -->
     <div class="header-main">
       <div class="container">
+
         <a href="index.html" class="header-logo">Nishant</a>
+
         <div class="header-search-container">
           <input type="search" name="search" class="search-field" placeholder="Enter your product name...">
           <button class="search-btn"><ion-icon name="search-outline"></ion-icon></button>
         </div>
+
+        <!-- ============================================ -->
+        <!-- PROFILE DROPDOWN -->
+        <!-- ============================================ -->
         <div class="header-user-actions">
-          <!-- Profile Dropdown -->
-          <div class="profile-dropdown">
-            <button class="action-btn profile-btn" id="profileBtn">
+
+          <div class="profile-dropdown" id="profileDropdown">
+            <button class="action-btn profile-btn" id="profileBtn" aria-label="Profile">
               <ion-icon name="person-outline"></ion-icon>
             </button>
-            <div class="dropdown-menu" id="loggedOutMenu">
-              <div class="dropdown-header">
-                <h4>Welcome</h4>
-                <p>To access account and manage orders</p>
-                <button class="login-btn" onclick="loginUser()">LOGIN / SIGNUP</button>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+              <div class="dropdown-header" id="dropdownHeader">
+                <!-- Dynamic content loaded by JS -->
               </div>
+
               <ul class="dropdown-list">
                 <li><a href="#"><ion-icon name="bag-outline"></ion-icon> Orders</a></li>
                 <li><a href="#" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon> Wishlist</a></li>
@@ -272,7 +138,9 @@
                 <li><a href="#"><ion-icon name="call-outline"></ion-icon> Contact Us</a></li>
                 <li><a href="#"><ion-icon name="star-outline"></ion-icon> Myntra Insider <span class="badge-new">New</span></a></li>
               </ul>
+
               <hr class="dropdown-divider">
+
               <ul class="dropdown-list">
                 <li><a href="#"><ion-icon name="card-outline"></ion-icon> Myntra Credit</a></li>
                 <li><a href="#"><ion-icon name="pricetag-outline"></ion-icon> Coupons</a></li>
@@ -280,65 +148,160 @@
                 <li><a href="#"><ion-icon name="phone-portrait-outline"></ion-icon> Saved VPA</a></li>
                 <li><a href="#"><ion-icon name="location-outline"></ion-icon> Saved Addresses</a></li>
               </ul>
-            </div>
-            <div class="dropdown-menu" id="loggedInMenu" style="display: none;">
-              <div class="dropdown-header">
-                <h4 id="userName">Hello Mayank</h4>
-                <p id="userPhone">8449079775</p>
+
+              <div id="profileActions">
+                <hr class="dropdown-divider">
+                <ul class="dropdown-list">
+                  <li><a href="#" class="edit-profile-link"><ion-icon name="create-outline"></ion-icon> Edit Profile</a></li>
+                  <li><a href="#" class="logout-link" onclick="logoutUser(event)"><ion-icon name="log-out-outline"></ion-icon> Logout</a></li>
+                </ul>
               </div>
-              <ul class="dropdown-list">
-                <li><a href="#"><ion-icon name="bag-outline"></ion-icon> Orders</a></li>
-                <li><a href="#" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon> Wishlist</a></li>
-                <li><a href="#"><ion-icon name="gift-outline"></ion-icon> Gift Cards</a></li>
-                <li><a href="#"><ion-icon name="call-outline"></ion-icon> Contact Us</a></li>
-                <li><a href="#"><ion-icon name="star-outline"></ion-icon> Myntra Insider <span class="badge-new">New</span></a></li>
-              </ul>
-              <hr class="dropdown-divider">
-              <ul class="dropdown-list">
-                <li><a href="#"><ion-icon name="card-outline"></ion-icon> Myntra Credit</a></li>
-                <li><a href="#"><ion-icon name="pricetag-outline"></ion-icon> Coupons</a></li>
-                <li><a href="#"><ion-icon name="wallet-outline"></ion-icon> Saved Cards</a></li>
-                <li><a href="#"><ion-icon name="phone-portrait-outline"></ion-icon> Saved VPA</a></li>
-                <li><a href="#"><ion-icon name="location-outline"></ion-icon> Saved Addresses</a></li>
-              </ul>
-              <hr class="dropdown-divider">
-              <ul class="dropdown-list">
-                <li><a href="#"><ion-icon name="create-outline"></ion-icon> Edit Profile</a></li>
-                <li><a href="#" class="logout-link" onclick="logoutUser()"><ion-icon name="log-out-outline"></ion-icon> Logout</a></li>
-              </ul>
+
+              <div class="dropdown-footer">
+                <a href="#"><ion-icon name="add-circle-outline"></ion-icon> Explore</a>
+              </div>
             </div>
           </div>
 
-          <!-- Wishlist -->
-          <button class="action-btn" onclick="window.location.href='wishlist.html'">
+          <button class="action-btn" onclick="window.location.href='wishlist.html'" aria-label="Wishlist">
             <ion-icon name="heart-outline"></ion-icon>
             <span class="count-badge">0</span>
           </button>
 
-          <!-- Cart -->
-          <button class="action-btn" onclick="window.location.href='cart.html'">
+          <button class="action-btn" onclick="window.location.href='cart.html'" aria-label="Shopping Cart">
             <ion-icon name="bag-handle-outline"></ion-icon>
             <span class="count-badge">0</span>
           </button>
+
         </div>
+
       </div>
     </div>
 
-    <!-- Mobile bottom nav -->
+    <!-- DESKTOP NAV -->
+    <nav class="desktop-navigation-menu">
+      <div class="container">
+        <ul class="desktop-menu-category-list">
+          <li class="menu-category"><a href="#" class="menu-title">Home</a></li>
+          <li class="menu-category">
+            <a href="#" class="menu-title">Categories</a>
+            <div class="dropdown-panel">
+              <ul class="dropdown-panel-list">
+                <li class="menu-title"><a href="#">Electronics</a></li>
+                <li class="panel-list-item"><a href="#">Desktop</a></li>
+                <li class="panel-list-item"><a href="#">Laptop</a></li>
+                <li class="panel-list-item"><a href="#">Camera</a></li>
+                <li class="panel-list-item"><a href="#">Tablet</a></li>
+                <li class="panel-list-item"><a href="#">Headphone</a></li>
+                <li class="panel-list-item"><a href="#"><img src="./assets/images/electronics-banner-1.jpg" alt="headphone collection" width="250" height="119"></a></li>
+              </ul>
+              <ul class="dropdown-panel-list">
+                <li class="menu-title"><a href="#">Men's</a></li>
+                <li class="panel-list-item"><a href="#">Formal</a></li>
+                <li class="panel-list-item"><a href="#">Casual</a></li>
+                <li class="panel-list-item"><a href="#">Sports</a></li>
+                <li class="panel-list-item"><a href="#">Jacket</a></li>
+                <li class="panel-list-item"><a href="#">Sunglasses</a></li>
+                <li class="panel-list-item"><a href="#"><img src="./assets/images/mens-banner.jpg" alt="men's fashion" width="250" height="119"></a></li>
+              </ul>
+              <ul class="dropdown-panel-list">
+                <li class="menu-title"><a href="#">Women's</a></li>
+                <li class="panel-list-item"><a href="#">Formal</a></li>
+                <li class="panel-list-item"><a href="#">Casual</a></li>
+                <li class="panel-list-item"><a href="#">Perfume</a></li>
+                <li class="panel-list-item"><a href="#">Cosmetics</a></li>
+                <li class="panel-list-item"><a href="#">Bags</a></li>
+                <li class="panel-list-item"><a href="#"><img src="./assets/images/womens-banner.jpg" alt="women's fashion" width="250" height="119"></a></li>
+              </ul>
+              <ul class="dropdown-panel-list">
+                <li class="menu-title"><a href="#">Electronics</a></li>
+                <li class="panel-list-item"><a href="#">Smart Watch</a></li>
+                <li class="panel-list-item"><a href="#">Smart TV</a></li>
+                <li class="panel-list-item"><a href="#">Keyboard</a></li>
+                <li class="panel-list-item"><a href="#">Mouse</a></li>
+                <li class="panel-list-item"><a href="#">Microphone</a></li>
+                <li class="panel-list-item"><a href="#"><img src="./assets/images/electronics-banner-2.jpg" alt="mouse collection" width="250" height="119"></a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="menu-category">
+            <a href="#" class="menu-title">Men's</a>
+            <ul class="dropdown-list">
+              <li class="dropdown-item"><a href="#">Shirt</a></li>
+              <li class="dropdown-item"><a href="#">Shorts & Jeans</a></li>
+              <li class="dropdown-item"><a href="#">Safety Shoes</a></li>
+              <li class="dropdown-item"><a href="#">Wallet</a></li>
+            </ul>
+          </li>
+          <li class="menu-category">
+            <a href="#" class="menu-title">Women's</a>
+            <ul class="dropdown-list">
+              <li class="dropdown-item"><a href="#">Dress & Frock</a></li>
+              <li class="dropdown-item"><a href="#">Earrings</a></li>
+              <li class="dropdown-item"><a href="#">Necklace</a></li>
+              <li class="dropdown-item"><a href="#">Makeup Kit</a></li>
+            </ul>
+          </li>
+          <li class="menu-category">
+            <a href="#" class="menu-title">Jewelry</a>
+            <ul class="dropdown-list">
+              <li class="dropdown-item"><a href="#">Earrings</a></li>
+              <li class="dropdown-item"><a href="#">Couple Rings</a></li>
+              <li class="dropdown-item"><a href="#">Necklace</a></li>
+              <li class="dropdown-item"><a href="#">Bracelets</a></li>
+            </ul>
+          </li>
+          <li class="menu-category">
+            <a href="#" class="menu-title">Perfume</a>
+            <ul class="dropdown-list">
+              <li class="dropdown-item"><a href="#">Clothes Perfume</a></li>
+              <li class="dropdown-item"><a href="#">Deodorant</a></li>
+              <li class="dropdown-item"><a href="#">Flower Fragrance</a></li>
+              <li class="dropdown-item"><a href="#">Air Freshener</a></li>
+            </ul>
+          </li>
+          <li class="menu-category"><a href="#" class="menu-title">Blog</a></li>
+          <li class="menu-category"><a href="#" class="menu-title">Hot Offers</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- ============================================ -->
+    <!-- MOBILE BOTTOM NAV -->
+    <!-- ============================================ -->
     <div class="mobile-bottom-navigation">
-      <button class="action-btn" data-mobile-menu-open-btn><ion-icon name="menu-outline"></ion-icon></button>
-      <button class="action-btn" onclick="window.location.href='cart.html'"><ion-icon name="bag-handle-outline"></ion-icon><span class="count-badge">0</span></button>
-      <button class="action-btn" onclick="window.location.href='index.html'"><ion-icon name="home-outline"></ion-icon></button>
-      <button class="action-btn" onclick="window.location.href='wishlist.html'"><ion-icon name="heart-outline"></ion-icon><span class="count-badge">0</span></button>
-      <button class="action-btn" data-mobile-menu-open-btn><ion-icon name="grid-outline"></ion-icon></button>
+      <button class="action-btn" id="menuBtn" aria-label="Menu">
+        <ion-icon name="menu-outline"></ion-icon>
+      </button>
+
+      <button class="action-btn" onclick="window.location.href='cart.html'">
+        <ion-icon name="bag-handle-outline"></ion-icon>
+        <span class="count-badge">0</span>
+      </button>
+
+      <button class="action-btn" onclick="window.location.href='index.html'">
+        <ion-icon name="home-outline"></ion-icon>
+      </button>
+
+      <button class="action-btn" onclick="window.location.href='wishlist.html'">
+        <ion-icon name="heart-outline"></ion-icon>
+        <span class="count-badge">0</span>
+      </button>
+
+      <button class="action-btn" id="gridBtn" aria-label="Grid">
+        <ion-icon name="grid-outline"></ion-icon>
+      </button>
     </div>
 
-    <!-- Mobile slide menu -->
-    <nav class="mobile-navigation-menu has-scrollbar" data-mobile-menu>
+    <!-- ============================================ -->
+    <!-- MOBILE MENU (Opens with ☰) -->
+    <!-- ============================================ -->
+    <nav class="mobile-navigation-menu has-scrollbar" id="mobileMenu">
       <div class="menu-top">
         <h2 class="menu-title">Menu</h2>
-        <button class="menu-close-btn" data-mobile-menu-close-btn><ion-icon name="close-outline"></ion-icon></button>
+        <button class="menu-close-btn" id="closeMenu"><ion-icon name="close-outline"></ion-icon></button>
       </div>
+
       <ul class="mobile-menu-category-list">
         <li class="menu-category"><a href="#" class="menu-title">Home</a></li>
         <li class="menu-category">
@@ -353,9 +316,46 @@
             <li class="submenu-category"><a href="#" class="submenu-title">Wallet</a></li>
           </ul>
         </li>
+        <li class="menu-category">
+          <button class="accordion-menu" data-accordion-btn>
+            <p class="menu-title">Women's</p>
+            <div><ion-icon name="add-outline" class="add-icon"></ion-icon><ion-icon name="remove-outline" class="remove-icon"></ion-icon></div>
+          </button>
+          <ul class="submenu-category-list" data-accordion>
+            <li class="submenu-category"><a href="#" class="submenu-title">Dress & Frock</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Earrings</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Necklace</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Makeup Kit</a></li>
+          </ul>
+        </li>
+        <li class="menu-category">
+          <button class="accordion-menu" data-accordion-btn>
+            <p class="menu-title">Jewelry</p>
+            <div><ion-icon name="add-outline" class="add-icon"></ion-icon><ion-icon name="remove-outline" class="remove-icon"></ion-icon></div>
+          </button>
+          <ul class="submenu-category-list" data-accordion>
+            <li class="submenu-category"><a href="#" class="submenu-title">Earrings</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Couple Rings</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Necklace</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Bracelets</a></li>
+          </ul>
+        </li>
+        <li class="menu-category">
+          <button class="accordion-menu" data-accordion-btn>
+            <p class="menu-title">Perfume</p>
+            <div><ion-icon name="add-outline" class="add-icon"></ion-icon><ion-icon name="remove-outline" class="remove-icon"></ion-icon></div>
+          </button>
+          <ul class="submenu-category-list" data-accordion>
+            <li class="submenu-category"><a href="#" class="submenu-title">Clothes Perfume</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Deodorant</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Flower Fragrance</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Air Freshener</a></li>
+          </ul>
+        </li>
         <li class="menu-category"><a href="#" class="menu-title">Blog</a></li>
         <li class="menu-category"><a href="#" class="menu-title">Hot Offers</a></li>
       </ul>
+
       <div class="menu-bottom">
         <ul class="menu-category-list">
           <li class="menu-category">
@@ -366,10 +366,25 @@
             <ul class="submenu-category-list" data-accordion>
               <li class="submenu-category"><a href="#" class="submenu-title">English</a></li>
               <li class="submenu-category"><a href="#" class="submenu-title">Espa&ntilde;ol</a></li>
-              <li class="submenu-category"><a href="#" class="submenu-title">Fren&ccedil;h</a></li>
+              <li class="submenu-category"><a href="#" class="submenu-title">Fran&ccedil;ais</a></li>
+            </ul>
+          </li>
+          <li class="menu-category">
+            <button class="accordion-menu" data-accordion-btn>
+              <p class="menu-title">Currency</p>
+              <ion-icon name="caret-back-outline" class="caret-back"></ion-icon>
+            </button>
+            <ul class="submenu-category-list" data-accordion>
+              <li class="submenu-category">
+                <a href="#" class="submenu-title mobile-currency-option" data-currency="usd">USD &dollar;</a>
+              </li>
+              <li class="submenu-category">
+                <a href="#" class="submenu-title mobile-currency-option" data-currency="inr">INR &#8377;</a>
+              </li>
             </ul>
           </li>
         </ul>
+
         <ul class="menu-social-container">
           <li><a href="#" class="social-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
           <li><a href="#" class="social-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
@@ -378,38 +393,171 @@
         </ul>
       </div>
     </nav>
+
+    <!-- ============================================ -->
+    <!-- MOBILE GRID MENU (Opens with ⊞) -->
+    <!-- ============================================ -->
+    <nav class="mobile-navigation-menu has-scrollbar" id="gridMenu">
+      <div class="menu-top">
+        <h2 class="menu-title">Category</h2>
+        <button class="menu-close-btn" id="closeGrid"><ion-icon name="close-outline"></ion-icon></button>
+      </div>
+
+      <ul class="mobile-menu-category-list">
+        <li class="menu-category">
+          <button class="accordion-menu" data-accordion-btn>
+            <p class="menu-title">Clothes</p>
+            <div><ion-icon name="add-outline" class="add-icon"></ion-icon><ion-icon name="remove-outline" class="remove-icon"></ion-icon></div>
+          </button>
+          <ul class="submenu-category-list" data-accordion>
+            <li class="submenu-category"><a href="#" class="submenu-title">Shirt</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Shorts & Jeans</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Jacket</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Dress & Frock</a></li>
+          </ul>
+        </li>
+        <li class="menu-category">
+          <button class="accordion-menu" data-accordion-btn>
+            <p class="menu-title">Footwear</p>
+            <div><ion-icon name="add-outline" class="add-icon"></ion-icon><ion-icon name="remove-outline" class="remove-icon"></ion-icon></div>
+          </button>
+          <ul class="submenu-category-list" data-accordion>
+            <li class="submenu-category"><a href="#" class="submenu-title">Sports</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Formal</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Casual</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Safety Shoes</a></li>
+          </ul>
+        </li>
+        <li class="menu-category">
+          <button class="accordion-menu" data-accordion-btn>
+            <p class="menu-title">Jewelry</p>
+            <div><ion-icon name="add-outline" class="add-icon"></ion-icon><ion-icon name="remove-outline" class="remove-icon"></ion-icon></div>
+          </button>
+          <ul class="submenu-category-list" data-accordion>
+            <li class="submenu-category"><a href="#" class="submenu-title">Earrings</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Couple Rings</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Necklace</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Bracelets</a></li>
+          </ul>
+        </li>
+        <li class="menu-category">
+          <button class="accordion-menu" data-accordion-btn>
+            <p class="menu-title">Perfume</p>
+            <div><ion-icon name="add-outline" class="add-icon"></ion-icon><ion-icon name="remove-outline" class="remove-icon"></ion-icon></div>
+          </button>
+          <ul class="submenu-category-list" data-accordion>
+            <li class="submenu-category"><a href="#" class="submenu-title">Clothes Perfume</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Deodorant</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Flower Fragrance</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Air Freshener</a></li>
+          </ul>
+        </li>
+        <li class="menu-category">
+          <button class="accordion-menu" data-accordion-btn>
+            <p class="menu-title">Cosmetics</p>
+            <div><ion-icon name="add-outline" class="add-icon"></ion-icon><ion-icon name="remove-outline" class="remove-icon"></ion-icon></div>
+          </button>
+          <ul class="submenu-category-list" data-accordion>
+            <li class="submenu-category"><a href="#" class="submenu-title">Shampoo</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Sunscreen</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Body Wash</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Makeup Kit</a></li>
+          </ul>
+        </li>
+        <li class="menu-category">
+          <button class="accordion-menu" data-accordion-btn>
+            <p class="menu-title">Glasses</p>
+            <div><ion-icon name="add-outline" class="add-icon"></ion-icon><ion-icon name="remove-outline" class="remove-icon"></ion-icon></div>
+          </button>
+          <ul class="submenu-category-list" data-accordion>
+            <li class="submenu-category"><a href="#" class="submenu-title">Sunglasses</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Lenses</a></li>
+          </ul>
+        </li>
+        <li class="menu-category">
+          <button class="accordion-menu" data-accordion-btn>
+            <p class="menu-title">Bags</p>
+            <div><ion-icon name="add-outline" class="add-icon"></ion-icon><ion-icon name="remove-outline" class="remove-icon"></ion-icon></div>
+          </button>
+          <ul class="submenu-category-list" data-accordion>
+            <li class="submenu-category"><a href="#" class="submenu-title">Shopping Bag</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Gym Backpack</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Purse</a></li>
+            <li class="submenu-category"><a href="#" class="submenu-title">Wallet</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- BEST SELLERS -->
+      <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--cultured);">
+        <h3 class="showcase-heading" style="font-size: var(--fs-6); font-weight: var(--weight-600); color: var(--onyx); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px;">Best Sellers</h3>
+
+        <div class="showcase">
+          <a href="#" class="showcase-img-box"><img src="./assets/images/products/1.jpg" alt="baby fabric shoes" width="60" height="60" class="showcase-img"></a>
+          <div class="showcase-content">
+            <a href="#"><h4 class="showcase-title">baby fabric shoes</h4></a>
+            <div class="showcase-rating"><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon></div>
+            <div class="price-box"><del>$5.00</del><p class="price">$4.00</p></div>
+          </div>
+        </div>
+
+        <div class="showcase">
+          <a href="#" class="showcase-img-box"><img src="./assets/images/products/2.jpg" alt="men's hoodies t-shirt" width="60" height="60" class="showcase-img"></a>
+          <div class="showcase-content">
+            <a href="#"><h4 class="showcase-title">men's hoodies t-shirt</h4></a>
+            <div class="showcase-rating"><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half-outline"></ion-icon></div>
+            <div class="price-box"><del>$17.00</del><p class="price">$7.00</p></div>
+          </div>
+        </div>
+
+        <div class="showcase">
+          <a href="#" class="showcase-img-box"><img src="./assets/images/products/3.jpg" alt="girls t-shirt" width="60" height="60" class="showcase-img"></a>
+          <div class="showcase-content">
+            <a href="#"><h4 class="showcase-title">girls t-shirt</h4></a>
+            <div class="showcase-rating"><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half-outline"></ion-icon></div>
+            <div class="price-box"><del>$5.00</del><p class="price">$3.00</p></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
   </header>
 
-  <!-- ===== MAIN: CART PAGE ===== -->
+  <!-- ============================================ -->
+  <!-- MAIN: CART PAGE -->
+  <!-- ============================================ -->
   <main class="cart-page">
     <div class="container">
-      <h2 class="section-title">
-        <ion-icon name="cart-outline"></ion-icon> Your Shopping Cart
-      </h2>
-
       <div class="product-container">
         <div class="container" style="padding:0;">
           <div class="product-box">
 
-            <!-- Empty Cart State (hidden by default) -->
-            <div id="empty-cart" class="empty-cart" style="display:none;">
-              <h3>🛒 Your cart is empty</h3>
-              <p>Looks like you haven't added any items yet.</p>
-              <a href="index.html" class="banner-btn">Continue Shopping</a>
+            <!-- Cart Header -->
+            <h2 class="title" style="display: flex; align-items: center; gap: 12px;">
+              <ion-icon name="cart-outline" style="color: var(--salmon-pink); font-size: 28px;"></ion-icon>
+              Your Shopping Cart
+              <span id="cartCount" style="font-size: 14px; font-weight: 400; color: var(--sonic-silver); margin-left: auto; background: var(--cultured); padding: 4px 14px; border-radius: 20px;">0 items</span>
+            </h2>
+
+            <!-- Empty Cart State -->
+            <div id="emptyCart" class="empty-cart" style="display:none; text-align: center; padding: 60px 20px;">
+              <h3 style="font-size: var(--fs-2); font-weight: 600; color: var(--eerie-black); margin-bottom: 8px;">🛒 Your cart is empty</h3>
+              <p style="color: var(--sonic-silver); margin-bottom: 24px;">Looks like you haven't added any items yet.</p>
+              <a href="index.html" class="banner-btn" style="display: inline-block; padding: 10px 32px;">Continue Shopping</a>
             </div>
 
             <!-- Cart Items Container -->
             <div id="cart-items-container">
-              <!-- Items will be rendered by JavaScript -->
+              <!-- Items rendered by JavaScript -->
             </div>
 
-            <!-- Cart Summary (hidden when empty) -->
+            <!-- Cart Summary -->
             <div id="cart-summary" class="cart-summary" style="display:none;">
               <div>
-                <span class="total-label">Total:</span>
-                <span class="total-price" id="cart-total">$0.00</span>
+                <span style="font-size: var(--fs-5); font-weight: 600; color: var(--eerie-black);">Total:</span>
+                <span id="cart-total" style="font-size: var(--fs-3); font-weight: 700; color: var(--salmon-pink); margin-left: 10px;">$0.00</span>
               </div>
-              <button class="banner-btn" onclick="proceedToCheckout()" style="padding: 12px 40px; font-size: var(--fs-6);">
+              <button class="banner-btn" onclick="proceedToCheckout()" style="padding: 12px 40px; font-size: var(--fs-6); background: var(--salmon-pink); color: var(--white); border: none; border-radius: var(--border-radius-md); cursor: pointer; transition: all 0.3s ease; font-weight: 600; text-transform: uppercase;">
                 Proceed to Checkout
               </button>
             </div>
@@ -420,8 +568,11 @@
     </div>
   </main>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- ============================================ -->
+  <!-- FOOTER -->
+  <!-- ============================================ -->
   <footer>
+
     <div class="footer-category">
       <div class="container">
         <h2 class="footer-category-title">Brand directory</h2>
@@ -432,6 +583,8 @@
           <a href="#" class="footer-category-link">shorts & jeans</a>
           <a href="#" class="footer-category-link">jacket</a>
           <a href="#" class="footer-category-link">dress & frock</a>
+          <a href="#" class="footer-category-link">innerwear</a>
+          <a href="#" class="footer-category-link">hosiery</a>
         </div>
         <div class="footer-category-box">
           <h3 class="category-box-title">footwear :</h3>
@@ -439,6 +592,45 @@
           <a href="#" class="footer-category-link">formal</a>
           <a href="#" class="footer-category-link">Boots</a>
           <a href="#" class="footer-category-link">casual</a>
+          <a href="#" class="footer-category-link">cowboy shoes</a>
+          <a href="#" class="footer-category-link">safety shoes</a>
+          <a href="#" class="footer-category-link">Party wear shoes</a>
+          <a href="#" class="footer-category-link">Branded</a>
+          <a href="#" class="footer-category-link">Firstcopy</a>
+          <a href="#" class="footer-category-link">Long shoes</a>
+        </div>
+        <div class="footer-category-box">
+          <h3 class="category-box-title">jewellery :</h3>
+          <a href="#" class="footer-category-link">Necklace</a>
+          <a href="#" class="footer-category-link">Earrings</a>
+          <a href="#" class="footer-category-link">Couple rings</a>
+          <a href="#" class="footer-category-link">Pendants</a>
+          <a href="#" class="footer-category-link">Crystal</a>
+          <a href="#" class="footer-category-link">Bangles</a>
+          <a href="#" class="footer-category-link">bracelets</a>
+          <a href="#" class="footer-category-link">nosepin</a>
+          <a href="#" class="footer-category-link">chain</a>
+          <a href="#" class="footer-category-link">Earrings</a>
+          <a href="#" class="footer-category-link">Couple rings</a>
+        </div>
+        <div class="footer-category-box">
+          <h3 class="category-box-title">cosmetics :</h3>
+          <a href="#" class="footer-category-link">Shampoo</a>
+          <a href="#" class="footer-category-link">Bodywash</a>
+          <a href="#" class="footer-category-link">Facewash</a>
+          <a href="#" class="footer-category-link">makeup kit</a>
+          <a href="#" class="footer-category-link">liner</a>
+          <a href="#" class="footer-category-link">lipstick</a>
+          <a href="#" class="footer-category-link">prefume</a>
+          <a href="#" class="footer-category-link">Body soap</a>
+          <a href="#" class="footer-category-link">scrub</a>
+          <a href="#" class="footer-category-link">hair gel</a>
+          <a href="#" class="footer-category-link">hair colors</a>
+          <a href="#" class="footer-category-link">hair dye</a>
+          <a href="#" class="footer-category-link">sunscreen</a>
+          <a href="#" class="footer-category-link">skin loson</a>
+          <a href="#" class="footer-category-link">liner</a>
+          <a href="#" class="footer-category-link">lipstick</a>
         </div>
       </div>
     </div>
@@ -450,29 +642,38 @@
           <li class="footer-nav-item"><a href="#" class="footer-nav-link">Fashion</a></li>
           <li class="footer-nav-item"><a href="#" class="footer-nav-link">Electronic</a></li>
           <li class="footer-nav-item"><a href="#" class="footer-nav-link">Cosmetic</a></li>
+          <li class="footer-nav-item"><a href="#" class="footer-nav-link">Health</a></li>
+          <li class="footer-nav-item"><a href="#" class="footer-nav-link">Watches</a></li>
         </ul>
         <ul class="footer-nav-list">
           <li class="footer-nav-item"><h2 class="nav-title">Products</h2></li>
           <li class="footer-nav-item"><a href="#" class="footer-nav-link">Prices drop</a></li>
           <li class="footer-nav-item"><a href="#" class="footer-nav-link">New products</a></li>
           <li class="footer-nav-item"><a href="#" class="footer-nav-link">Best sales</a></li>
+          <li class="footer-nav-item"><a href="#" class="footer-nav-link">Contact us</a></li>
+          <li class="footer-nav-item"><a href="#" class="footer-nav-link">Sitemap</a></li>
         </ul>
         <ul class="footer-nav-list">
           <li class="footer-nav-item"><h2 class="nav-title">Our Company</h2></li>
           <li class="footer-nav-item"><a href="#" class="footer-nav-link">Delivery</a></li>
           <li class="footer-nav-item"><a href="#" class="footer-nav-link">Legal Notice</a></li>
+          <li class="footer-nav-item"><a href="#" class="footer-nav-link">Terms and conditions</a></li>
           <li class="footer-nav-item"><a href="#" class="footer-nav-link">About us</a></li>
+          <li class="footer-nav-item"><a href="#" class="footer-nav-link">Secure payment</a></li>
         </ul>
         <ul class="footer-nav-list">
           <li class="footer-nav-item"><h2 class="nav-title">Services</h2></li>
           <li class="footer-nav-item"><a href="#" class="footer-nav-link">Prices drop</a></li>
+          <li class="footer-nav-item"><a href="#" class="footer-nav-link">New products</a></li>
+          <li class="footer-nav-item"><a href="#" class="footer-nav-link">Best sales</a></li>
           <li class="footer-nav-item"><a href="#" class="footer-nav-link">Contact us</a></li>
+          <li class="footer-nav-item"><a href="#" class="footer-nav-link">Sitemap</a></li>
         </ul>
         <ul class="footer-nav-list">
           <li class="footer-nav-item"><h2 class="nav-title">Contact</h2></li>
           <li class="footer-nav-item flex">
             <div class="icon-box"><ion-icon name="location-outline"></ion-icon></div>
-            <address class="content">419 State 414 Rte, Beaver Dams, New York(NY), 14812, USA</address>
+            <address class="content">419 State 414 Rte Beaver Dams, New York(NY), 14812, USA</address>
           </li>
           <li class="footer-nav-item flex">
             <div class="icon-box"><ion-icon name="call-outline"></ion-icon></div>
@@ -489,6 +690,7 @@
             <ul class="social-link">
               <li class="footer-nav-item"><a href="#" class="footer-nav-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
               <li class="footer-nav-item"><a href="#" class="footer-nav-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
+              <li class="footer-nav-item"><a href="#" class="footer-nav-link"><ion-icon name="logo-linkedin"></ion-icon></a></li>
               <li class="footer-nav-item"><a href="#" class="footer-nav-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
             </ul>
           </li>
@@ -502,184 +704,333 @@
         <p class="copyright">Copyright &copy; <a href="#">Nishant</a> all rights reserved.</p>
       </div>
     </div>
+
   </footer>
 
-  <!-- ===== IONICONS ===== -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-  <!-- ===== YOUR EXISTING JS FILES ===== -->
+  <!-- ============================================ -->
+  <!-- SCRIPTS -->
+  <!-- ============================================ -->
   <script src="./assets/js/script.js"></script>
   <script src="./assets/js/profile.js"></script>
 
-  <!-- ===== CART PAGE JAVASCRIPT ===== -->
+  <!-- ionicon link -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- ============================================ -->
+  <!-- CART PAGE JAVASCRIPT - COMPLETE FIX -->
+  <!-- ============================================ -->
   <script>
-    // ------------------------------------------------------------------
-    // CART FUNCTIONALITY – uses localStorage, reuses your existing style
-    // ------------------------------------------------------------------
+    // ============================================
+    // CURRENCY CONFIGURATION
+    // ============================================
+    const EXCHANGE_RATE = 95;
+    const CURRENCY_SYMBOLS = { usd: '$', inr: '₹' };
 
-    // Render all cart items
-    function renderCartItems() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const container = document.getElementById('cart-items-container');
-      const emptyEl = document.getElementById('empty-cart');
-      const summaryEl = document.getElementById('cart-summary');
+    function getCurrentCurrency() {
+      return localStorage.getItem('selectedCurrency') || 'usd';
+    }
 
-      container.innerHTML = '';
+    function getCurrencySymbol() {
+      const currency = getCurrentCurrency();
+      return CURRENCY_SYMBOLS[currency] || '$';
+    }
 
-      if (cart.length === 0) {
-        emptyEl.style.display = 'block';
-        summaryEl.style.display = 'none';
-        updateCartCount();
-        return;
+    function convertPrice(usdPrice) {
+      const currency = getCurrentCurrency();
+      if (currency === 'inr') {
+        return Math.round(usdPrice * EXCHANGE_RATE);
       }
-
-      emptyEl.style.display = 'none';
-      summaryEl.style.display = 'flex';
-
-      cart.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'cart-item';
-
-        // Build item HTML – uses existing classes like .showcase-category, .price-box etc.
-        const originalPrice = item.originalPrice ?
-          `<del>$${Number(item.originalPrice).toFixed(2)}</del>` :
-          '';
-
-        div.innerHTML = `
-          <div class="item-image">
-            <img src="${item.image || './assets/images/products/default.jpg'}" alt="${item.name}">
-          </div>
-          <div class="item-details">
-            <div class="item-category">${item.category || 'Product'}</div>
-            <div class="item-name">${item.name}</div>
-            <div class="item-price">
-              $${Number(item.price).toFixed(2)}
-              ${originalPrice}
-            </div>
-          </div>
-          <div class="item-controls">
-            <div class="qty-wrapper">
-              <button class="qty-minus" data-index="${index}">−</button>
-              <span class="qty-value">${item.quantity}</span>
-              <button class="qty-plus" data-index="${index}">+</button>
-            </div>
-            <button class="remove-btn" data-index="${index}">
-              <ion-icon name="trash-outline"></ion-icon>
-            </button>
-          </div>
-        `;
-
-        container.appendChild(div);
-      });
-
-      // Attach event listeners (using event delegation for cleaner code)
-      container.querySelectorAll('.qty-minus').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          const idx = parseInt(this.dataset.index);
-          updateQuantity(idx, -1);
-        });
-      });
-      container.querySelectorAll('.qty-plus').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          const idx = parseInt(this.dataset.index);
-          updateQuantity(idx, 1);
-        });
-      });
-      container.querySelectorAll('.remove-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          const idx = parseInt(this.dataset.index);
-          removeItem(idx);
-        });
-      });
-
-      updateCartTotal();
-      updateCartCount();
+      return usdPrice;
     }
 
-    // Update quantity
-    function updateQuantity(index, change) {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      if (!cart[index]) return;
-
-      cart[index].quantity += change;
-      if (cart[index].quantity <= 0) {
-        cart.splice(index, 1);
+    function formatPrice(usdPrice) {
+      const currency = getCurrentCurrency();
+      const symbol = getCurrencySymbol();
+      const converted = convertPrice(usdPrice);
+      if (currency === 'inr') {
+        return symbol + converted;
       }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      renderCartItems();
+      return symbol + converted.toFixed(2);
     }
 
-    // Remove item
-    function removeItem(index) {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.splice(index, 1);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      renderCartItems();
-      showToast('Item removed from cart');
+    // ============================================
+    // CLOSE MOBILE MENU FUNCTION
+    // ============================================
+    function closeMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      const gridMenu = document.getElementById('gridMenu');
+      const overlay = document.querySelector('[data-overlay]');
+      if (mobileMenu) mobileMenu.classList.remove('active');
+      if (gridMenu) gridMenu.classList.remove('active');
+      if (overlay) overlay.classList.remove('active');
     }
 
-    // Update total
-    function updateCartTotal() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-      const totalEl = document.getElementById('cart-total');
-      if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
+    // ============================================
+    // SHOW NOTIFICATION
+    // ============================================
+    function showNotification(message) {
+      const toast = document.querySelector('[data-toast]');
+      if (toast) {
+        const msgElement = toast.querySelector('.toast-message');
+        if (msgElement) msgElement.textContent = message;
+        toast.classList.add('active');
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(() => toast.classList.remove('active'), 3000);
+      }
     }
 
-    // Update badge counts (reuses your existing .count-badge)
+    // ============================================
+    // UPDATE CART COUNT
+    // ============================================
     function updateCartCount() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const total = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
       document.querySelectorAll('.header-user-actions .count-badge, .mobile-bottom-navigation .count-badge')
         .forEach(badge => {
           const parent = badge.closest('.action-btn');
           if (parent && parent.querySelector('ion-icon[name="bag-handle-outline"]')) {
-            badge.textContent = totalItems;
+            badge.textContent = total;
           }
         });
     }
 
-    // Simple toast notification (reuses the existing notification-toast element)
-    function showToast(message) {
-      const toast = document.querySelector('[data-toast]');
-      if (!toast) return;
-      const msgEl = toast.querySelector('.toast-message');
-      const titleEl = toast.querySelector('.toast-title');
-      const metaEl = toast.querySelector('.toast-meta');
-      if (msgEl) msgEl.textContent = message;
-      if (titleEl) titleEl.textContent = 'Cart Update';
-      if (metaEl) metaEl.innerHTML = '<time datetime="PT0M">Just now</time>';
-      toast.classList.add('active');
-      clearTimeout(toast._timeout);
-      toast._timeout = setTimeout(() => toast.classList.remove('active'), 3000);
+    // ============================================
+    // UPDATE WISHLIST COUNT
+    // ============================================
+    function updateWishlistCount() {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      const total = wishlist.length;
+
+      document.querySelectorAll('.header-user-actions .count-badge, .mobile-bottom-navigation .count-badge')
+        .forEach(badge => {
+          const parent = badge.closest('.action-btn');
+          if (parent && parent.querySelector('ion-icon[name="heart-outline"]')) {
+            badge.textContent = total;
+          }
+        });
     }
 
-    // Proceed to checkout
+    // ============================================
+    // RENDER CART ITEMS - FIXED WITH CURRENCY
+    // ============================================
+    function renderCartItems() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const container = document.getElementById('cart-items-container');
+      const emptyCart = document.getElementById('emptyCart');
+      const summary = document.getElementById('cart-summary');
+
+      console.log('🛒 Rendering cart items...');
+
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      if (cart.length === 0) {
+        if (emptyCart) emptyCart.style.display = 'block';
+        if (summary) summary.style.display = 'none';
+        updateCartCount();
+        return;
+      }
+
+      if (emptyCart) emptyCart.style.display = 'none';
+      if (summary) summary.style.display = 'flex';
+
+      cart.forEach((item, index) => {
+        const usdPrice = item.usdPrice || item.price || 0;
+        const formattedPrice = formatPrice(usdPrice);
+        const quantity = item.quantity || 1;
+
+        const div = document.createElement('div');
+        div.className = 'showcase';
+        div.style.cssText = 'display: flex; align-items: center; gap: 20px; padding: 20px 0; border-bottom: 1px solid #eef2f6; margin-bottom: 0;';
+
+        div.innerHTML = `
+          <div class="showcase-banner" style="flex-shrink: 0;">
+            <img src="${item.image || './assets/images/products/default.jpg'}" alt="${item.name}" width="100" height="100" style="object-fit: contain; border-radius: 12px; background: #fafafa; padding: 6px;">
+          </div>
+          <div class="showcase-content" style="flex: 1;">
+            <a href="#" class="showcase-category">${item.category || 'Uncategorized'}</a>
+            <h3 class="showcase-title" style="font-size: 18px; font-weight: 600; margin: 4px 0;">${item.name}</h3>
+            <div class="price-box" style="display: flex; align-items: center;">
+              <p class="price" data-usd="${usdPrice}" style="font-size: 20px; font-weight: 700; color: var(--salmon-pink);">${formattedPrice}</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="display: flex; align-items: center; border: 1px solid #ddd; border-radius: 40px; overflow: hidden;">
+              <button class="qty-btn minus" data-index="${index}" style="background: none; border: none; padding: 6px 14px; font-size: 22px; cursor: pointer; transition: all 0.3s ease;">−</button>
+              <span class="qty-value" style="min-width: 36px; text-align: center; font-weight: 500;">${quantity}</span>
+              <button class="qty-btn plus" data-index="${index}" style="background: none; border: none; padding: 6px 14px; font-size: 22px; cursor: pointer; transition: all 0.3s ease;">+</button>
+            </div>
+            <button class="remove-item" data-index="${index}" style="background: none; border: none; color: #b0b0b0; font-size: 20px; cursor: pointer; transition: all 0.3s ease;">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+        `;
+
+        div.querySelector('.minus').addEventListener('click', () => updateQuantity(index, -1));
+        div.querySelector('.plus').addEventListener('click', () => updateQuantity(index, 1));
+        div.querySelector('.remove-item').addEventListener('click', () => removeItem(index));
+
+        container.appendChild(div);
+      });
+
+      updateCartTotal();
+    }
+
+    // ============================================
+    // UPDATE QUANTITY
+    // ============================================
+    function updateQuantity(index, change) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (cart[index]) {
+        cart[index].quantity += change;
+        if (cart[index].quantity <= 0) cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCartItems();
+        updateCartCount();
+      }
+    }
+
+    // ============================================
+    // REMOVE ITEM
+    // ============================================
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCartItems();
+      updateCartCount();
+    }
+
+    // ============================================
+    // UPDATE CART TOTAL - FIXED
+    // ============================================
+    function updateCartTotal() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let totalUSD = 0;
+
+      cart.forEach(item => {
+        const price = item.usdPrice || item.price || 0;
+        totalUSD += price * (item.quantity || 1);
+      });
+
+      const totalElement = document.getElementById('cart-total');
+      if (totalElement) {
+        totalElement.textContent = formatPrice(totalUSD);
+      }
+
+      const cartCount = document.getElementById('cartCount');
+      if (cartCount) {
+        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        cartCount.textContent = `${totalItems} items`;
+      }
+    }
+
+    // ============================================
+    // PROCEED TO CHECKOUT
+    // ============================================
     function proceedToCheckout() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       if (cart.length === 0) {
-        showToast('Your cart is empty!');
+        showNotification('Your cart is empty!');
         return;
       }
-      alert('Proceeding to checkout with ' + cart.length + ' items.');
-      // window.location.href = 'checkout.html';
+      showNotification('Proceeding to checkout...');
     }
 
-    // Dummy login/logout functions (to match your existing script)
-    // function loginUser() { alert('Login/Signup functionality coming soon!'); }
-    // function logoutUser() { alert('Logout functionality coming soon!'); }
+    // ============================================
+    // CURRENCY CHANGE
+    // ============================================
+    window.changeCurrency = function(currency) {
+      console.log('💱 Currency changed to:', currency);
+      localStorage.setItem('selectedCurrency', currency);
 
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', function() {
+      const selector = document.getElementById('currencySelector');
+      if (selector) selector.value = currency;
+
       renderCartItems();
+      updateCartTotal();
+
+      const label = currency === 'inr' ? 'INR ₹' : 'USD $';
+      showNotification('Currency changed to ' + label);
+    };
+
+    // ============================================
+    // LOGOUT FUNCTION
+    // ============================================
+    function logoutUser(event) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      localStorage.removeItem('user');
+      localStorage.removeItem('authToken');
+      showNotification('Logged out successfully! 👋');
+      setTimeout(function() {
+        window.location.href = 'index.html';
+      }, 500);
+    }
+
+    // ============================================
+    // INITIALIZE CART PAGE
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('📦 Cart page initializing...');
+
+      const savedCurrency = localStorage.getItem('selectedCurrency') || 'usd';
+      const selector = document.getElementById('currencySelector');
+      if (selector) selector.value = savedCurrency;
+
+      renderCartItems();
+      updateCartCount();
+      updateWishlistCount();
+
+      // Profile dropdown
+      const profileBtn = document.getElementById('profileBtn');
+      const profileDropdown = document.getElementById('profileDropdown');
+      if (profileBtn && profileDropdown) {
+        profileBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          profileDropdown.classList.toggle('active');
+        });
+        document.addEventListener('click', function(e) {
+          if (!profileDropdown.contains(e.target)) {
+            profileDropdown.classList.remove('active');
+          }
+        });
+      }
+
+      // Currency selector change
+      if (selector) {
+        selector.addEventListener('change', function(e) {
+          window.changeCurrency(e.target.value);
+        });
+      }
+
+      // Mobile menu currency options
+      document.querySelectorAll('.currency-option').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const currency = this.dataset.currency;
+          if (currency) {
+            window.changeCurrency(currency);
+            closeMobileMenu();
+          }
+        });
+      });
+
+      console.log('✅ Cart page initialized!');
     });
 
-    // Also re-render when the page is shown (in case of back/forward)
+    // Re-render on page show
     window.addEventListener('pageshow', function() {
       renderCartItems();
+      updateCartTotal();
     });
+
+    console.log('📦 Cart page script loaded!');
   </script>
 
 </body>

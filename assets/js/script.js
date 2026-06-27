@@ -175,20 +175,30 @@ function setupSidebarAccordion() {
 }
 
 // ============================================
-// 4. CURRENCY CONVERSION - COMPLETE FIX
+// CURRENCY CONVERSION - COMPLETE FIX
 // ============================================
 
 // Make changeCurrency globally accessible
 window.changeCurrency = function(currency) {
-  console.log('Currency changed to:', currency);
+  console.log('💱 Currency changed to:', currency);
   currentCurrency = currency;
   localStorage.setItem('selectedCurrency', currency);
 
   const selector = document.getElementById('currencySelector');
   if (selector) selector.value = currency;
 
+  // Convert all static prices
   convertAllPrices(currency);
-  if (document.getElementById('cart-items-container')) renderCartItems();
+  
+  // Re-render cart if on cart page
+  if (document.getElementById('cart-items-container')) {
+    renderCartItems();
+  }
+  
+  // Re-render wishlist if on wishlist page
+  if (document.getElementById('wishlist-items-container')) {
+    renderWishlistItems();
+  }
   
   // Show notification
   showNotification('Currency changed to ' + (currency === 'inr' ? 'INR ₹' : 'USD $'));
@@ -197,11 +207,13 @@ window.changeCurrency = function(currency) {
 function convertAllPrices(currency) {
   const symbol = CURRENCY_SYMBOLS[currency] || '$';
   
-  // Get ALL price elements - more comprehensive selector
+  console.log('🔄 Converting all prices to:', currency);
+  
+  // Get ALL price elements on the page (static elements)
   const priceElements = document.querySelectorAll(
     '.price, .price-box .price, .showcase .price, .product-grid .price, ' +
     '.product-price, .item-price, .cart-price, .total-price, ' +
-    '.banner-text b, .showcase-price'
+    '.banner-text b, .showcase-price, #cart-total'
   );
   
   const delElements = document.querySelectorAll(
@@ -209,39 +221,42 @@ function convertAllPrices(currency) {
     '.original-price, .old-price'
   );
 
-  console.log('Converting prices to:', currency);
-  console.log('Price elements found:', priceElements.length);
-  console.log('Del elements found:', delElements.length);
-
-  // Store original prices if not already stored
-  if (originalPrices.length === 0) {
-    priceElements.forEach(el => {
-      const priceText = el.textContent.replace(/[$,₹]/g, '').trim();
-      const priceValue = parseFloat(priceText);
-      if (!isNaN(priceValue) && priceValue > 0) {
-        const exists = originalPrices.some(item => item.element === el);
-        if (!exists) {
-          originalPrices.push({ element: el, originalValue: priceValue, type: 'price' });
-          console.log('Stored price:', priceValue, 'from element:', el.textContent);
-        }
+  // Store original USD prices if not already stored
+  // Check if we already have stored prices for these elements
+  priceElements.forEach(el => {
+    const priceText = el.textContent.replace(/[$,₹]/g, '').trim();
+    const priceValue = parseFloat(priceText);
+    if (!isNaN(priceValue) && priceValue > 0) {
+      const exists = originalPrices.some(item => item.element === el && item.type === 'price');
+      if (!exists) {
+        // Check if it's already in INR (value > 1000)
+        const usdValue = priceValue > 1000 ? priceValue / EXCHANGE_RATE : priceValue;
+        originalPrices.push({ 
+          element: el, 
+          originalValue: usdValue, 
+          type: 'price' 
+        });
       }
-    });
+    }
+  });
 
-    delElements.forEach(el => {
-      const priceText = el.textContent.replace(/[$,₹]/g, '').trim();
-      const priceValue = parseFloat(priceText);
-      if (!isNaN(priceValue) && priceValue > 0) {
-        const exists = originalPrices.some(item => item.element === el);
-        if (!exists) {
-          originalPrices.push({ element: el, originalValue: priceValue, type: 'del' });
-        }
+  delElements.forEach(el => {
+    const priceText = el.textContent.replace(/[$,₹]/g, '').trim();
+    const priceValue = parseFloat(priceText);
+    if (!isNaN(priceValue) && priceValue > 0) {
+      const exists = originalPrices.some(item => item.element === el && item.type === 'del');
+      if (!exists) {
+        const usdValue = priceValue > 1000 ? priceValue / EXCHANGE_RATE : priceValue;
+        originalPrices.push({ 
+          element: el, 
+          originalValue: usdValue, 
+          type: 'del' 
+        });
       }
-    });
-    
-    console.log('Original prices stored:', originalPrices.length);
-  }
+    }
+  });
 
-  // Update all stored prices
+  // Update all stored prices using the ORIGINAL USD values
   originalPrices.forEach(item => {
     try {
       const convertedPrice = currency === 'inr' ? item.originalValue * EXCHANGE_RATE : item.originalValue;
@@ -259,6 +274,11 @@ function getConvertedPrice(usdPrice) {
     return Math.round(usdPrice * EXCHANGE_RATE);
   }
   return usdPrice;
+}
+
+function getCurrencySymbol() {
+  const currency = localStorage.getItem('selectedCurrency') || 'usd';
+  return CURRENCY_SYMBOLS[currency] || '$';
 }
 
 // ============================================
@@ -384,31 +404,66 @@ function checkLoginStatus() {
 }
 
 // ============================================
-// CART & WISHLIST FUNCTIONS
+// ADD TO CART - COMPLETE FIX
 // ============================================
 function addToCart(product) {
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const existing = cart.find(item => item.id === product.id);
-
-  const productToAdd = { ...product, usdPrice: product.price, quantity: 1 };
-
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    cart.push(productToAdd);
-  }
-
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCartCount();
-  setTimeout(() => window.location.href = 'cart.html', 500);
+    console.log('Adding to cart:', product);
+    
+    // Get existing cart
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    console.log('Current cart:', cart);
+    
+    // Check if product already exists
+    const existingIndex = cart.findIndex(item => item.id === product.id);
+    
+    if (existingIndex !== -1) {
+        // Product exists - increment quantity
+        cart[existingIndex].quantity += 1;
+        console.log('Updated quantity for existing item');
+    } else {
+        // Add new product with USD price and quantity
+        const newItem = { 
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            usdPrice: product.price,
+            image: product.image || './assets/images/products/default.jpg',
+            category: product.category || 'Uncategorized',
+            quantity: 1
+        };
+        cart.push(newItem);
+        console.log('Added new item to cart');
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+    console.log('Cart saved:', JSON.parse(localStorage.getItem('cart')));
+    
+    // Update badge count
+    updateCartCount();
+    
+    // Show notification
+    showNotification(`${product.name} added to cart! 🛒`);
+    
+    // Redirect after short delay
+    setTimeout(function() {
+        window.location.href = 'cart.html';
+    }, 600);
 }
 
+// ============================================
+// ADD TO WISHLIST
+// ============================================
 function addToWishlist(product) {
   let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
   const exists = wishlist.find(item => item.id === product.id);
 
   if (!exists) {
-    wishlist.push({ ...product, usdPrice: product.price, addedDate: new Date().toISOString() });
+    wishlist.push({ 
+      ...product, 
+      usdPrice: product.price, 
+      addedDate: new Date().toISOString() 
+    });
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
     updateWishlistCount();
     showNotification(`${product.name} added to wishlist! ❤️`);
@@ -417,6 +472,9 @@ function addToWishlist(product) {
   }
 }
 
+// ============================================
+// UPDATE CART COUNT
+// ============================================
 function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   const total = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
@@ -430,6 +488,9 @@ function updateCartCount() {
     });
 }
 
+// ============================================
+// UPDATE WISHLIST COUNT
+// ============================================
 function updateWishlistCount() {
   const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
   const total = wishlist.length;
@@ -443,6 +504,9 @@ function updateWishlistCount() {
     });
 }
 
+// ============================================
+// SHOW NOTIFICATION
+// ============================================
 function showNotification(message) {
   const toast = document.querySelector('[data-toast]');
   if (toast) {
@@ -454,22 +518,32 @@ function showNotification(message) {
 }
 
 // ============================================
-// CART FUNCTIONS
+// RENDER CART ITEMS - FIXED WITH CURRENCY
+// ============================================
+// ============================================
+// RENDER CART ITEMS - FIXED WITH CURRENCY
 // ============================================
 function renderCartItems() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   const container = document.getElementById('cart-items-container');
-  const emptyCart = document.getElementById('empty-cart');
+  const emptyCart = document.getElementById('emptyCart');
   const summary = document.getElementById('cart-summary');
   const currency = localStorage.getItem('selectedCurrency') || 'usd';
   const symbol = CURRENCY_SYMBOLS[currency] || '$';
 
-  if (!container) return;
+  console.log('🛒 Rendering cart items with currency:', currency);
+
+  if (!container) {
+    console.log('⚠️ Container not found!');
+    return;
+  }
+
   container.innerHTML = '';
 
   if (cart.length === 0) {
     if (emptyCart) emptyCart.style.display = 'block';
     if (summary) summary.style.display = 'none';
+    updateCartCount();
     return;
   }
 
@@ -477,32 +551,55 @@ function renderCartItems() {
   if (summary) summary.style.display = 'flex';
 
   cart.forEach((item, index) => {
-    const price = getConvertedPrice(item.usdPrice || item.price);
-    const formattedPrice = currency === 'inr' ? Math.round(price) : price.toFixed(2);
-    const originalPrice = item.originalPrice ? getConvertedPrice(item.originalPrice) : null;
+    // Get USD price from stored usdPrice or price
+    const usdPrice = item.usdPrice || item.price || 0;
+    let convertedPrice;
+    let formattedPrice;
+    
+    if (currency === 'inr') {
+      convertedPrice = Math.round(usdPrice * EXCHANGE_RATE);
+      formattedPrice = convertedPrice;
+    } else {
+      convertedPrice = usdPrice;
+      formattedPrice = convertedPrice.toFixed(2);
+    }
+    
+    // Handle original price if exists
+    let originalPriceHTML = '';
+    if (item.originalPrice) {
+      const origUsd = item.originalPrice;
+      let origConverted;
+      let origFormatted;
+      if (currency === 'inr') {
+        origConverted = Math.round(origUsd * EXCHANGE_RATE);
+        origFormatted = origConverted;
+      } else {
+        origConverted = origUsd;
+        origFormatted = origConverted.toFixed(2);
+      }
+      originalPriceHTML = `<del style="color: var(--sonic-silver); font-size: 14px; margin-left: 8px;">${symbol}${origFormatted}</del>`;
+    }
 
     const div = document.createElement('div');
     div.className = 'showcase';
     div.style.cssText = 'display: flex; align-items: center; gap: 20px; padding: 20px 0; border-bottom: 1px solid #eef2f6; margin-bottom: 0;';
 
-    const originalPriceHTML = originalPrice ? `<del>${symbol}${originalPrice.toFixed(2)}</del>` : '';
-
     div.innerHTML = `
       <div class="showcase-banner" style="flex-shrink: 0;">
-        <img src="${item.image}" alt="${item.name}" width="100" height="100" style="object-fit: contain; border-radius: 12px; background: #fafafa; padding: 6px;">
+        <img src="${item.image || './assets/images/products/default.jpg'}" alt="${item.name}" width="100" height="100" style="object-fit: contain; border-radius: 12px; background: #fafafa; padding: 6px;">
       </div>
       <div class="showcase-content" style="flex: 1;">
         <a href="#" class="showcase-category">${item.category || 'Uncategorized'}</a>
         <h3 class="showcase-title" style="font-size: 18px; font-weight: 600; margin: 4px 0;">${item.name}</h3>
-        <div class="price-box">
-          <p class="price">${symbol}${formattedPrice}</p>
+        <div class="price-box" style="display: flex; align-items: center;">
+          <p class="price" data-usd="${usdPrice}" style="font-size: 20px; font-weight: 700; color: var(--salmon-pink);">${symbol}${formattedPrice}</p>
           ${originalPriceHTML}
         </div>
       </div>
       <div style="display: flex; align-items: center; gap: 16px;">
         <div style="display: flex; align-items: center; border: 1px solid #ddd; border-radius: 40px; overflow: hidden;">
           <button class="qty-btn minus" data-index="${index}" style="background: none; border: none; padding: 6px 14px; font-size: 22px; cursor: pointer; transition: all 0.3s ease;">−</button>
-          <span class="qty-value" style="min-width: 36px; text-align: center; font-weight: 500;">${item.quantity}</span>
+          <span class="qty-value" style="min-width: 36px; text-align: center; font-weight: 500;">${item.quantity || 1}</span>
           <button class="qty-btn plus" data-index="${index}" style="background: none; border: none; padding: 6px 14px; font-size: 22px; cursor: pointer; transition: all 0.3s ease;">+</button>
         </div>
         <button class="remove-item" data-index="${index}" style="background: none; border: none; color: #b0b0b0; font-size: 20px; cursor: pointer; transition: all 0.3s ease;">
@@ -521,6 +618,9 @@ function renderCartItems() {
   updateCartTotal();
 }
 
+// ============================================
+// UPDATE QUANTITY
+// ============================================
 function updateQuantity(index, change) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   if (cart[index]) {
@@ -532,6 +632,9 @@ function updateQuantity(index, change) {
   }
 }
 
+// ============================================
+// REMOVE ITEM
+// ============================================
 function removeItem(index) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   cart.splice(index, 1);
@@ -540,30 +643,62 @@ function removeItem(index) {
   updateCartCount();
 }
 
+// ============================================
+// UPDATE CART TOTAL - FIXED
+// ============================================
+// ============================================
+// UPDATE CART TOTAL - FIXED
+// ============================================
 function updateCartTotal() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   const currency = localStorage.getItem('selectedCurrency') || 'usd';
   const symbol = CURRENCY_SYMBOLS[currency] || '$';
-  let total = 0;
+  let totalUSD = 0;
 
   cart.forEach(item => {
-    total += getConvertedPrice(item.usdPrice || item.price) * item.quantity;
+    const price = item.usdPrice || item.price || 0;
+    totalUSD += price * (item.quantity || 1);
   });
 
-  const totalDisplay = currency === 'inr' ? Math.round(total) : total.toFixed(2);
+  let total;
+  let formattedTotal;
+  
+  if (currency === 'inr') {
+    total = Math.round(totalUSD * EXCHANGE_RATE);
+    formattedTotal = total;
+  } else {
+    total = totalUSD;
+    formattedTotal = total.toFixed(2);
+  }
+  
   const totalElement = document.getElementById('cart-total');
-  if (totalElement) totalElement.textContent = `${symbol}${totalDisplay}`;
+  if (totalElement) {
+    totalElement.textContent = `${symbol}${formattedTotal}`;
+    totalElement.setAttribute('data-usd', totalUSD);
+  }
+  
+  // Update cart count
+  const cartCount = document.getElementById('cartCount');
+  if (cartCount) {
+    const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    cartCount.textContent = `${totalItems} items`;
+  }
 }
 
 // ============================================
-// WISHLIST FUNCTIONS
+// RENDER WISHLIST ITEMS - FIXED WITH CURRENCY
+// ============================================
+// ============================================
+// RENDER WISHLIST ITEMS - FIXED WITH CURRENCY
 // ============================================
 function renderWishlistItems() {
   const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
   const container = document.getElementById('wishlist-items-container');
-  const emptyWishlist = document.getElementById('empty-wishlist');
+  const emptyWishlist = document.getElementById('emptyWishlist');
   const currency = localStorage.getItem('selectedCurrency') || 'usd';
   const symbol = CURRENCY_SYMBOLS[currency] || '$';
+
+  console.log('❤️ Rendering wishlist items with currency:', currency);
 
   if (!container) return;
   container.innerHTML = '';
@@ -576,8 +711,17 @@ function renderWishlistItems() {
   if (emptyWishlist) emptyWishlist.style.display = 'none';
 
   wishlist.forEach((item, index) => {
-    const price = getConvertedPrice(item.usdPrice || item.price);
-    const formattedPrice = currency === 'inr' ? Math.round(price) : price.toFixed(2);
+    const usdPrice = item.usdPrice || item.price || 0;
+    let convertedPrice;
+    let formattedPrice;
+    
+    if (currency === 'inr') {
+      convertedPrice = Math.round(usdPrice * EXCHANGE_RATE);
+      formattedPrice = convertedPrice;
+    } else {
+      convertedPrice = usdPrice;
+      formattedPrice = convertedPrice.toFixed(2);
+    }
 
     const div = document.createElement('div');
     div.className = 'showcase';
@@ -585,13 +729,13 @@ function renderWishlistItems() {
 
     div.innerHTML = `
       <div class="showcase-banner" style="flex-shrink: 0;">
-        <img src="${item.image}" alt="${item.name}" width="100" height="100" style="object-fit: contain; border-radius: 12px; background: #fafafa; padding: 6px;">
+        <img src="${item.image || './assets/images/products/default.jpg'}" alt="${item.name}" width="100" height="100" style="object-fit: contain; border-radius: 12px; background: #fafafa; padding: 6px;">
       </div>
       <div class="showcase-content" style="flex: 1;">
         <a href="#" class="showcase-category">${item.category || 'Uncategorized'}</a>
         <h3 class="showcase-title" style="font-size: 18px; font-weight: 600; margin: 4px 0;">${item.name}</h3>
         <div class="price-box">
-          <p class="price">${symbol}${formattedPrice}</p>
+          <p class="price" data-usd="${usdPrice}" style="font-size: 20px; font-weight: 700; color: var(--salmon-pink);">${symbol}${formattedPrice}</p>
         </div>
       </div>
       <div style="display: flex; align-items: center; gap: 16px;">
@@ -611,33 +755,46 @@ function renderWishlistItems() {
   });
 }
 
+// ============================================
+// MOVE TO CART FROM WISHLIST
+// ============================================
 function moveToCart(index) {
-  const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-  if (wishlist[index]) {
-    const item = wishlist[index];
-    const existingItem = cart.find(cartItem => cartItem.id === item.id);
+    if (wishlist[index]) {
+        const item = wishlist[index];
+        const existingItem = cart.find(cartItem => cartItem.id === item.id);
 
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      cart.push({ ...item, usdPrice: item.usdPrice || item.price, quantity: 1 });
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ 
+                ...item, 
+                usdPrice: item.usdPrice || item.price,
+                quantity: 1 
+            });
+        }
+
+        wishlist.splice(index, 1);
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+
+        renderWishlistItems();
+        updateCartCount();
+        updateWishlistCount();
+        showNotification(`${item.name} moved to cart! 🛒`);
+
+        setTimeout(() => {
+            window.location.href = 'cart.html';
+        }, 300);
     }
-
-    wishlist.splice(index, 1);
-
-    localStorage.setItem('cart', JSON.stringify(cart));
-    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-
-    renderWishlistItems();
-    updateCartCount();
-    updateWishlistCount();
-
-    setTimeout(() => window.location.href = 'cart.html', 300);
-  }
 }
 
+// ============================================
+// REMOVE FROM WISHLIST
+// ============================================
 function removeFromWishlist(index) {
   let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
   wishlist.splice(index, 1);
@@ -647,10 +804,22 @@ function removeFromWishlist(index) {
 }
 
 // ============================================
+// PROCEED TO CHECKOUT
+// ============================================
+function proceedToCheckout() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  if (cart.length === 0) {
+    alert('Your cart is empty!');
+    return;
+  }
+  alert('Proceeding to checkout with ' + cart.length + ' items');
+}
+
+// ============================================
 // INITIALIZE ON PAGE LOAD
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('Initializing...');
+  console.log('🚀 Initializing...');
   
   updateCartCount();
   updateWishlistCount();
@@ -672,35 +841,94 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
   // Cart page
-  if (document.getElementById('cart-items-container')) renderCartItems();
+  if (document.getElementById('cart-items-container')) {
+    renderCartItems();
+  }
 
   // Wishlist page
-  if (document.getElementById('wishlist-items-container')) renderWishlistItems();
-});
-
-function proceedToCheckout() {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  if (cart.length === 0) {
-    alert('Your cart is empty!');
-    return;
+  if (document.getElementById('wishlist-items-container')) {
+    renderWishlistItems();
   }
-  alert('Proceeding to checkout with ' + cart.length + ' items');
-}
+});
 
 // ============================================
 // CURRENCY INIT ON WINDOW LOAD
 // ============================================
 window.addEventListener('load', function() {
-  console.log('Window loaded - checking currency');
+  console.log('🔁 Window loaded - checking currency');
   
   const savedCurrency = localStorage.getItem('selectedCurrency') || 'usd';
   const selector = document.getElementById('currencySelector');
   if (selector) {
     selector.value = savedCurrency;
-    // Make sure change event is attached
     selector.removeEventListener('change', handleCurrencyChange);
     selector.addEventListener('change', handleCurrencyChange);
     selector.addEventListener('input', handleCurrencyChange);
   }
+  
+  // First convert all static prices
   convertAllPrices(savedCurrency);
+  
+  // Then render cart and wishlist with the correct currency
+  setTimeout(() => {
+    if (document.getElementById('cart-items-container')) {
+      renderCartItems();
+    }
+    if (document.getElementById('wishlist-items-container')) {
+      renderWishlistItems();
+    }
+  }, 50);
+});
+
+// ============================================
+// MOBILE MENU CURRENCY CLICK HANDLER
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle mobile menu currency options
+  const mobileCurrencyOptions = document.querySelectorAll('.mobile-currency-option');
+  
+  mobileCurrencyOptions.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const currency = this.dataset.currency;
+      console.log('💰 Mobile currency selected:', currency);
+      
+      if (currency) {
+        // Call the global changeCurrency function
+        if (typeof window.changeCurrency === 'function') {
+          window.changeCurrency(currency);
+        } else {
+          // Fallback
+          localStorage.setItem('selectedCurrency', currency);
+          const selector = document.getElementById('currencySelector');
+          if (selector) selector.value = currency;
+          if (typeof convertAllPrices === 'function') {
+            convertAllPrices(currency);
+          }
+          if (typeof renderCartItems === 'function') {
+            renderCartItems();
+          }
+          if (typeof renderWishlistItems === 'function') {
+            renderWishlistItems();
+          }
+        }
+        
+        // Close mobile menu
+        const mobileMenu = document.getElementById('mobileMenu');
+        const gridMenu = document.getElementById('gridMenu');
+        const overlay = document.querySelector('[data-overlay]');
+        if (mobileMenu) mobileMenu.classList.remove('active');
+        if (gridMenu) gridMenu.classList.remove('active');
+        if (overlay) overlay.classList.remove('active');
+        
+        // Show notification
+        if (typeof showNotification === 'function') {
+          const label = currency === 'inr' ? 'INR ₹' : 'USD $';
+          showNotification('Currency changed to ' + label);
+        }
+      }
+    });
+  });
 });
