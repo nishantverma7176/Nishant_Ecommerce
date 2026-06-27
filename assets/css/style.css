@@ -195,156 +195,6 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 /* ============================================
-   MODAL
-   ============================================ */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: hsla(0, 0%, 0%, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  z-index: 10;
-  animation: popup 1s ease-in-out 5s forwards;
-}
-@keyframes popup {
-  0% {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-  100% {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: all;
-  }
-}
-.modal.closed {
-  display: none;
-}
-.modal-close-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-.newsletter-img {
-  display: none;
-}
-.modal-content {
-  position: relative;
-  max-width: 350px;
-  margin: 20px;
-  background: var(--white);
-  border-radius: var(--border-radius-md);
-  overflow: hidden;
-  z-index: 2;
-  animation: scaleUp 0.5s ease-in-out 5s forwards;
-}
-@keyframes scaleUp {
-  0% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-.modal-close-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: var(--salmon-pink);
-  color: var(--white);
-  font-size: 18px;
-  padding: 5px 8px;
-  border-radius: var(--border-radius-sm);
-  z-index: 3;
-}
-.modal-close-btn:hover {
-  opacity: 0.9;
-}
-.modal-close-btn ion-icon {
-  --ionicon-stroke-width: 70px;
-}
-.newsletter {
-  padding: 30px 20px;
-  text-align: center;
-}
-.newsletter-header {
-  margin-bottom: 16px;
-}
-.newsletter-title {
-  color: var(--onyx);
-  font-size: var(--fs-2);
-  font-weight: var(--weight-600);
-  margin-bottom: 8px;
-}
-.newsletter-desc {
-  color: var(--sonic-silver);
-  font-size: var(--fs-7);
-  line-height: 1.6;
-}
-.email-field {
-  font-size: var(--fs-7);
-  padding: 10px 16px;
-  border-radius: var(--border-radius-sm);
-  border: 1px solid var(--cultured);
-  margin-bottom: 14px;
-}
-.btn-newsletter {
-  background: var(--eerie-black);
-  color: var(--white);
-  font-size: var(--fs-7);
-  font-weight: var(--weight-600);
-  text-transform: uppercase;
-  padding: 10px 20px;
-  border-radius: var(--border-radius-sm);
-  margin: 0 auto;
-  transition: var(--transition-timing);
-}
-.btn-newsletter:hover {
-  background: var(--salmon-pink);
-}
-@media (min-width: 768px) {
-  .modal-content {
-    display: flex;
-    align-items: center;
-    max-width: 650px;
-    width: fit-content;
-  }
-  .newsletter-img {
-    display: block;
-    max-width: 250px;
-  }
-  .newsletter-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .newsletter {
-    text-align: left;
-    padding: 40px 30px;
-    min-width: 280px;
-  }
-}
-@media (min-width: 1024px) {
-  .modal-content {
-    max-width: 750px;
-  }
-  .newsletter-img {
-    max-width: 320px;
-  }
-}
-
-/* ============================================
    HEADER
    ============================================ */
 .header-top {
@@ -538,16 +388,19 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 /* ============================================
-   PROFILE DROPDOWN
+   PROFILE DROPDOWN - COMPLETE FIX
    ============================================ */
+
+/* User actions container */
 .header-user-actions {
   display: flex !important;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   position: relative;
   flex-shrink: 0;
   z-index: 99999;
 }
+
 .header-user-actions .action-btn {
   position: relative;
   width: 40px;
@@ -564,10 +417,12 @@ body::-webkit-scrollbar-thumb:hover {
   transition: all 0.3s ease;
   padding: 0;
 }
+
 .header-user-actions .action-btn:hover {
   background: rgba(0, 0, 0, 0.05);
   color: var(--salmon-pink);
 }
+
 .header-user-actions .count-badge {
   position: absolute;
   top: -2px;
@@ -586,189 +441,406 @@ body::-webkit-scrollbar-thumb:hover {
   font-family: 'Poppins', sans-serif;
   box-shadow: 0 2px 6px rgba(255, 63, 108, 0.3);
 }
+
+/* Profile Dropdown */
 .profile-dropdown {
   position: relative;
   display: inline-block;
 }
+
 .profile-btn {
   font-size: 24px !important;
+  color: var(--onyx);
+  transition: all 0.3s ease;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  z-index: 99999 !important;
+  pointer-events: auto !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
+
+.profile-btn:hover {
+  color: var(--salmon-pink) !important;
+}
+
+.profile-btn:active {
+  transform: scale(0.9);
+}
+
+/* ============================================
+   DROPDOWN MENU
+   ============================================ */
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  min-width: 250px;
-  max-width: 300px;
+  top: calc(100% + 12px);
+  right: -8px;
+  min-width: 290px;
+  max-width: max-content;
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.06);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-6px) scale(0.98);
+  transform: translateY(-8px) scale(0.96);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 999999;
-  padding: 4px 0;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  max-height: 80vh;
-  overflow-y: auto;
-}
-.profile-dropdown:hover .dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0) scale(1);
-}
-.dropdown-header {
-  padding: 10px 16px 8px 16px;
-  border-bottom: 1px solid #f0f2f5;
-}
-.dropdown-header h4 {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1a1a2e;
-  margin: 0 0 2px 0;
-}
-.dropdown-header p {
-  font-size: 12px;
-  color: #888;
-  margin: 0 0 8px 0;
-}
-.login-btn {
-  width: 100%;
-  padding: 8px 12px;
-  background: #ff3f6c;
-  color: white;
+  padding: 8px 0;
   border: none;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
 }
-.login-btn:hover {
-  background: #e6355a;
-}
-.dropdown-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.dropdown-list li a {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 16px;
-  color: #1a1a2e;
-  font-size: 13px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-.dropdown-list li a:hover {
-  background: #f8f9fa;
-}
-.dropdown-list li a ion-icon {
-  font-size: 16px;
-  color: #666;
-  min-width: 20px;
-  flex-shrink: 0;
-}
-.dropdown-list li a:hover ion-icon {
-  color: #ff3f6c;
-}
-.dropdown-list li a .badge-new {
-  font-size: 9px;
-  color: #ff3f6c;
-  font-weight: 600;
-  margin-left: auto;
-  background: #fff0f3;
-  padding: 1px 8px;
-  border-radius: 12px;
-}
-.dropdown-list li a.logout-link {
-  color: #ff3f6c;
-}
-.dropdown-list li a.logout-link:hover {
-  background: #fff5f7;
-}
-.dropdown-list li a.logout-link ion-icon {
-  color: #ff3f6c;
-}
-.dropdown-divider {
-  border: none;
-  border-top: 1px solid #f0f2f5;
-  margin: 3px 12px;
-}
-@media (hover: none) {
-  .profile-dropdown.active .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
+
+/* OPEN DROPDOWN - Desktop hover */
+@media (min-width: 769px) {
+  .profile-dropdown:hover .dropdown-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
   }
 }
+
+/* OPEN DROPDOWN - Mobile/Tablet click */
+.profile-dropdown.active .dropdown-menu {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+/* ============================================
+   DROPDOWN - MOBILE SPECIFIC
+   ============================================ */
 @media (max-width: 768px) {
-  .header-user-actions .action-btn {
-    width: 34px;
-    height: 34px;
-    font-size: 20px;
-  }
-  .header-user-actions .count-badge {
-    font-size: 8px;
-    min-width: 14px;
-    height: 14px;
-  }
-  .dropdown-menu {
+  .profile-dropdown .dropdown-menu {
     position: fixed;
     top: 56px;
     right: 10px;
     left: 10px;
     min-width: unset;
     width: auto;
-    border-radius: 12px;
+    border-radius: 16px;
+    z-index: 999999;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  .profile-dropdown.active .dropdown-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
+  }
+  
+  /* Make profile button clickable on mobile */
+  .profile-btn {
+    cursor: pointer !important;
+    z-index: 99999 !important;
+    position: relative !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+  }
+  
+  /* Ensure dropdown header is visible */
+  .dropdown-header {
+    display: block !important;
+  }
+  
+  /* Ensure all dropdown items are visible on mobile */
+  .dropdown-menu .dropdown-list {
+    display: block !important;
+  }
+  
+  .dropdown-menu .dropdown-list li {
+    display: block !important;
+  }
+  
+  .dropdown-menu .dropdown-list li a {
+    display: flex !important;
+    padding: 10px 20px !important;
+    font-size: 14px !important;
   }
 }
+
 @media (max-width: 480px) {
+  .profile-dropdown .dropdown-menu {
+    top: 48px;
+    right: 6px;
+    left: 6px;
+    border-radius: 14px;
+    max-height: 60vh;
+  }
+  
   .header-user-actions .action-btn {
     width: 28px;
     height: 28px;
     font-size: 16px;
   }
+  
   .header-user-actions .count-badge {
     font-size: 7px;
     min-width: 12px;
     height: 12px;
     padding: 0 3px;
   }
-  .dropdown-menu {
-    top: 48px;
-    right: 6px;
-    left: 6px;
-  }
-  .dropdown-list li a {
-    padding: 6px 12px;
-    font-size: 12px;
-    gap: 8px;
-  }
-  .dropdown-list li a ion-icon {
-    font-size: 14px;
-    min-width: 16px;
-  }
-  .dropdown-header h4 {
-    font-size: 13px;
-  }
-  .dropdown-header p {
-    font-size: 11px;
-  }
-  .login-btn {
-    font-size: 11px;
-    padding: 6px 10px;
-  }
+  
   .header-user-actions {
     gap: 4px;
   }
+  
+  .dropdown-menu .dropdown-list li a {
+    padding: 8px 16px !important;
+    font-size: 13px !important;
+    gap: 10px !important;
+  }
+  
+  .dropdown-menu .dropdown-list li a ion-icon {
+    font-size: 16px !important;
+    min-width: 18px !important;
+  }
 }
 
+/* ============================================
+   DROPDOWN HEADER
+   ============================================ */
+.dropdown-header {
+  padding: 16px 20px 12px 20px;
+  border-bottom: 1px solid #f0f2f5;
+  background: #fafbfc;
+  border-radius: 16px 16px 0 0;
+  display: block !important;
+}
+
+.dropdown-header .user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 2px 0;
+  letter-spacing: -0.2px;
+}
+
+.dropdown-header .user-phone {
+  font-size: 13px;
+  color: #888;
+  margin: 0 0 8px 0;
+  font-weight: 400;
+}
+
+.dropdown-header .promo-badge {
+  display: inline-block;
+  background: #ff3f6c;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.dropdown-header .promo-badge ion-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 13px;
+  margin-right: 3px;
+}
+
+/* Login Button */
+.login-btn {
+  width: 100%;
+  padding: 10px 12px;
+  background: #ff3f6c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.login-btn:hover {
+  background: #e6355a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 63, 108, 0.3);
+}
+
+/* ============================================
+   DROPDOWN LISTS
+   ============================================ */
+.dropdown-list {
+  list-style: none !important;
+  padding: 4px 0 !important;
+  margin: 0 !important;
+  display: block !important;
+}
+
+.dropdown-list li {
+  display: block !important;
+}
+
+.dropdown-list li a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 8px 20px !important;
+  color: #1a1a2e !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  text-decoration: none !important;
+  transition: all 0.15s ease !important;
+  letter-spacing: -0.1px !important;
+  width: 100% !important;
+}
+
+.dropdown-list li a:hover {
+  background: #f5f6f8 !important;
+}
+
+.dropdown-list li a ion-icon {
+  font-size: 18px !important;
+  color: #666 !important;
+  min-width: 22px !important;
+  flex-shrink: 0 !important;
+  transition: color 0.15s ease !important;
+}
+
+.dropdown-list li a:hover ion-icon {
+  color: #ff3f6c !important;
+}
+
+.dropdown-list li a .badge-new {
+  font-size: 9px !important;
+  color: #ff3f6c !important;
+  font-weight: 600 !important;
+  margin-left: auto !important;
+  background: #fff0f3 !important;
+  padding: 1px 10px !important;
+  border-radius: 12px !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* Edit Profile */
+.dropdown-list li a.edit-profile-link {
+  color: #1a1a2e !important;
+  font-weight: 400 !important;
+}
+
+.dropdown-list li a.edit-profile-link:hover {
+  background: #f5f6f8 !important;
+}
+
+.dropdown-list li a.edit-profile-link ion-icon {
+  color: #666 !important;
+}
+
+/* Logout - RED */
+.dropdown-list li a.logout-link {
+  color: #ff3f6c !important;
+  font-weight: 500 !important;
+}
+
+.dropdown-list li a.logout-link:hover {
+  background: #fff5f7 !important;
+}
+
+.dropdown-list li a.logout-link ion-icon {
+  color: #ff3f6c !important;
+}
+
+/* Divider */
+.dropdown-divider {
+  border: none !important;
+  border-top: 1px solid #f0f2f5 !important;
+  margin: 4px 16px !important;
+  display: block !important;
+}
+
+/* Profile Actions - Hidden by default */
+#profileActions {
+  display: none;
+}
+
+#profileActions.show {
+  display: block !important;
+}
+
+/* Dropdown Footer - EXPLORE */
+.dropdown-footer {
+  padding: 6px 20px 10px !important;
+  border-top: 1px solid #f0f2f5 !important;
+  margin-top: 2px !important;
+  border-radius: 0 0 16px 16px !important;
+  background: #fafbfc !important;
+  display: block !important;
+}
+
+.dropdown-footer a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  color: #ff3f6c !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  padding: 4px 0 !important;
+  transition: all 0.15s ease !important;
+  letter-spacing: -0.1px !important;
+}
+
+.dropdown-footer a:hover {
+  color: #e6355a !important;
+}
+
+.dropdown-footer a ion-icon {
+  font-size: 20px !important;
+}
+
+/* ============================================
+   TOAST
+   ============================================ */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  z-index: 999999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 90%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast.active {
+  opacity: 1;
+  visibility: visible;
+  bottom: 100px;
+}
+
+.toast ion-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .toast {
+    bottom: 40px;
+  }
+  .toast.active {
+    bottom: 60px;
+  }
+}
 /* ============================================
    DESKTOP NAV
    ============================================ */
@@ -872,7 +944,7 @@ body::-webkit-scrollbar-thumb:hover {
   height: auto;
   border-radius: var(--border-radius-sm);
 }
-.dropdown-list {
+.desktop-navigation-menu .dropdown-list {
   position: absolute;
   top: 100%;
   left: 0;
@@ -889,20 +961,20 @@ body::-webkit-scrollbar-thumb:hover {
   transition: var(--transition-timing);
   z-index: 10;
 }
-.desktop-menu-category-list .menu-category:hover>.dropdown-list {
+.desktop-menu-category-list .menu-category:hover>.desktop-navigation-menu .dropdown-list {
   transform: translateY(0);
   opacity: 1;
   visibility: visible;
   pointer-events: all;
 }
-.dropdown-list .dropdown-item a {
+.desktop-navigation-menu .dropdown-list .dropdown-item a {
   color: var(--sonic-silver);
   font-size: var(--fs-7);
   text-transform: capitalize;
   padding: 4px 20px;
   transition: var(--transition-timing);
 }
-.dropdown-list .dropdown-item a:hover {
+.desktop-navigation-menu .dropdown-list .dropdown-item a:hover {
   color: var(--salmon-pink);
 }
 @media (min-width: 1024px) {
@@ -989,7 +1061,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 /* ============================================
-   MOBILE NAV MENU (slide)
+   MOBILE NAV MENU - FIXED
    ============================================ */
 .mobile-navigation-menu {
   background: var(--white);
@@ -1011,6 +1083,7 @@ body::-webkit-scrollbar-thumb:hover {
   left: 0;
   visibility: visible;
 }
+
 .menu-top {
   display: flex;
   justify-content: space-between;
@@ -1027,10 +1100,14 @@ body::-webkit-scrollbar-thumb:hover {
 .menu-close-btn {
   color: var(--eerie-black);
   font-size: 22px;
+  cursor: pointer;
+  background: none;
+  border: none;
 }
 .menu-close-btn ion-icon {
   --ionicon-stroke-width: 50px;
 }
+
 .mobile-menu-category-list {
   margin-bottom: 20px;
 }
@@ -1040,6 +1117,9 @@ body::-webkit-scrollbar-thumb:hover {
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 .mobile-menu-category-list .menu-category {
   border-bottom: 1px solid var(--cultured);
@@ -1073,6 +1153,7 @@ body::-webkit-scrollbar-thumb:hover {
   font-size: var(--fs-6);
   color: var(--sonic-silver);
   font-weight: var(--weight-300);
+  display: block;
 }
 .submenu-title:hover {
   color: var(--davys-gray);
@@ -1087,6 +1168,7 @@ body::-webkit-scrollbar-thumb:hover {
   max-height: 200px;
   visibility: visible;
 }
+
 .menu-bottom .menu-category-list {
   margin-bottom: 16px;
 }
@@ -1112,6 +1194,7 @@ body::-webkit-scrollbar-thumb:hover {
 .menu-bottom .submenu-category:not(:last-child) {
   border-bottom: 1px solid var(--cultured);
 }
+
 .menu-social-container {
   display: flex;
   justify-content: center;
@@ -1131,6 +1214,69 @@ body::-webkit-scrollbar-thumb:hover {
   background: var(--salmon-pink);
   color: var(--white);
 }
+
+/* Showcase in grid menu */
+#gridMenu .showcase {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+#gridMenu .showcase:not(:last-child) {
+  border-bottom: 1px solid var(--cultured);
+}
+#gridMenu .showcase-img {
+  border-radius: var(--border-radius-sm);
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+#gridMenu .showcase-content {
+  width: calc(100% - 72px);
+  min-width: 0;
+}
+#gridMenu .showcase-title {
+  color: var(--onyx);
+  font-size: var(--fs-8);
+  font-weight: var(--weight-400);
+  text-transform: capitalize;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  letter-spacing: 0.3px;
+}
+#gridMenu .showcase-rating {
+  display: flex;
+  align-items: center;
+  color: var(--sandy-brown);
+  font-size: 12px;
+  padding: 2px 0;
+}
+#gridMenu .price-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#gridMenu .price-box del {
+  color: var(--sonic-silver);
+  font-size: 12px;
+}
+#gridMenu .price-box .price {
+  font-size: var(--fs-7);
+  font-weight: var(--weight-600);
+  color: var(--davys-gray);
+}
+
+.showcase-heading {
+  font-size: var(--fs-6);
+  font-weight: var(--weight-600);
+  color: var(--onyx);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 12px;
+}
+
 @media (max-width: 480px) {
   .mobile-navigation-menu {
     max-width: 270px;
@@ -2849,3 +2995,50 @@ footer {
     margin-bottom: 0;
   }
 }
+
+/* ============================================
+   TOAST
+   ============================================ */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  z-index: 999999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 90%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast.active {
+  opacity: 1;
+  visibility: visible;
+  bottom: 100px;
+}
+
+.toast ion-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .toast {
+    bottom: 40px;
+  }
+  .toast.active {
+    bottom: 60px;
+  }
+}
+
